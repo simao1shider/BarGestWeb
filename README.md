@@ -1,25 +1,60 @@
 <p align="center">
- <img width="100px" src="https://res.cloudinary.com/anuraghazra/image/upload/v1594908242/logo_ccswme.svg" align="center" alt="GitHub Readme Stats" />
- <h2 align="center">BarGestWeb</h2>
- <p align="center">Um programa de Gestão de Cafés e Bares!</p>
+    <a href="https://github.com/yiisoft" target="_blank">
+        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
+    </a>
+    <h1 align="center">Yii 2 Advanced Project Template</h1>
+    <br>
 </p>
 
-# BarGestWeb
+Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
+developing complex Web applications with multiple tiers.
 
-Este projeto que é apenas a parte de web de um projeto de gestão de cafés e bares que tem como objetivo fazer pedidos e gerir contas, no fundo é um programa de gestão bem mais simples. Esta parte web do projeto tem duas vertentes, a primeira vertente é a parte de balcão que pode gerir caixas, pedidos, fazer faturas, consultar mesas entre outras coisas. A outra parte é a parte administrativa, que será entregue ao dono do café ou bar para poder consultar vendas, gerir contas de funcionários, controlar os lucros 
+The template includes three tiers: front end, back end, and console, each of which
+is a separate Yii application.
 
-## Built With
+The template is designed to work in a team development environment. It supports
+deploying the application in different environments.
 
-* [Yii2](https://www.yiiframework.com/) - Web framework for php
-* [Bootstrap](https://getbootstrap.com/docs/3.3/) - Web framework for html, css, js
-* [Codeception](https://codeception.com/) - Web framework for testing
+Documentation is at [docs/guide/README.md](docs/guide/README.md).
 
-## Authors
+[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
+[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
+[![Build Status](https://travis-ci.com/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.com/yiisoft/yii2-app-advanced)
 
-* **Simão Marques** - [simao1shider](https://github.com/simao1shider)
-* **Yaroslav** - [yar32](https://github.com/yar32)
+DIRECTORY STRUCTURE
+-------------------
 
-
-## Acknowledgments
-
-* IPLeiria -> (https://www.ipleiria.pt/)
+```
+common
+    config/              contains shared configurations
+    mail/                contains view files for e-mails
+    models/              contains model classes used in both backend and frontend
+    tests/               contains tests for common classes    
+console
+    config/              contains console configurations
+    controllers/         contains console controllers (commands)
+    migrations/          contains database migrations
+    models/              contains console-specific model classes
+    runtime/             contains files generated during runtime
+backend
+    assets/              contains application assets such as JavaScript and CSS
+    config/              contains backend configurations
+    controllers/         contains Web controller classes
+    models/              contains backend-specific model classes
+    runtime/             contains files generated during runtime
+    tests/               contains tests for backend application    
+    views/               contains view files for the Web application
+    web/                 contains the entry script and Web resources
+frontend
+    assets/              contains application assets such as JavaScript and CSS
+    config/              contains frontend configurations
+    controllers/         contains Web controller classes
+    models/              contains frontend-specific model classes
+    runtime/             contains files generated during runtime
+    tests/               contains tests for frontend application
+    views/               contains view files for the Web application
+    web/                 contains the entry script and Web resources
+    widgets/             contains frontend widgets
+vendor/                  contains dependent 3rd-party packages
+environments/            contains environment-based overrides
+```
