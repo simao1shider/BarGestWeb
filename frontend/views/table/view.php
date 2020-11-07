@@ -7,32 +7,35 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Table */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Tables', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="table-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <h1>Mesa <?= Html::encode($this->title) ?></h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="/index.php?r=table%2Findex">Mesas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detalhes de Mesa</li>
+            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
+        </ol>
+    </nav>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
+        <?= Html::a('<i class="fa fa-trash"></i>', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger btn-lg float-right',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Tem a certeza que pretende apagar?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'number',
-            'status',
-        ],
-    ]) ?>
+    <div class="mt-5 container">
+        <div class="list-group">
+            <a href="/index.php?r=bill%2Fview&id=1" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 1</span></a>
+            <a href="/index.php?r=bill%2Fview&id=2" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 2</span></a>
+            <a href="/index.php?r=bill%2Fview&id=3" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 3</span></a>
+            <a href="/index.php?r=bill%2Fview&id=4" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 4</span></a>
+        </div>
+    </div>
 
 </div>
