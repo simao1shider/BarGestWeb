@@ -45,7 +45,7 @@ AppAsset::register($this);
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/index.php?r=request%2Findex">
                         <?= Html::img('@web/img/list.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
