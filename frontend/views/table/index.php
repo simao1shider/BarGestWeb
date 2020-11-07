@@ -30,7 +30,7 @@ $this->title = 'Mesas';
 
 <div class="mt-5 container">
     <div class="list-group">
-        <a href="/index.php?r=table%2Fview&id=1" class="list-group-item list-group-item-action list-group-item-success"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 1</span></a>
-        <a href="/index.php?r=table%2Fview&id=2" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 2</span></a>
+        <a href="/index.php?r=table%2Fview&id=1" class="list-group-item list-group-item-action list-group-item-success"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Mesa 1</span></a>
+        <a href="/index.php?r=table%2Fview&id=2" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Mesa 2</span></a>
     </div>
 </div>
