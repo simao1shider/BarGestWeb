@@ -15,10 +15,10 @@ use Yii;
  * @property int $Employees_id
  * @property int $Cashiers_id
  *
- * @property Cashiers $cashiers
- * @property Employees $employees
- * @property Tables $tables
- * @property Orders[] $orders
+ * @property Cashier $cashiers
+ * @property Employee $employees
+ * @property Table $tables
+ * @property Order[] $orders
  */
 class Bill extends \yii\db\ActiveRecord
 {
@@ -40,9 +40,9 @@ class Bill extends \yii\db\ActiveRecord
             [['status', 'Tables_id', 'Employees_id', 'Cashiers_id'], 'integer'],
             [['total'], 'number'],
             [['Tables_id', 'Employees_id', 'Cashiers_id'], 'required'],
-            [['Cashiers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashiers::className(), 'targetAttribute' => ['Cashiers_id' => 'id']],
-            [['Employees_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['Employees_id' => 'id']],
-            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tables::className(), 'targetAttribute' => ['Tables_id' => 'id']],
+            [['Cashiers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashier::className(), 'targetAttribute' => ['Cashiers_id' => 'id']],
+            [['Employees_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['Employees_id' => 'id']],
+            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['Tables_id' => 'id']],
         ];
     }
 
