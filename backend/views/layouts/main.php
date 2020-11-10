@@ -35,27 +35,27 @@ AppAsset::register($this);
 
             <ul class="components">
                 <li class="active">
-                    <a href="/index.php?r=site%2Findex">
+                    <a href="/index.php?r=site%2Findex" title="Home">
                         <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=table%2Findex">
+                    <a href="/index.php?r=table%2Findex" title="Funcionários">
                         <?= Html::img('@web/img/Icons/Blue/people.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex">
+                    <a href="/index.php?r=request%2Findex" title="Caixas">
                         <?= Html::img('@web/img/Icons/Blue/register.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex">
+                    <a href="/index.php?r=request%2Findex" title="Categorias">
                         <?= Html::img('@web/img/Icons/Blue/tags.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex">
+                    <a href="/index.php?r=request%2Findex" title="Produtos">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
