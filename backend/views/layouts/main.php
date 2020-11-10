@@ -40,22 +40,22 @@ AppAsset::register($this);
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=table%2Findex" title="Funcionários">
+                    <a href="/index.php?r=employee%2Findex" title="Funcionários">
                         <?= Html::img('@web/img/Icons/Blue/people.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex" title="Caixas">
+                    <a href="/index.php?r=cashier%2Findex" title="Caixas">
                         <?= Html::img('@web/img/Icons/Blue/register.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex" title="Categorias">
+                    <a href="/index.php?r=category%2Findex" title="Categorias">
                         <?= Html::img('@web/img/Icons/Blue/tags.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex" title="Produtos">
+                    <a href="/index.php?r=product%2Findex" title="Produtos">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
