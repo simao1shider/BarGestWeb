@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
-
+use \yii\helpers\Url;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -40,12 +40,12 @@ AppAsset::register($this);
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=table%2Findex">
+                    <a href="<?=Url::to('../table/index')?>">
                         <?= Html::img('@web/img/tableBlue.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex">
+                    <a href="<?=Url::to("../request/index")?>">
                         <?= Html::img('@web/img/list.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
@@ -53,6 +53,7 @@ AppAsset::register($this);
         </nav>
         <div id="content" class="mt-5 ml-5">
             <?= Breadcrumbs::widget([
+                'itemTemplate' => "\n\t<li class=\"breadcrumb-item\"><i>{link}</i></li>\n",
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= Alert::widget() ?>
