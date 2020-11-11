@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Category;
+use common\models\Category;
 
 /**
- * CategorySearch represents the model behind the search form of `app\models\Category`.
+ * CategorySearch represents the model behind the search form of `common\models\Category`.
  */
 class CategorySearch extends Category
 {

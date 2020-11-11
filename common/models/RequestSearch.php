@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Request;
+use common\models\Request;
 
 /**
- * RequestSearch represents the model behind the search form of `app\models\Request`.
+ * RequestSearch represents the model behind the search form of `common\models\Request`.
  */
 class RequestSearch extends Request
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Product;
+use common\models\Product;
 
 /**
- * ProductSearch represents the model behind the search form of `app\models\Product`.
+ * ProductSearch represents the model behind the search form of `common\models\Product`.
  */
 class ProductSearch extends Product
 {

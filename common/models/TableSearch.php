@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Table;
+use common\models\Table;
 
 /**
- * TableSearch represents the model behind the search form of `app\models\Table`.
+ * TableSearch represents the model behind the search form of `common\models\Table`.
  */
 class TableSearch extends Table
 {

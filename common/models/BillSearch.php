@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Bill;
+use common\models\Bill;
 
 /**
- * BillSearch represents the model behind the search form of `app\models\Bill`.
+ * BillSearch represents the model behind the search form of `common\models\Bill`.
  */
 class BillSearch extends Bill
 {
