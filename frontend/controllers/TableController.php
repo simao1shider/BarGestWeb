@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Bill;
 use Yii;
 use common\models\Table;
 use common\models\TableSearch;
@@ -35,12 +36,10 @@ class TableController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TableSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = Table::find()->orderBy('number')->all();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'model' => $model
         ]);
     }
 
@@ -52,9 +51,21 @@ class TableController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model=Bill::find()->where(["Tables_id"=>$id]);
+        $BillsQuantity=$model->count();
+        if($BillsQuantity > 1){
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        if($BillsQuantity == 0){
+            $this->redirect("table/index");
+        }
+        if($BillsQuantity == 1){
+            //redirect to index bill
+
+        }
+
     }
 
     /**
@@ -66,48 +77,17 @@ class TableController extends Controller
     {
         $model = new Table();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(isset($_POST["Table"])){
+            $model->status=false;
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['index', 'id' => $model->id]);
+            }
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
     }
 
-    /**
-     * Updates an existing Table model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Table model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the Table model based on its primary key value.

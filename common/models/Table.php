@@ -29,8 +29,10 @@ class Table extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['number', 'status'], 'integer'],
+            [['number'], 'integer'],
+            [['status'],'boolean'],
             [['number'], 'unique'],
+            [['number','status'],'required'],
         ];
     }
 
