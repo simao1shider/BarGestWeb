@@ -51,18 +51,18 @@ class TableController extends Controller
      */
     public function actionView($id)
     {
-        $model=Bill::find()->where(["Tables_id"=>$id]);
-        $BillsQuantity=$model->count();
+        $model=Bill::find()->where(["Tables_id"=>$id])->all();
+        $BillsQuantity=count($model);
         if($BillsQuantity > 1){
+           //redirect to bills
+        }
+        if($BillsQuantity == 0){
+            $this->redirect("../table/index");
+        }
+        if($BillsQuantity == 1){
             return $this->render('view', [
                 'model' => $this->findModel($id),
             ]);
-        }
-        if($BillsQuantity == 0){
-            $this->redirect("table/index");
-        }
-        if($BillsQuantity == 1){
-            //redirect to index bill
 
         }
 
