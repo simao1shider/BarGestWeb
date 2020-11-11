@@ -59,6 +59,11 @@ AppAsset::register($this);
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
+                <li>
+                    <a href="/index.php?r=bill%2Findex" title="Vendas">
+                        <?= Html::img('@web/img/Icons/Blue/bill.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                    </a>
+                </li>
             </ul>
         </nav>
         <div id="content" class="mt-5 ml-5">
