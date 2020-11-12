@@ -32,9 +32,6 @@ $this->title = 'Produtos';
             <?= Html::a('Criar <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success float-right']) ?>
         </div>
     </div>
-    <p>
-        
-    </p>
 
     <div class="mt-5 container">
         <div class="row">
