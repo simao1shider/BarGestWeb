@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Table */
 
-$this->title = $model->id;
+$this->title = $model->number;
 ?>
 <div class="table-view">
 
@@ -31,10 +31,16 @@ $this->title = $model->id;
 
     <div class="mt-5 container">
         <div class="list-group">
-            <a href="/index.php?r=bill%2Fview&id=1" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 1</span></a>
-            <a href="/index.php?r=bill%2Fview&id=2" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 2</span></a>
-            <a href="/index.php?r=bill%2Fview&id=3" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 3</span></a>
-            <a href="/index.php?r=bill%2Fview&id=4" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta 4</span></a>
+            <?php
+
+            foreach ($model->bills as $bill){
+                ?>
+                <a href="<?=\yii\helpers\Url::to('../bill/view')?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2" id="idMesa">Conta <?=$bill->id?></span></a>
+
+                <?php
+            }
+            ?>
+
         </div>
     </div>
 
