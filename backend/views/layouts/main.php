@@ -61,7 +61,7 @@ AppAsset::register($this);
                 </li>
                 <li>
                     <a href="/index.php?r=bill%2Findex" title="Vendas">
-                        <?= Html::img('@web/img/Icons/Blue/bill.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                        <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
             </ul>
