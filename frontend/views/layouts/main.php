@@ -54,6 +54,7 @@ AppAsset::register($this);
         </nav>
         <div id="content" class="mt-5 ml-5">
             <?= Breadcrumbs::widget([
+                'itemTemplate' => "\n\t<li class=\"breadcrumb-item\"><i>{link}</i></li>\n",
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= Alert::widget() ?>
