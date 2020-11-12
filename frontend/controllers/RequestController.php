@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Product;
 use Yii;
 use common\models\Request;
 use common\models\RequestSearch;
@@ -28,19 +29,15 @@ class RequestController extends Controller
             ],
         ];
     }
-
     /**
      * Lists all Request models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RequestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $model = Request::find()->all();
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
