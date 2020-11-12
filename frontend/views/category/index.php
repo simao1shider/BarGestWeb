@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ListView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategorySearch */
@@ -23,7 +23,7 @@ $this->title = 'Categorias';
             foreach ($categories as $category) {
             ?>
                 <div class="col-4 mt-3">
-                    <a href="/index.php?r=category%2Fview&id=1">
+                    <a href="<?=Url::to('../category/view/?id='.$category->id)?>">
                         <div class="card shadow-sm text-center pt-2 pb-2">
                             <div class="card-body">
                                 <h5 class="card-title mt-5 mb-5"><?= $category->name ?></h5>

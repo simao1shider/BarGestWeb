@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use \yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -29,23 +30,23 @@ AppAsset::register($this);
     <div class="wrapper">
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
-                <h3>BarGest</h3>
-                <strong>BS</strong>
+                <!--<h3>BarGest</h3>-->
+                <strong class="">BG</strong> <?php // Html::img('@web/img/Logo/white.png', ['class' => 'mr-5', 'style' => 'width: 55px;']) ?>
             </div>
 
             <ul class="components">
                 <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                    <a href="<?=Url::to('../site/index')?>">
                         <?= Html::img('@web/img/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=table%2Findex">
+                    <a href="<?=Url::to('../table/index')?>">
                         <?= Html::img('@web/img/tableBlue.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=request%2Findex">
+                    <a href="<?=Url::to('../request/index')?>">
                         <?= Html::img('@web/img/list.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
@@ -61,13 +62,6 @@ AppAsset::register($this);
     </div>
     <?php $this->endBody() ?>
 </body>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#sidebarCollapse').on('click', function() {
-            $('#sidebar').toggleClass('active');
-        });
-    });
-</script>
 
 </html>
 <?php $this->endPage() ?>
