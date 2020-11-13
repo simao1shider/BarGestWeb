@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Request;
 use common\models\RequestSearch;
+use common\models\Category;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,12 +67,15 @@ class RequestController extends Controller
     {
         $model = new Request();
 
+        $categories = Category::find()->all();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'categories' => $categories,
         ]);
     }
 
