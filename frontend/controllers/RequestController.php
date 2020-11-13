@@ -2,7 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Bill;
 use common\models\Product;
+use common\models\Table;
+use frontend\models\RequestForm;
 use Yii;
 use common\models\Request;
 use common\models\RequestSearch;
@@ -61,13 +64,37 @@ class RequestController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Request();
+        $model= new RequestForm();
+        $request=Yii::$app->request;
+        if($request->isPost)
+        {
+            $bill = Bill::find()->where(["Tables_id"=>$request->post("RequestForm")['tableNumber']]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if(!$bill->exists()){
+                $bill = new Bill();
+                $bill->dateTime=date('Y-m-d H:i:s');
+                $bill->status=1;
+                $bill->total=0;
+                $bill->Tables_id=$request->post("RequestForm")['tableNumber'];
+                $bill->Employees_id=1;
+                $bill->Cashiers_id=1;
+                $bill->save();
+            }
+            else{
+                $bill=$bill->one();
+            }
+            $model = new Request();
+            $model->dateTime=date('Y-m-d H:i:s');
+            $model->status=1;
+            $model->Bills_id=$bill->id;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
+        $tables = Table::find()->orderBy('number')->all();
         return $this->render('create', [
+            'tables' => $tables,
             'model' => $model,
         ]);
     }
