@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "iva".
  *
  * @property int $id
- * @property int|null $rate
+ * @property int $rate
  *
  * @property Products[] $products
  */
@@ -28,6 +28,7 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['rate'], 'required'],
             [['rate'], 'integer'],
         ];
     }

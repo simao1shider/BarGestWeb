@@ -5,25 +5,23 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "orders".
+ * This is the model class for table "products_paid".
  *
- * @property int $id
- * @property string|null $dateTime
- * @property int|null $status
+ * @property int $Products_id
  * @property int $Bills_id
+ * @property int $quantity
  *
  * @property Bills $bills
- * @property OrdersProducts[] $ordersProducts
- * @property Products[] $products
+ * @property Products $products
  */
-class Order extends \yii\db\ActiveRecord
+class ProductsPaid extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'orders';
+        return 'products_paid';
     }
 
     /**
@@ -32,10 +30,11 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dateTime'], 'safe'],
-            [['status', 'Bills_id'], 'integer'],
-            [['Bills_id'], 'required'],
+            [['Products_id', 'Bills_id', 'quantity'], 'required'],
+            [['Products_id', 'Bills_id', 'quantity'], 'integer'],
+            [['Products_id', 'Bills_id'], 'unique', 'targetAttribute' => ['Products_id', 'Bills_id']],
             [['Bills_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bills::className(), 'targetAttribute' => ['Bills_id' => 'id']],
+            [['Products_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['Products_id' => 'id']],
         ];
     }
 
@@ -45,10 +44,9 @@ class Order extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'dateTime' => 'Date Time',
-            'status' => 'Status',
+            'Products_id' => 'Products ID',
             'Bills_id' => 'Bills ID',
+            'quantity' => 'Quantity',
         ];
     }
 
@@ -63,22 +61,12 @@ class Order extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[OrdersProducts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOrdersProducts()
-    {
-        return $this->hasMany(OrderProduct::className(), ['Orders_id' => 'id']);
-    }
-
-    /**
      * Gets query for [[Products]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['id' => 'Products_id'])->viaTable('orders_products', ['Orders_id' => 'id']);
+        return $this->hasOne(Product::className(), ['id' => 'Products_id']);
     }
 }

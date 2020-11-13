@@ -8,10 +8,11 @@ use Yii;
  * This is the model class for table "tables".
  *
  * @property int $id
- * @property int|null $number
- * @property int|null $status
+ * @property int $number
+ * @property int $status
  *
- * @property Bills[] $bills
+ * @property Account[] $accounts
+ * @property Bill[] $bills
  */
 class Table extends \yii\db\ActiveRecord
 {
@@ -29,6 +30,7 @@ class Table extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['number', 'status'], 'required'],
             [['number', 'status'], 'integer'],
             [['number'], 'unique'],
         ];
@@ -41,9 +43,19 @@ class Table extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'number' => 'Número',
-            'status' => 'Estado',
+            'number' => 'Number',
+            'status' => 'Status',
         ];
+    }
+
+    /**
+     * Gets query for [[Accounts]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccounts()
+    {
+        return $this->hasMany(Account::className(), ['Tables_id' => 'id']);
     }
 
     /**

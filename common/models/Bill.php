@@ -8,17 +8,14 @@ use Yii;
  * This is the model class for table "bills".
  *
  * @property int $id
- * @property string|null $dateTime
- * @property int|null $status
- * @property float|null $total
  * @property int $Tables_id
- * @property int $Employees_id
- * @property int $Cashiers_id
+ * @property string $dateTime
+ * @property float $total
+ * @property int $status
  *
- * @property Cashier $cashiers
- * @property Employee $employees
- * @property Table $tables
- * @property Order[] $orders
+ * @property Tables $tables
+ * @property ProductsPaid[] $productsPas
+ * @property Product[] $products
  */
 class Bill extends \yii\db\ActiveRecord
 {
@@ -36,13 +33,11 @@ class Bill extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['Tables_id', 'dateTime', 'total', 'status'], 'required'],
+            [['Tables_id', 'status'], 'integer'],
             [['dateTime'], 'safe'],
-            [['status', 'Tables_id', 'Employees_id', 'Cashiers_id'], 'integer'],
             [['total'], 'number'],
-            [['Tables_id', 'Employees_id', 'Cashiers_id'], 'required'],
-            [['Cashiers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashier::className(), 'targetAttribute' => ['Cashiers_id' => 'id']],
-            [['Employees_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['Employees_id' => 'id']],
-            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['Tables_id' => 'id']],
+            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tables::className(), 'targetAttribute' => ['Tables_id' => 'id']],
         ];
     }
 
@@ -53,33 +48,11 @@ class Bill extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'dateTime' => 'Date Time',
-            'status' => 'Status',
-            'total' => 'Total',
             'Tables_id' => 'Tables ID',
-            'Employees_id' => 'Employees ID',
-            'Cashiers_id' => 'Cashiers ID',
+            'dateTime' => 'Date Time',
+            'total' => 'Total',
+            'status' => 'Status',
         ];
-    }
-
-    /**
-     * Gets query for [[Cashiers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCashiers()
-    {
-        return $this->hasOne(Cashier::className(), ['id' => 'Cashiers_id']);
-    }
-
-    /**
-     * Gets query for [[Employees]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEmployees()
-    {
-        return $this->hasOne(Employee::className(), ['id' => 'Employees_id']);
     }
 
     /**
@@ -93,12 +66,22 @@ class Bill extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Orders]].
+     * Gets query for [[ProductsPas]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getOrders()
+    public function getProductsPas()
     {
-        return $this->hasMany(Order::className(), ['Bills_id' => 'id']);
+        return $this->hasMany(ProductsPaid::className(), ['Bills_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Products]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'Products_id'])->viaTable('products_paid', ['Bills_id' => 'id']);
     }
 }

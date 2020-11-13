@@ -8,12 +8,11 @@ use Yii;
  * This is the model class for table "cashiers".
  *
  * @property int $id
- * @property string|null $date
- * @property int|null $status
- * @property float|null $total
- * @property string|null $Cashierscol
+ * @property string $date
+ * @property int $status
+ * @property float $total
  *
- * @property Bills[] $bills
+ * @property Accounts[] $accounts
  */
 class Cashier extends \yii\db\ActiveRecord
 {
@@ -31,10 +30,10 @@ class Cashier extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['date', 'status', 'total'], 'required'],
             [['date'], 'safe'],
             [['status'], 'integer'],
             [['total'], 'number'],
-            [['Cashierscol'], 'string', 'max' => 45],
         ];
     }
 
@@ -48,17 +47,16 @@ class Cashier extends \yii\db\ActiveRecord
             'date' => 'Date',
             'status' => 'Status',
             'total' => 'Total',
-            'Cashierscol' => 'Cashierscol',
         ];
     }
 
     /**
-     * Gets query for [[Bills]].
+     * Gets query for [[Accounts]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBills()
+    public function getAccounts()
     {
-        return $this->hasMany(Bill::className(), ['Cashiers_id' => 'id']);
+        return $this->hasMany(Account::className(), ['Cashiers_id' => 'id']);
     }
 }
