@@ -35,7 +35,7 @@ class Request extends \yii\db\ActiveRecord
             [['dateTime', 'status', 'Accounts_id'], 'required'],
             [['dateTime'], 'safe'],
             [['status', 'Accounts_id'], 'integer'],
-            [['Accounts_id'], 'exist', 'skipOnError' => true, 'targetClass' => Accounts::className(), 'targetAttribute' => ['Accounts_id' => 'id']],
+            [['Accounts_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['Accounts_id' => 'id']],
         ];
     }
 

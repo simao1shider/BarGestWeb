@@ -36,12 +36,10 @@ class RequestController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new RequestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = Request::find()->all();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -67,16 +65,19 @@ class RequestController extends Controller
     {
         $model = new Request();
 
+
         $categories = Category::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('create', [
+        return $this->redirect(['table/index','CR'=>'1']);
+
+        /*return $this->render('create', [
             'model' => $model,
             'categories' => $categories,
-        ]);
+        ]);*/
     }
 
     /**

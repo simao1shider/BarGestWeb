@@ -3,9 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\RequestSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Pedidos';
 ?>
@@ -25,93 +22,112 @@ $this->title = 'Pedidos';
             <div class="col-2 text-center"></div>
         </div>
         <div class="list-group">
-            <span class="list-group-item list-group-item-action list-group-item-success">
-                <div class="row">
-                    <div class="col-1 h3 text-center">10</div>
-                    <div class="col-2 h3 text-center">23:17</div>
-                    <div class="col-6">
-                        <h3>Simão marques</h3>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Gordon's</div>
-                            <div class="col-2 h4">5.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">4</div>
-                        </div>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Tanqueray's</div>
-                            <div class="col-2 h4">7.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">5</div>
-                        </div>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Monkey 47</div>
-                            <div class="col-2 h4">12.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">2</div>
-                        </div>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Hendrick's</div>
-                            <div class="col-2 h4">8.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">1</div>
-                        </div>
-                    </div>
-                    <div class="col-3 text-center">
-                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check"></i></a>
-                        <a href="#"><i class="fa fa-3x fa-eye"></i></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-danger">
-                <div class="row">
-                    <div class="col-1 h3 text-center">13</div>
-                    <div class="col-2 h3 text-center">23:23</div>
-                    <div class="col-6">
-                        <h3>Simão marques</h3>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Gordon's</div>
-                            <div class="col-2 h4">5.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">4</div>
-                        </div>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Tanqueray's</div>
-                            <div class="col-2 h4">7.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">5</div>
-                        </div>
-                    </div>
-                    <div class="col-3 text-center">
-                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
-                        <a href="#"><i class="fa fa-3x fa-eye"></i></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-danger">
-                <div class="row">
-                    <div class="col-1 h3 text-center">23</div>
-                    <div class="col-2 h3 text-center">23:23</div>
-                    <div class="col-6">
-                        <h3>Yaroslav Antonenko</h3>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Monkey 47</div>
-                            <div class="col-2 h4">12.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">2</div>
-                        </div>
-                        <div class="row ml-3">
-                            <div class="col-4 h4 ml-4">Hendrick's</div>
-                            <div class="col-2 h4">8.00€</div>
-                            <div class="col-1"></div>
-                            <div class="col-2 h4">1</div>
-                        </div>
-                    </div>
-                    <div class="col-3 text-center">
-                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
-                        <a href="#"><i class="fa fa-3x fa-eye"></i></a>
-                    </div>
-                </div>
-            </span>
+            <?php
+            foreach ($model as $request){
+                switch ($request->status){
+                    case 2:
+                        ?>
+                        <span class="list-group-item list-group-item-action list-group-item-success">
+                                <div class="row">
+                                     <div class="col-1 h3 text-center">23</div>
+                                     <div class="col-2 h3 text-center">23:23</div>
+                                     <div class="col-6">
+                                         <h3>Yaroslav Antonenko</h3>
+                                         <?php
+                                         foreach ($request->products as $product){
+                                             ?>
+                                             <div class="row ml-3">
+                                                 <div class="col-4 h4 ml-4"><?=$product->name?></div>
+                                                 <div class="col-2 h4"><?=$product->price?>€</div>
+                                                 <div class="col-1"></div>
+                                                 <div class="col-2 h4"><?=$getquantity=\common\models\RequestProduct::find()->
+                                                     where(['Requests_id'=>$request->id])->
+                                                     andWhere(['Products_id'=>$product->id])->one()->quantity;
+                                                     ?></div>
+                                             </div>
+                                             <?php
+                                         }
+                                         ?>
+                                     </div>
+                                    <div class="col-3 text-center">
+                                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check"></i></a>
+                                        <a href="#"><i class="fa fa-3x fa-eye"></i></a>
+                                    </div>
+                                </div>
+                            </span>
+                        <?php
+                        break;
+                    case 1:
+                        ?>
+                        <span class="list-group-item list-group-item-action list-group-item-warning">
+                                 <div class="row">
+                                     <div class="col-1 h3 text-center">23</div>
+                                     <div class="col-2 h3 text-center">23:23</div>
+                                     <div class="col-6">
+                                         <h3>Yaroslav Antonenko</h3>
+                                         <?php
+                                         foreach ($request->products as $product){
+                                             ?>
+                                             <div class="row ml-3">
+                                                 <div class="col-4 h4 ml-4"><?=$product->name?></div>
+                                                 <div class="col-2 h4"><?=$product->price?>€</div>
+                                                 <div class="col-1"></div>
+                                                 <div class="col-2 h4"><?=$getquantity=\common\models\RequestProduct::find()->
+                                                     where(['Requests_id'=>$request->id])->
+                                                     andWhere(['Products_id'=>$product->id])->one()->quantity;
+                                                     ?></div>
+                                             </div>
+                                             <?php
+                                         }
+                                         ?>
+                                     </div>
+                                     <div class="col-3 text-center">
+                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
+                                         <a href="#"><i class="fa fa-3x fa-eye"></i></a>
+                                     </div>
+                                </div>
+                            </span>
+                        <?php
+                        break;
+                    case 0:
+                        ?>
+                        <span class="list-group-item list-group-item-action list-group-item-danger">
+                                <div class="row">
+                                     <div class="col-1 h3 text-center">23</div>
+                                     <div class="col-2 h3 text-center">23:23</div>
+                                     <div class="col-6">
+                                         <h3>Yaroslav Antonenko</h3>
+                                         <?php
+                                         foreach ($request->products as $product){
+                                             ?>
+                                             <div class="row ml-3">
+                                                 <div class="col-4 h4 ml-4"><?=$product->name?></div>
+                                                 <div class="col-2 h4"><?=$product->price?>€</div>
+                                                 <div class="col-1"></div>
+                                                 <div class="col-2 h4"><?=$getquantity=\common\models\RequestProduct::find()->
+                                                     where(['Requests_id'=>$request->id])->
+                                                     andWhere(['Products_id'=>$product->id])->one()->quantity;
+                                                     ?></div>
+                                             </div>
+                                             <?php
+                                         }
+                                         ?>
+                                     </div>
+                                     <div class="col-3 text-center">
+                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
+                                         <a href="#"><i class="fa fa-3x fa-eye"></i></a>
+                                     </div>
+                                </div>
+                            </span>
+                        <?php
+                        break;
+                }
+                ?>
+
+                <?php
+            }
+            ?>
+
         </div>
     </div>
 </div>

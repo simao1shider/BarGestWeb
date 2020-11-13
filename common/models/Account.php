@@ -42,9 +42,9 @@ class Account extends \yii\db\ActiveRecord
             [['status', 'Tables_id', 'Employees_id', 'Cashiers_id'], 'integer'],
             [['total'], 'number'],
             [['name'], 'string', 'max' => 100],
-            [['Cashiers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashiers::className(), 'targetAttribute' => ['Cashiers_id' => 'id']],
-            [['Employees_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['Employees_id' => 'id']],
-            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tables::className(), 'targetAttribute' => ['Tables_id' => 'id']],
+            [['Cashiers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashier::className(), 'targetAttribute' => ['Cashiers_id' => 'id']],
+            [['Employees_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['Employees_id' => 'id']],
+            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['Tables_id' => 'id']],
         ];
     }
 

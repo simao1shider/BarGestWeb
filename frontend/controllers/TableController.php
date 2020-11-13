@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Bill;
+use frontend\models\RequestForm;
 use Yii;
 use common\models\Table;
 use common\models\TableSearch;
@@ -51,25 +52,31 @@ class TableController extends Controller
      */
     public function actionView($id)
     {
-        $model=Bill::find()->where(["Tables_id"=>$id])->all();
-        $BillsQuantity=count($model);
-        if($BillsQuantity > 1){
+        $model=Table::findOne($id);
 
-            $model = Table::findOne($id);
+        if(isset($_GET['CR'])){
             return $this->render('view', [
                 'model' => $model,
             ]);
         }
-        if($BillsQuantity <= 0){
-            return $this->redirect("../table/index");
+        else{
+            $BillsQuantity=count($model->bills);
+            if($BillsQuantity > 1){
+                $model = Table::findOne($id);
+                return $this->render('view', [
+                    'model' => $model,
+                ]);
+            }
+            if($BillsQuantity <= 0){
+                return $this->redirect("../table/index");
+            }
+            if($BillsQuantity == 1){
+
+                //print_r($model);
+                //return $this->redirect(['bill/view', 'id' => $model->id]);
+
+            }
         }
-        if($BillsQuantity == 1){
-
-            //print_r($model);
-            //return $this->redirect(['bill/view', 'id' => $model->id]);
-
-        }
-
     }
 
     /**
@@ -80,11 +87,12 @@ class TableController extends Controller
     public function actionCreate()
     {
         $model = new Table();
-
+        print_r(Yii::$app->request->post());
         if(isset($_POST["Table"])){
             $model->status=false;
+            print_r($model);
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['index', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         }
         return $this->render('create', [
