@@ -35,12 +35,10 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ProductSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $products = Product::find()->all();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'products' => $products,
         ]);
     }
 
