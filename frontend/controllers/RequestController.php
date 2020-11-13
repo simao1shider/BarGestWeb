@@ -67,17 +67,21 @@ class RequestController extends Controller
 
 
         $categories = Category::find()->all();
+        if(isset($_GET['bill'])){
+            return $this->render('create', [
+                'model' => $model,
+                'categories' => $categories,
+            ]);
+            /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }*/
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        else{
+            return $this->redirect(['table/index','CR'=>'1']);
         }
 
-        return $this->redirect(['table/index','CR'=>'1']);
 
-        /*return $this->render('create', [
-            'model' => $model,
-            'categories' => $categories,
-        ]);*/
     }
 
     /**
