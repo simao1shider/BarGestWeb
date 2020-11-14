@@ -39,7 +39,7 @@ $this->title = $model->number;
 
     <div class="mt-5 container">
         <div class="list-group">
-            <a href="<?=Url::to(['request/create','bill'=>-1])?>" class="list-group-item list-group-item-action list-group-item-success text-center mb-3"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Criar Conta</span></a>
+            <a href="<?=Url::to(['request/create','tableId'=>$model->id])?>" class="list-group-item list-group-item-action list-group-item-success text-center mb-3"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Criar Conta</span></a>
             <?php
             if(empty($model->bills)){
                 ?>
@@ -49,13 +49,13 @@ $this->title = $model->number;
             foreach ($model->bills as $bill){
                 if(isset($_GET['CR'])){
                 ?>
-                    <a href="<?=Url::to(['../request/create','CR'=>1,'id'=>$bill->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$bill->id?></span></a>
+                    <a href="<?=Url::to(['request/create','CR'=>1,'bill'=>$bill->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$bill->id?></span></a>
                     <?php
                 }
                 else{
                 ?>
 
-                <a href="<?=Url::to(['../bill/view','id'=>$bill->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$bill->id?></span></a>
+                <a href="<?=Url::to(['bill/view','id'=>$bill->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$bill->id?></span></a>
                 <?php
                 }
             }
@@ -63,5 +63,4 @@ $this->title = $model->number;
 
         </div>
     </div>
-
 </div>

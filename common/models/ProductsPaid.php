@@ -33,8 +33,8 @@ class ProductsPaid extends \yii\db\ActiveRecord
             [['Products_id', 'Bills_id', 'quantity'], 'required'],
             [['Products_id', 'Bills_id', 'quantity'], 'integer'],
             [['Products_id', 'Bills_id'], 'unique', 'targetAttribute' => ['Products_id', 'Bills_id']],
-            [['Bills_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bills::className(), 'targetAttribute' => ['Bills_id' => 'id']],
-            [['Products_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['Products_id' => 'id']],
+            [['Bills_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bill::className(), 'targetAttribute' => ['Bills_id' => 'id']],
+            [['Products_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['Products_id' => 'id']],
         ];
     }
 

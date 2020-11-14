@@ -2,6 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Account;
+use common\models\Bill;
+use common\models\ProductsPaid;
+use common\models\ProductsToBePaid;
 use Yii;
 use common\models\Request;
 use common\models\RequestSearch;
@@ -67,7 +71,7 @@ class RequestController extends Controller
 
 
         $categories = Category::find()->all();
-        if(isset($_GET['bill'])){
+        if(isset($_GET['bill']) || isset($_GET['tableId'])){
             return $this->render('create', [
                 'model' => $model,
                 'categories' => $categories,
@@ -80,8 +84,50 @@ class RequestController extends Controller
         else{
             return $this->redirect(['table/index','CR'=>'1']);
         }
+    }
 
+    public function actionPostcreate()
+    {
+        if(isset($_GET["Table"])){
+            $bill= new Bill();
+            $bill->Tables_id=$_GET["Table"];
+            $bill->dateTime=date("Y-m-d H:i:s");
+            $bill->total=0;
+            $bill->status=1;
+            $bill->save();
+            $account= new Account();
+            $account->name="Not need";
+            $account->dateTime=date("Y-m-d H:i:s");
+            $account->status=true;
+            $account->total=0;
+            $account->Tables_id=$_GET["Table"];
+            $account->Employees_id=1; //TODO:Trocar para o empregado que esta logado
+            $account->Cashiers_id=1; //TODO: Tocar para a caixa que esta aberta
+            if($account->save()){
+                $request = new Request();
+                $request->dateTime = date("Y-m-d H:i:s");
+                $request->status=2;
+                $request->Accounts_id=$account->id;
+                if($request->save()){
+                    $addproducts=$_SESSION["Addproducts"];
+                    foreach ($addproducts as $addproduct){
+                        $toPaid = new ProductsToBePaid();
+                        $toPaid->Requests_id = $request->id;
+                        $toPaid->Products_id = $addproduct['id'];
+                        $toPaid->quantity = $addproduct['quantity'];
+                        $paid= new ProductsPaid();
+                        $paid->Bills_id=$bill->id;
+                        $paid->Products_id = $addproduct['id'];
+                        $paid->quantity = $addproduct['quantity'];
 
+                        if($paid->save() && $toPaid->save()){
+                            unset($_SESSION["Addproducts"]);
+                            $this->redirect(["index"]);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

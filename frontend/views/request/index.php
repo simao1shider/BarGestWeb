@@ -29,9 +29,9 @@ $this->title = 'Pedidos';
                         ?>
                         <span class="list-group-item list-group-item-action list-group-item-success">
                                 <div class="row">
-                                     <div class="col-1 h3 text-center">23</div>
-                                     <div class="col-2 h3 text-center">23:23</div>
-                                     <div class="col-6">
+                                     <div class="col-1 h3 text-center"><?=$request->accounts->tables->number?></div>
+                                     <div class="col-2 h3 text-center"><?=date_create($request->dateTime)->format("H:i")?></div>
+                                     <div class="col-6"
                                          <h3>Yaroslav Antonenko</h3>
                                          <?php
                                          foreach ($request->products as $product){
@@ -40,7 +40,7 @@ $this->title = 'Pedidos';
                                                  <div class="col-4 h4 ml-4"><?=$product->name?></div>
                                                  <div class="col-2 h4"><?=$product->price?>€</div>
                                                  <div class="col-1"></div>
-                                                 <div class="col-2 h4"><?=$getquantity=\common\models\RequestProduct::find()->
+                                                 <div class="col-2 h4"><?=$getquantity=\common\models\ProductsToBePaid::find()->
                                                      where(['Requests_id'=>$request->id])->
                                                      andWhere(['Products_id'=>$product->id])->one()->quantity;
                                                      ?></div>
@@ -72,7 +72,7 @@ $this->title = 'Pedidos';
                                                  <div class="col-4 h4 ml-4"><?=$product->name?></div>
                                                  <div class="col-2 h4"><?=$product->price?>€</div>
                                                  <div class="col-1"></div>
-                                                 <div class="col-2 h4"><?=$getquantity=\common\models\RequestProduct::find()->
+                                                 <div class="col-2 h4"><?=$getquantity=\common\models\ProductsToBePaid::find()->
                                                      where(['Requests_id'=>$request->id])->
                                                      andWhere(['Products_id'=>$product->id])->one()->quantity;
                                                      ?></div>
@@ -104,7 +104,7 @@ $this->title = 'Pedidos';
                                                  <div class="col-4 h4 ml-4"><?=$product->name?></div>
                                                  <div class="col-2 h4"><?=$product->price?>€</div>
                                                  <div class="col-1"></div>
-                                                 <div class="col-2 h4"><?=$getquantity=\common\models\RequestProduct::find()->
+                                                 <div class="col-2 h4"><?=$getquantity=\common\models\ProductsToBePaid::find()->
                                                      where(['Requests_id'=>$request->id])->
                                                      andWhere(['Products_id'=>$product->id])->one()->quantity;
                                                      ?></div>

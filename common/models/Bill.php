@@ -37,7 +37,7 @@ class Bill extends \yii\db\ActiveRecord
             [['Tables_id', 'status'], 'integer'],
             [['dateTime'], 'safe'],
             [['total'], 'number'],
-            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tables::className(), 'targetAttribute' => ['Tables_id' => 'id']],
+            [['Tables_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['Tables_id' => 'id']],
         ];
     }
 

@@ -39,7 +39,8 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['dateTime', 'status', 'total', 'Tables_id', 'Employees_id', 'Cashiers_id'], 'required'],
             [['dateTime'], 'safe'],
-            [['status', 'Tables_id', 'Employees_id', 'Cashiers_id'], 'integer'],
+            [['Tables_id', 'Employees_id', 'Cashiers_id'], 'integer'],
+            ['status','boolean'],
             [['total'], 'number'],
             [['name'], 'string', 'max' => 100],
             [['Cashiers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashier::className(), 'targetAttribute' => ['Cashiers_id' => 'id']],
