@@ -17,7 +17,7 @@ $this->title = 'Pedido';
         </ol>
     </nav>
     <div class="text-right">
-            <button class="btn btn-warning" onclick="window.location.href='<?=Url::to(["request/update","id"=>$_GET["id"]])?>'">Editar pedido</button>
+            <button class="btn btn-warning" onclick="window.location.href='<?=Url::to(["request/execupdate",'request'=>$_GET["id"]])?>'">Editar pedido</button>
             <button class="btn btn-danger" onclick="window.location.href='<?=Url::to(["request/delete","id"=>$_GET["id"]])?>'">Eliminar pedido</button>
     </div>
 

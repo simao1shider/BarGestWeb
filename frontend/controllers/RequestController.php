@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Account;
 use common\models\Bill;
+use common\models\Product;
 use common\models\ProductsPaid;
 use common\models\ProductsToBePaid;
 use common\models\Table;
@@ -123,7 +124,6 @@ class RequestController extends Controller
         return null;
     }
 private function addRequest($table,$bill,$addproducts){
-        print_r($addproducts);
     $account = Account::find()->where(["Tables_id"=>$table->id])->andWhere(["status"=>1]);
     if(!$account->exists()){
         $account= new Account();
@@ -177,15 +177,52 @@ private function addRequest($table,$bill,$addproducts){
      */
     public function actionUpdate($id)
     {
+        unset($_SESSION["Addproducts"]);
         $model = $this->findModel($id);
+            $addProducts = null;
+            $count=0;
+            foreach ($model->products as $product){
+                $addToSession=Product::findOne($product->id)->toArray();
+                $addToSession["quantity"]=$product->productsToBePas[0]->quantity;
+                if(!isset($_SESSION["Addproducts"]) || $addProducts == null){
+                    $addProducts=array($product->id=>$addToSession);
+                }
+                else{
+                    $addProducts=$_SESSION["Addproducts"];
+                    $addProducts[$product->id]=$addToSession;
+                }
+                $_SESSION["Addproducts"]=$addProducts;
+            }
+            return $this->render('update', [
+                'request' => $model,
+            ]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+    }
+
+    public function actionExecupdate(){
+        $model = $this->findModel($_GET["request"]);
+        $addProducts=$_SESSION["Addproducts"];
+        foreach ($addProducts as $product){
+            $con= ProductsToBePaid::find()
+                ->where(["Requests_id"=>$model->id])
+                ->andWhere(["Products_id"=>$product['id']]);
+            if($con->exists()){
+                $edit=$con->one();
+                $edit->quantity=$product["quantity"];
+                $edit->save();
+            }
+            else{
+                $edit = new ProductsToBePaid();
+                $edit->Products_id = $product['id'];
+                $edit->Requests_id = $model->id;
+                $edit->quantity = $product["quantity"];
+                $edit->save();
+            }
+        }
+        if ($model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
-        return $this->render('update', [
-            'request' => $model,
-        ]);
+        return null;
     }
 
     /**

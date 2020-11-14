@@ -2,11 +2,9 @@
 
 namespace frontend\controllers;
 
-use common\models\Bill;
+
 use \common\models\Category;
 use common\models\Product;
-use frontend\models\ProductsToAdd;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 
 class AjaxController extends Controller
@@ -43,7 +41,7 @@ class AjaxController extends Controller
         else{
             $addProducts=$_SESSION["Addproducts"];
             if(empty($addProducts[$_POST["id"]])){
-                array_push($addProducts,$product);
+                $addProducts[$_POST["id"]]=$product;
             }
             else{
                 $addProducts[$_POST["id"]]["quantity"]+=1;
