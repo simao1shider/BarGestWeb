@@ -28,7 +28,7 @@ class RequestController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['GET'],
                 ],
             ],
         ];
@@ -184,7 +184,7 @@ private function addRequest($table,$bill,$addproducts){
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'request' => $model,
         ]);
     }
 
@@ -197,6 +197,9 @@ private function addRequest($table,$bill,$addproducts){
      */
     public function actionDelete($id)
     {
+        foreach ($this->findModel($id)->productsToBePas as $connection){
+            $connection->delete();
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

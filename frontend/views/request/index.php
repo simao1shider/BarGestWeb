@@ -51,7 +51,7 @@ $this->title = 'Pedidos';
                                      </div>
                                     <div class="col-3 text-center">
                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check"></i></a>
-                                        <a href="#"><i class="fa fa-3x fa-eye"></i></a>
+                                        <a href="<?=\yii\helpers\Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye"></i></a>
                                     </div>
                                 </div>
                             </span>
@@ -83,7 +83,7 @@ $this->title = 'Pedidos';
                                      </div>
                                      <div class="col-3 text-center">
                                          <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
-                                         <a href="#"><i class="fa fa-3x fa-eye"></i></a>
+                                         <a href="<?=\yii\helpers\Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye"></i></a>
                                      </div>
                                 </div>
                             </span>
@@ -115,7 +115,7 @@ $this->title = 'Pedidos';
                                      </div>
                                      <div class="col-3 text-center">
                                          <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
-                                         <a href="#"><i class="fa fa-3x fa-eye"></i></a>
+                                         <a href="<?=\yii\helpers\Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye"></i></a>
                                      </div>
                                 </div>
                             </span>

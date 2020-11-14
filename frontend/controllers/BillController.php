@@ -2,9 +2,9 @@
 
 namespace frontend\controllers;
 
+
 use Yii;
 use common\models\Bill;
-use common\models\BillSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,13 +35,8 @@ class BillController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new BillSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index');
     }
 
     /**

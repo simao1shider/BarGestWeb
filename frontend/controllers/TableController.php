@@ -71,9 +71,7 @@ class TableController extends Controller
                 return $this->redirect("../table/index");
             }
             if($BillsQuantity == 1){
-
-                //print_r($model);
-                //return $this->redirect(['bill/view', 'id' => $model->id]);
+                return $this->redirect(['bill/view', 'id' => $model->bills[0]->id]);
 
             }
         }

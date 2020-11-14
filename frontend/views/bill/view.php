@@ -4,9 +4,9 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Bill */
+/* @var $model app\models\Account */
 
-$this->title = $model->name;
+$this->title = "Contas";
 ?>
 <div class="bill-view">
 
