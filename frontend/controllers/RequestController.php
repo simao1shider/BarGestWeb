@@ -6,9 +6,9 @@ use common\models\Account;
 use common\models\Bill;
 use common\models\ProductsPaid;
 use common\models\ProductsToBePaid;
+use common\models\Table;
 use Yii;
 use common\models\Request;
-use common\models\RequestSearch;
 use common\models\Category;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -68,8 +68,6 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model = new Request();
-
-
         $categories = Category::find()->all();
         if(isset($_GET['bill']) || isset($_GET['tableId'])){
             return $this->render('create', [
@@ -88,48 +86,88 @@ class RequestController extends Controller
 
     public function actionPostcreate()
     {
-        if(isset($_GET["Table"])){
-            $bill= new Bill();
-            $bill->Tables_id=$_GET["Table"];
-            $bill->dateTime=date("Y-m-d H:i:s");
-            $bill->total=0;
-            $bill->status=1;
-            $bill->save();
-            $account= new Account();
-            $account->name="Not need";
-            $account->dateTime=date("Y-m-d H:i:s");
-            $account->status=true;
-            $account->total=0;
-            $account->Tables_id=$_GET["Table"];
-            $account->Employees_id=1; //TODO:Trocar para o empregado que esta logado
-            $account->Cashiers_id=1; //TODO: Tocar para a caixa que esta aberta
-            if($account->save()){
-                $request = new Request();
-                $request->dateTime = date("Y-m-d H:i:s");
-                $request->status=2;
-                $request->Accounts_id=$account->id;
-                if($request->save()){
-                    $addproducts=$_SESSION["Addproducts"];
-                    foreach ($addproducts as $addproduct){
-                        $toPaid = new ProductsToBePaid();
-                        $toPaid->Requests_id = $request->id;
-                        $toPaid->Products_id = $addproduct['id'];
-                        $toPaid->quantity = $addproduct['quantity'];
-                        $paid= new ProductsPaid();
-                        $paid->Bills_id=$bill->id;
-                        $paid->Products_id = $addproduct['id'];
-                        $paid->quantity = $addproduct['quantity'];
-
-                        if($paid->save() && $toPaid->save()){
-                            unset($_SESSION["Addproducts"]);
-                            $this->redirect(["index"]);
-                        }
-                    }
+        if(isset($_SESSION["Addproducts"]))
+        {
+            if(isset($_GET["Table"])){
+                $table = Table::findOne($_GET["Table"]);
+                $bill= new Bill();
+                $bill->Tables_id=$table->id;
+                $bill->dateTime=date("Y-m-d H:i:s");
+                $bill->total=0;
+                $bill->status=1;
+                $bill->save();
+                $table->status=true;
+                $table->save();
+                $account=$this->addRequest($table,$bill,$_SESSION["Addproducts"]);
+                if($account->save()){
+                    return $this->redirect(["index"]);
+                }
+            }
+            if(isset($_GET["bill"])){
+                $bill=Bill::findOne($_GET["bill"]);
+                $account=$this->addRequest($bill->tables,$bill,$_SESSION["Addproducts"]);
+                if($account->save()){
+                    unset($_SESSION["Addproducts"]);
+                    return $this->redirect(["index"]);
                 }
             }
         }
+        else{
+            if(isset($_GET["Table"])){
+                return $this->redirect(["create","Table"=>$_GET["Table"]]);
+            }
+            else{
+                return $this->redirect(["create","CR"=>1,"Table"=>$_GET["bill"]]);
+            }
+        }
+        return null;
     }
+private function addRequest($table,$bill,$addproducts){
+        print_r($addproducts);
+    $account = Account::find()->where(["Tables_id"=>$table->id])->andWhere(["status"=>1]);
+    if(!$account->exists()){
+        $account= new Account();
+        $account->name="Not need";
+        $account->dateTime=date("Y-m-d H:i:s");
+        $account->status=true;
+        $account->total=0;
+        $account->Tables_id=$table->id;
+        $account->Employees_id=1; //TODO:Trocar para o empregado que esta logado
+        $account->Cashiers_id=1; //TODO: Tocar para a caixa que esta aberta
+        $account->save();
+    }
+    else{
+        $account=$account->one();
+    }
+    $request = new Request();
+    $request->dateTime = date("Y-m-d H:i:s");
+    $request->status=2;
+    $request->Accounts_id=$account->id;
+    if($request->save()){
+        foreach ($addproducts as $addproduct){
+            $toPaid = new ProductsToBePaid();
+            $toPaid->Requests_id = $request->id;
+            $toPaid->Products_id = $addproduct['id'];
+            $toPaid->quantity = $addproduct['quantity'];
+            $paid= new ProductsPaid();
+            $paid->Bills_id=$bill->id;
+            $paid->Products_id = $addproduct['id'];
+            $paid->quantity = $addproduct['quantity'];
+            $paid->save();
+            $toPaid->save();
 
+
+        }
+    }
+    $total=0;
+    foreach ($account->requests as $request){
+        foreach ($request->productsToBePas as $productsToPa){
+            $total+=$productsToPa->quantity * $productsToPa->products->price;
+        }
+    }
+    $account->total=$total;
+    return $account;
+}
     /**
      * Updates an existing Request model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -163,6 +201,7 @@ class RequestController extends Controller
 
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Request model based on its primary key value.

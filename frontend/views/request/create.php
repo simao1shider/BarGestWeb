@@ -12,13 +12,23 @@ $this->title = 'Criar Pedido';
     <h1><?= Html::encode($this->title) ?></h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
             <li class="breadcrumb-item"><a href="/index.php?r=table%2Findex">Pedidos</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
     <div class="text-right">
+        <?php if(isset($_GET["tableId"]))
+            {
+                ?>
         <button class="btn btn-success" onclick="window.location.href='<?=Url::to(["request/postcreate","Table"=>$_GET["tableId"]])?>'">Finalizar pedido</button>
+        <?php
+            }
+            if(isset($_GET["bill"])){
+                ?>
+                <button class="btn btn-success" onclick="window.location.href='<?=Url::to(["request/postcreate","bill"=>$_GET["bill"]])?>'">Finalizar pedido</button>
+                <?php
+            }
+            ?>
     </div>
     
     <div class="row mt-5">

@@ -41,7 +41,7 @@ class Product extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['profit_margin', 'Categories_id', 'Iva_id'], 'integer'],
             [['name'], 'string', 'max' => 100],
-            [['Categories_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['Categories_id' => 'id']],
+            [['Categories_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['Categories_id' => 'id']],
             [['Iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['Iva_id' => 'id']],
         ];
     }
