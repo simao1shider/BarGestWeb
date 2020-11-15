@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-
 use Yii;
 use common\models\Bill;
 use yii\web\Controller;

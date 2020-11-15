@@ -218,6 +218,7 @@ private function addRequest($table,$bill,$addproducts){
                 $edit->quantity = $product["quantity"];
                 $edit->save();
             }
+            unset($_SESSION["Addproducts"]);
         }
         if ($model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

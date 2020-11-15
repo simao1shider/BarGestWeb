@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Account */
+/* @var $model app\models\Bill */
 
 $this->title = "Contas";
 ?>
@@ -44,54 +44,29 @@ $this->title = "Contas";
             <div class="col-1"></div>
         </div>
         <div class="list-group">
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-4 h3">
-                        <span class="h3 mt-2" id="idMesa">Gordons</span>
+            <?php
+            foreach ($model->productsPas as $list){
+                ?>
+                <span class="list-group-item list-group-item-action list-group-item-secondary">
+                    <div class="row">
+                        <div class="col-4 h3">
+                            <span class="h3 mt-2" id="idMesa"><?=$list->products->name?></span>
+                        </div>
+                        <div class="col-3 h3">
+                            <span class="mt-2"><?=$list->quantity?></span>
+                        </div>
+                        <div class="col-4 h3">
+                            <span class="mt-2"><?=$list->products->price?></span>
+                        </div>
+                        <div class="col-1 text-center">
+                            <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
+                        </div>
                     </div>
-                    <div class="col-3 h3">
-                        <span class="mt-2">3</span>
-                    </div>
-                    <div class="col-4 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-1 text-center">
-                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-4 h3">
-                        <span class="h3 mt-2" id="idMesa">Frize de Limão</span>
-                    </div>
-                    <div class="col-3 h3">
-                        <span class="mt-2">1</span>
-                    </div>
-                    <div class="col-4 h3">
-                        <span class="mt-2">1.20€</span>
-                    </div>
-                    <div class="col-1 text-center">
-                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-4 h3">
-                        <span class="h3 mt-2" id="idMesa">Frize de Frutos Vermelhos</span>
-                    </div>
-                    <div class="col-3 h3">
-                        <span class="mt-2">2</span>
-                    </div>
-                    <div class="col-4 h3">
-                        <span class="mt-2">2.40€</span>
-                    </div>
-                    <div class="col-1 text-center">
-                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
-                    </div>
-                </div>
-            </span>
+                </span>
+            <?php
+            }
+            ?>
+
         </div>
         <div class="row mt-4">
             <div class="col-6">
@@ -103,7 +78,7 @@ $this->title = "Contas";
                 </a>
             </div>
             <div class="col-6 text-right">
-                <p class="h4 text-dark mt-4">Total: <span class="h2">9.59€</span></p>
+                <p class="h4 text-dark mt-4">Total: <span class="h2"><?=$model->total?></span></p>
             </div>
         </div>
     </div>
