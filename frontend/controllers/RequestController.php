@@ -201,25 +201,37 @@ private function addRequest($table,$bill,$addproducts){
 
     public function actionExecupdate(){
         $model = $this->findModel($_GET["request"]);
-        $addProducts=$_SESSION["Addproducts"];
-        foreach ($addProducts as $product){
-            $con= ProductsToBePaid::find()
-                ->where(["Requests_id"=>$model->id])
-                ->andWhere(["Products_id"=>$product['id']]);
-            if($con->exists()){
-                $edit=$con->one();
-                $edit->quantity=$product["quantity"];
-                $edit->save();
-            }
-            else{
-                $edit = new ProductsToBePaid();
-                $edit->Products_id = $product['id'];
-                $edit->Requests_id = $model->id;
-                $edit->quantity = $product["quantity"];
-                $edit->save();
+        if(isset($_SESSION["Addproducts"]))
+        {
+            foreach ($_SESSION["Addproducts"] as $product){
+                $con= ProductsToBePaid::find()
+                    ->where(["Requests_id"=>$model->id])
+                    ->andWhere(["Products_id"=>$product['id']]);
+                if($con->exists()){
+                    $edit=$con->one();
+                    $edit->quantity=$product["quantity"];
+                    $edit->save();
+                }
+                else{
+                    $edit = new ProductsToBePaid();
+                    $edit->Products_id = $product['id'];
+                    $edit->Requests_id = $model->id;
+                    $edit->quantity = $product["quantity"];
+                    $edit->save();
+                }
             }
             unset($_SESSION["Addproducts"]);
         }
+        if(isset($_SESSION["Deleteproducts"]))
+        {
+            foreach ($_SESSION["Deleteproducts"] as $product){
+                ProductsToBePaid::find()
+                    ->where(["Requests_id"=>$model->id])
+                    ->andWhere(["Products_id"=>$product])->one()->delete();
+            }
+            unset($_SESSION["Deleteproducts"]);
+        }
+
         if ($model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

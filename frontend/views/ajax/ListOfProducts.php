@@ -23,7 +23,7 @@ foreach ($products as $product){
                             </div>
                             <div class="col-2 h3 mt-1">
                                 <a href="#" onclick="addQuantity(<?=$product["id"]?>)" class=""><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
-                                <a href="#"  class=""><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
+                                <a href="#" onclick="removeQuantity(<?=$product["id"]?>)" class=""><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
                             </div>
                         </div>
                     </span>

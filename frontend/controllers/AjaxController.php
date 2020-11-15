@@ -47,6 +47,10 @@ class AjaxController extends Controller
                 $addProducts[$_POST["id"]]["quantity"]+=1;
             }
         }
+        if(isset($_SESSION["Deleteproducts"][$_POST["id"]]))
+        {
+            unset($_SESSION["Deleteproducts"][$_POST["id"]]);
+        }
         $_SESSION["Addproducts"]=$addProducts;
         //unset( $_SESSION["Addproducts"]);
         return $this->renderAjax('ListOfProducts',["products"=>$addProducts]);
@@ -56,6 +60,18 @@ class AjaxController extends Controller
         $product=$_SESSION["Addproducts"][$_POST["id"]];
         $product["quantity"]+=1;
         $_SESSION["Addproducts"][$_POST["id"]]=$product;
+        return $this->renderAjax('ListOfProducts',["products"=>$_SESSION["Addproducts"]]);
+    }
+    public function actionRemove_product_quantity(){
+        $product=$_SESSION["Addproducts"][$_POST["id"]];
+        $product["quantity"]-=1;
+        if($product["quantity"]==0){
+            unset($_SESSION["Addproducts"][$_POST["id"]]);
+            $_SESSION["Deleteproducts"][$_POST["id"]]=$_POST["id"];
+        }
+        else{
+            $_SESSION["Addproducts"][$_POST["id"]]=$product;
+        }
         return $this->renderAjax('ListOfProducts',["products"=>$_SESSION["Addproducts"]]);
     }
 

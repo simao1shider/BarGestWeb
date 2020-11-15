@@ -47,6 +47,15 @@ function addQuantity(product){
         $("#listProducts").html(msg);
     });
 }
+function removeQuantity(product){
+    $.ajax({
+        url: "../ajax/remove_product_quantity",
+        method: "post",
+        data: {'id':product},
+    }).done(function (msg){
+        $("#listProducts").html(msg);
+    });
+}
 
 
 
