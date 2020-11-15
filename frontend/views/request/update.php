@@ -38,31 +38,6 @@ $this->title = 'Pedido';
                     <div class="col-2"></div>
                 </div>
                 <div class="list-group" id="listProducts" style="overflow-y: scroll; height: 600px;">
-                    <?php
-                    foreach ($request->products as $product){
-?>
-                        <span class="list-group-item list-group-item-action list-group-item-secondary">
-                        <div class="row">
-                            <div class="col-6 h3">
-                                <span class="h3 mt-2" id="idMesa"><?=$product->name?></span>
-                            </div>
-                            <div class="col-2 h3">
-                                <span class="mt-2"><?=\common\models\ProductsToBePaid::find()
-                                        ->where(["Requests_id"=>$request->id])
-                                        ->andWhere(["Products_id"=>$product->id])->one()->quantity?></span>
-                            </div>
-                            <div class="col-2 h3">
-                                <span class="mt-2"><?=$product->price?></span>
-                            </div>
-                            <div class="col-2 h3 mt-1">
-                                <a href="#" class=""><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
-                                <a href="#" class=""><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
-                            </div>
-                        </div>
-                    </span>
-                    <?php
-                    }
-                    ?>
 
                 </div>
             </div>

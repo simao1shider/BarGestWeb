@@ -52,4 +52,11 @@ class AjaxController extends Controller
         return $this->renderAjax('ListOfProducts',["products"=>$addProducts]);
     }
 
+    public function actionAdd_product_quantity(){
+        $product=$_SESSION["Addproducts"][$_POST["id"]];
+        $product["quantity"]+=1;
+        $_SESSION["Addproducts"][$_POST["id"]]=$product;
+        return $this->renderAjax('ListOfProducts',["products"=>$_SESSION["Addproducts"]]);
+    }
+
 }

@@ -22,8 +22,8 @@ foreach ($products as $product){
                                 <span class="mt-2"><?=$product["price"]?></span>
                             </div>
                             <div class="col-2 h3 mt-1">
-                                <a href="#" class=""><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
-                                <a href="#" class=""><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
+                                <a href="#" onclick="addQuantity(<?=$product["id"]?>)" class=""><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
+                                <a href="#"  class=""><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
                             </div>
                         </div>
                     </span>

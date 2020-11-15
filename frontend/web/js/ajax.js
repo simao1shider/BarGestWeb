@@ -37,6 +37,20 @@ function backToCategories(){
     loadCategories();
 }
 
+
+function addQuantity(product){
+    $.ajax({
+        url: "../ajax/add_product_quantity",
+        method: "post",
+        data: {'id':product},
+    }).done(function (msg){
+        $("#listProducts").html(msg);
+    });
+}
+
+
+
+
 function loadCategories(){
     $.ajax({
         url:"../ajax/get_categories",
