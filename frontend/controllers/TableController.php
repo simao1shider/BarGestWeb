@@ -85,10 +85,10 @@ class TableController extends Controller
     public function actionCreate()
     {
         $model = new Table();
-        print_r(Yii::$app->request->post());
+        //print_r(Yii::$app->request->post());
         if(isset($_POST["Table"])){
             $model->status=false;
-            print_r($model);
+            //print_r($model);
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['index']);
             }

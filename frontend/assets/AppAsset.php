@@ -13,6 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $js = [
         'js\sidebar.js',
+        'js\ajax\gerirPedidos.js',
     ];
     public $css = [
         'css\sidebar.css',

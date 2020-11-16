@@ -65,5 +65,4 @@ AppAsset::register($this);
 </body>
 
 </html>
-    <script src="../../web/js/ajax.js" ></script>
 <?php $this->endPage() ?>
