@@ -37,17 +37,22 @@ AppAsset::register($this);
             <ul class="components">
                 <li class="active">
                     <a href="<?=Url::to('../site/index')?>">
-                        <?= Html::img('@web/img/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                        <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
                     <a href="<?=Url::to('../table/index')?>">
-                        <?= Html::img('@web/img/tableBlue.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                        <?= Html::img('@web/img/Icons/Blue/table.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
                     <a href="<?=Url::to('../request/index')?>">
-                        <?= Html::img('@web/img/list.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                        <?= Html::img('@web/img/Icons/Blue/list.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?=Url::to('../product/index')?>">
+                        <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
             </ul>

@@ -9,7 +9,7 @@ $this->registerCssFile("/css/login.css");
 
 <form class="form-signin">
     <div class="text-center">
-        <?= Html::img('@web/img/cocktail.png', ['class' => 'mb-4']) ?>
+        <?= Html::img('@web/img/Icons/Color/cocktail.png', ['class' => 'mb-4']) ?>
         <h1 class="h2 mb-3 font-weight-normal">BarGest<span style="color: #F50057;">Web</span></h1>
         <h1 class="h5 mb-3 font-weight-normal">Sistema de Autenticação</h1>
     </div>

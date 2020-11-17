@@ -8,7 +8,7 @@ $this->title = 'Pedidos';
 ?>
 <div class="request-index">
 
-    <h1><?= Html::img('@web/img/listColor.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/list.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
     <h5>
         <span class="badge badge-success">Pedido Pronto</span>
         <span class="badge badge-warning">Pedido em Execução</span>
@@ -20,9 +20,9 @@ $this->title = 'Pedidos';
 
     <div class="mt-5 container">
         <div class="row mb-3 ml-1">
-            <div class="col-1 text-center"><?= Html::img('@web/img/tableColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-2 text-center"><?= Html::img('@web/img/clockColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-7"><?= Html::img('@web/img/waiterColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-1 text-center"><?= Html::img('@web/img/Icons/Color/table.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-2 text-center"><?= Html::img('@web/img/Icons/Color/clock.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-7"><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-2 text-center"></div>
         </div>
         <div class="list-group">
