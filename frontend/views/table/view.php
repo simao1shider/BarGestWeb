@@ -39,23 +39,23 @@ $this->title = $model->number;
 
     <div class="mt-5 container">
         <div class="list-group">
-            <a href="<?=Url::to(['request/create','tableId'=>$model->id])?>" class="list-group-item list-group-item-action list-group-item-success text-center mb-3"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Criar Conta</span></a>
+            <a href="<?=Url::to(['request/create','tableId'=>$model->id])?>" class="list-group-item list-group-item-action list-group-item-success text-center mb-3"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Criar Conta</span></a>
             <?php
-            if(empty($model->bills)){
+            if(empty($model->accounts)){
                 ?>
                 <h3 class="text-center">Não exitem contas</h3>
                     <?php
             }
-            foreach ($model->bills as $bill){
+            foreach ($model->accounts as $account){
                 if(isset($_GET['CR'])){
                 ?>
-                    <a href="<?=Url::to(['request/create','CR'=>1,'bill'=>$bill->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$bill->id?></span></a>
+                    <a href="<?=Url::to(['request/create','CR'=>1,'account'=>$account->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$account->id?></span></a>
                     <?php
                 }
                 else{
                 ?>
 
-                <a href="<?=Url::to(['bill/view','id'=>$bill->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$bill->id?></span></a>
+                <a href="<?=Url::to(['account/view','id'=>$account->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$account->id?></span></a>
                 <?php
                 }
             }
