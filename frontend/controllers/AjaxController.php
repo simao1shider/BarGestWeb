@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 
-use \common\models\Category;
+use common\models\Category;
 use common\models\Product;
 use yii\web\Controller;
 
@@ -19,15 +19,15 @@ class AjaxController extends Controller
     public function actionGet_products()
     {
         $model = Category::findOne($_POST["categoryId"]);
-        return $this->renderAjax('../request/components/products', ["products" => $model->products]);
+        return $this->renderAjax('products', ["products" => $model->products]);
     }
 
     public function actionShow_products()
     {
         if (isset($_SESSION["Addproducts"])) {
-            return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
+            return $this->renderAjax('ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
         } else {
-            return $this->renderAjax('../request/components/ListOfProducts');
+            return $this->renderAjax('ListOfProducts');
         }
     }
 
@@ -51,7 +51,7 @@ class AjaxController extends Controller
         }
         $_SESSION["Addproducts"] = $addProducts;
         //unset( $_SESSION["Addproducts"]);
-        return $this->renderAjax('../request/components/ListOfProducts', ["products" => $addProducts]);
+        return $this->renderAjax('ListOfProducts', ["products" => $addProducts]);
     }
 
     public function actionAdd_product_quantity()
@@ -59,7 +59,7 @@ class AjaxController extends Controller
         $product = $_SESSION["Addproducts"][$_POST["id"]];
         $product["quantity"] += 1;
         $_SESSION["Addproducts"][$_POST["id"]] = $product;
-        return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
+        return $this->renderAjax('ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
     }
     public function actionRemove_product_quantity()
     {
@@ -71,6 +71,6 @@ class AjaxController extends Controller
         } else {
             $_SESSION["Addproducts"][$_POST["id"]] = $product;
         }
-        return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
+        return $this->renderAjax('ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
     }
 }

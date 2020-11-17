@@ -22,7 +22,7 @@ $this->title = 'Pedidos';
         <div class="row mb-3 ml-1">
             <div class="col-1 text-center"><?= Html::img('@web/img/tableColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-2 text-center"><?= Html::img('@web/img/clockColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-6"><?= Html::img('@web/img/waiterColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-7"><?= Html::img('@web/img/waiterColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-2 text-center"></div>
         </div>
         <div class="list-group">
@@ -35,7 +35,7 @@ $this->title = 'Pedidos';
                                 <div class="row">
                                      <div class="col-1 h3 text-center"><?=$request->accounts->tables->number?></div>
                                      <div class="col-2 h3 text-center"><?=date_create($request->dateTime)->format("H:i")?></div>
-                                     <div class="col-6">
+                                     <div class="col-7">
                                      <h3>Yaroslav Antonenko</h3>
                                          <?php
                                          foreach ($request->productsToBePas as $productToBePaid){
@@ -50,9 +50,8 @@ $this->title = 'Pedidos';
                                          }
                                          ?>
                                      </div>
-                                    <div class="col-3 text-center">
-                                        <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check"></i></a>
-                                        <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye"></i></a>
+                                    <div class="col-2 text-right">
+                                        <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                     </div>
                                 </div>
                             </span>
@@ -64,7 +63,7 @@ $this->title = 'Pedidos';
                                  <div class="row">
                                      <div class="col-1 h3 text-center">23</div>
                                      <div class="col-2 h3 text-center">23:23</div>
-                                     <div class="col-6">
+                                     <div class="col-7">
                                          <h3>Yaroslav Antonenko</h3>
                                          <?php
                                          foreach ($request->productsToBePas as $productToBePaid){
@@ -79,9 +78,9 @@ $this->title = 'Pedidos';
                                          }
                                          ?>
                                      </div>
-                                     <div class="col-3 text-center">
-                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
-                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye"></i></a>
+                                     <div class="col-2 text-right">
+                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para concluido"></i></a>
+                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                      </div>
                                 </div>
                             </span>
@@ -93,7 +92,7 @@ $this->title = 'Pedidos';
                                 <div class="row">
                                      <div class="col-1 h3 text-center">23</div>
                                      <div class="col-2 h3 text-center">23:23</div>
-                                     <div class="col-6">
+                                     <div class="col-7">
                                          <h3>Yaroslav Antonenko</h3>
                                          <?php
                                          foreach ($request->productsToBePas as $productToBePaid){
@@ -108,9 +107,9 @@ $this->title = 'Pedidos';
                                          }
                                          ?>
                                      </div>
-                                     <div class="col-3 text-center">
-                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock"></i></a>
-                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye"></i></a>
+                                     <div class="col-2 text-right">
+                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock" title="Bloquear pedido"></i></a>
+                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                      </div>
                                 </div>
                             </span>
