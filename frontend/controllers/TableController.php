@@ -60,18 +60,18 @@ class TableController extends Controller
             ]);
         }
         else{
-            $BillsQuantity=count($model->bills);
-            if($BillsQuantity > 1){
+            $AccountQuantity=count($model->accounts);
+            if($AccountQuantity > 1){
                 $model = Table::findOne($id);
                 return $this->render('view', [
                     'model' => $model,
                 ]);
             }
-            if($BillsQuantity <= 0){
+            if($AccountQuantity <= 0){
                 return $this->redirect("../table/index");
             }
-            if($BillsQuantity == 1){
-                return $this->redirect(['bill/view', 'id' => $model->bills[0]->id]);
+            if($AccountQuantity == 1){
+                return $this->redirect(['accounts/view', 'id' => $model->accounts[0]->id]);
 
             }
         }
