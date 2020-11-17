@@ -12,6 +12,12 @@ class m201117_121135_dbCreate extends Migration
      */
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
+        
         $this->createTable('employee', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
@@ -19,20 +25,20 @@ class m201117_121135_dbCreate extends Migration
             'phone' => $this->integer()->unique(),
             'birthDate' => $this->date(),
             'phone' => $this->integer(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('table', [
             'id' => $this->primaryKey(),
             'number' => $this->integer()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('cashier', [
             'id' => $this->primaryKey(),
             'date' => $this->date()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
             'total' => $this->decimal(6,2)->notNull(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('account', [
             'id' => $this->primaryKey(),
@@ -42,7 +48,7 @@ class m201117_121135_dbCreate extends Migration
             'total' => $this->integer()->notNull(),
             'table_id' => $this->integer(),
             'cashier_id' => $this->integer(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('request', [
             'id' => $this->primaryKey(),
@@ -50,17 +56,17 @@ class m201117_121135_dbCreate extends Migration
             'status' => $this->tinyInteger()->notNull(),
             'account_id' => $this->integer(),
             'employee_id' => $this->integer(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('iva', [
             'id' => $this->primaryKey(),
             'rate' => $this->integer()->unique(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('product', [
             'id' => $this->primaryKey(),
@@ -69,19 +75,19 @@ class m201117_121135_dbCreate extends Migration
             'profit_margin' => $this->integer()->notNull(),
             'category_id' => $this->integer(),
             'iva_id' => $this->integer(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('products_to_be_paid', [
             'quantity' => $this->integer()->notNull(),
             'request_id' => $this->integer(),
             'product_id' => $this->integer(),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('products_paid', [
             'quantity' => $this->integer()->notNull(),
             'request_id' => $this->integer(),
             'product_id' => $this->integer(),
-        ]);
+        ], $tableOptions);
 
         $this->createIndex(
             'idx-account-table_id',

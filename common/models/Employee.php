@@ -5,16 +5,15 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "employees".
+ * This is the model class for table "employee".
  *
  * @property int $id
  * @property string $name
  * @property string $email
  * @property int|null $phone
  * @property string|null $birthDate
- * @property float|null $salary
  *
- * @property Accounts[] $accounts
+ * @property Request[] $requests
  */
 class Employee extends \yii\db\ActiveRecord
 {
@@ -23,7 +22,7 @@ class Employee extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'employees';
+        return 'employee';
     }
 
     /**
@@ -35,11 +34,8 @@ class Employee extends \yii\db\ActiveRecord
             [['name', 'email'], 'required'],
             [['phone'], 'integer'],
             [['birthDate'], 'safe'],
-            [['salary'], 'number'],
-            [['name'], 'string', 'max' => 100],
-            [['email'], 'string', 'max' => 255],
+            [['name', 'email'], 'string', 'max' => 255],
             [['email'], 'unique'],
-            [['phone'], 'unique'],
         ];
     }
 
@@ -54,17 +50,16 @@ class Employee extends \yii\db\ActiveRecord
             'email' => 'Email',
             'phone' => 'Phone',
             'birthDate' => 'Birth Date',
-            'salary' => 'Salary',
         ];
     }
 
     /**
-     * Gets query for [[Accounts]].
+     * Gets query for [[Requests]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAccounts()
+    public function getRequests()
     {
-        return $this->hasMany(Account::className(), ['Employees_id' => 'id']);
+        return $this->hasMany(Request::className(), ['employee_id' => 'id']);
     }
 }

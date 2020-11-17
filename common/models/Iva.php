@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "iva".
  *
  * @property int $id
- * @property int $rate
+ * @property int|null $rate
  *
- * @property Products[] $products
+ * @property Product[] $products
  */
 class Iva extends \yii\db\ActiveRecord
 {
@@ -28,8 +28,8 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['rate'], 'required'],
             [['rate'], 'integer'],
+            [['rate'], 'unique'],
         ];
     }
 
@@ -51,6 +51,6 @@ class Iva extends \yii\db\ActiveRecord
      */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['Iva_id' => 'id']);
+        return $this->hasMany(Product::className(), ['iva_id' => 'id']);
     }
 }

@@ -5,16 +5,18 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "requests".
+ * This is the model class for table "request".
  *
  * @property int $id
  * @property string $dateTime
  * @property int $status
- * @property int $Accounts_id
+ * @property int|null $account_id
+ * @property int|null $employee_id
  *
+ * @property ProductsPaid[] $productsPas
  * @property ProductsToBePaid[] $productsToBePas
- * @property Product[] $products
- * @property Account $accounts
+ * @property Account $account
+ * @property Employee $employee
  */
 class Request extends \yii\db\ActiveRecord
 {
@@ -23,7 +25,7 @@ class Request extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'requests';
+        return 'request';
     }
 
     /**
@@ -32,10 +34,11 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dateTime', 'status', 'Accounts_id'], 'required'],
+            [['dateTime', 'status'], 'required'],
             [['dateTime'], 'safe'],
-            [['status', 'Accounts_id'], 'integer'],
-            [['Accounts_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['Accounts_id' => 'id']],
+            [['status', 'account_id', 'employee_id'], 'integer'],
+            [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
+            [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }
 
@@ -48,8 +51,19 @@ class Request extends \yii\db\ActiveRecord
             'id' => 'ID',
             'dateTime' => 'Date Time',
             'status' => 'Status',
-            'Accounts_id' => 'Accounts ID',
+            'account_id' => 'Account ID',
+            'employee_id' => 'Employee ID',
         ];
+    }
+
+    /**
+     * Gets query for [[ProductsPas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductsPas()
+    {
+        return $this->hasMany(ProductsPaid::className(), ['request_id' => 'id']);
     }
 
     /**
@@ -59,26 +73,26 @@ class Request extends \yii\db\ActiveRecord
      */
     public function getProductsToBePas()
     {
-        return $this->hasMany(ProductsToBePaid::className(), ['Requests_id' => 'id']);
+        return $this->hasMany(ProductsToBePaid::className(), ['request_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Products]].
+     * Gets query for [[Account]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProducts()
+    public function getAccount()
     {
-        return $this->hasMany(Product::className(), ['id' => 'Products_id'])->viaTable('products_to_be_paid', ['Requests_id' => 'id']);
+        return $this->hasOne(Account::className(), ['id' => 'account_id']);
     }
 
     /**
-     * Gets query for [[Accounts]].
+     * Gets query for [[Employee]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAccounts()
+    public function getEmployee()
     {
-        return $this->hasOne(Account::className(), ['id' => 'Accounts_id']);
+        return $this->hasOne(Employee::className(), ['id' => 'employee_id']);
     }
 }

@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "categories".
+ * This is the model class for table "category".
  *
  * @property int $id
  * @property string $name
  *
- * @property Products[] $products
+ * @property Product[] $products
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -19,7 +19,7 @@ class Category extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'categories';
+        return 'category';
     }
 
     /**
@@ -29,7 +29,8 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['name'], 'string', 'max' => 100],
+            [['name'], 'string', 'max' => 255],
+            [['name'], 'unique'],
         ];
     }
 
@@ -51,6 +52,6 @@ class Category extends \yii\db\ActiveRecord
      */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['Categories_id' => 'id']);
+        return $this->hasMany(Product::className(), ['category_id' => 'id']);
     }
 }

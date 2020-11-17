@@ -5,21 +5,19 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "products".
+ * This is the model class for table "product".
  *
  * @property int $id
  * @property string $name
  * @property float $price
  * @property int $profit_margin
- * @property int $Categories_id
- * @property int $Iva_id
+ * @property int|null $category_id
+ * @property int|null $iva_id
  *
- * @property Categories $categories
+ * @property Category $category
  * @property Iva $iva
  * @property ProductsPaid[] $productsPas
- * @property Bill[] $bills
  * @property ProductsToBePaid[] $productsToBePas
- * @property Request[] $requests
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -28,7 +26,7 @@ class Product extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'products';
+        return 'product';
     }
 
     /**
@@ -37,12 +35,12 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'profit_margin', 'Categories_id', 'Iva_id'], 'required'],
+            [['name', 'price', 'profit_margin'], 'required'],
             [['price'], 'number'],
-            [['profit_margin', 'Categories_id', 'Iva_id'], 'integer'],
-            [['name'], 'string', 'max' => 100],
-            [['Categories_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['Categories_id' => 'id']],
-            [['Iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['Iva_id' => 'id']],
+            [['profit_margin', 'category_id', 'iva_id'], 'integer'],
+            [['name'], 'string', 'max' => 255],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['iva_id' => 'id']],
         ];
     }
 
@@ -56,19 +54,19 @@ class Product extends \yii\db\ActiveRecord
             'name' => 'Name',
             'price' => 'Price',
             'profit_margin' => 'Profit Margin',
-            'Categories_id' => 'Categories ID',
-            'Iva_id' => 'Iva ID',
+            'category_id' => 'Category ID',
+            'iva_id' => 'Iva ID',
         ];
     }
 
     /**
-     * Gets query for [[Categories]].
+     * Gets query for [[Category]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCategories()
+    public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'Categories_id']);
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -78,7 +76,7 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getIva()
     {
-        return $this->hasOne(Iva::className(), ['id' => 'Iva_id']);
+        return $this->hasOne(Iva::className(), ['id' => 'iva_id']);
     }
 
     /**
@@ -88,17 +86,7 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getProductsPas()
     {
-        return $this->hasMany(ProductsPaid::className(), ['Products_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Bills]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBills()
-    {
-        return $this->hasMany(Bill::className(), ['id' => 'Bills_id'])->viaTable('products_paid', ['Products_id' => 'id']);
+        return $this->hasMany(ProductsPaid::className(), ['product_id' => 'id']);
     }
 
     /**
@@ -108,16 +96,6 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getProductsToBePas()
     {
-        return $this->hasMany(ProductsToBePaid::className(), ['Products_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Requests]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRequests()
-    {
-        return $this->hasMany(Request::className(), ['id' => 'Requests_id'])->viaTable('products_to_be_paid', ['Products_id' => 'id']);
+        return $this->hasMany(ProductsToBePaid::className(), ['product_id' => 'id']);
     }
 }

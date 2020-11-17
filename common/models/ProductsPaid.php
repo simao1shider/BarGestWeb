@@ -7,12 +7,12 @@ use Yii;
 /**
  * This is the model class for table "products_paid".
  *
- * @property int $Products_id
- * @property int $Bills_id
  * @property int $quantity
+ * @property int|null $request_id
+ * @property int|null $product_id
  *
- * @property Bills $bills
- * @property Products $products
+ * @property Product $product
+ * @property Request $request
  */
 class ProductsPaid extends \yii\db\ActiveRecord
 {
@@ -30,11 +30,10 @@ class ProductsPaid extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Products_id', 'Bills_id', 'quantity'], 'required'],
-            [['Products_id', 'Bills_id', 'quantity'], 'integer'],
-            [['Products_id', 'Bills_id'], 'unique', 'targetAttribute' => ['Products_id', 'Bills_id']],
-            [['Bills_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bill::className(), 'targetAttribute' => ['Bills_id' => 'id']],
-            [['Products_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['Products_id' => 'id']],
+            [['quantity'], 'required'],
+            [['quantity', 'request_id', 'product_id'], 'integer'],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['request_id'], 'exist', 'skipOnError' => true, 'targetClass' => Request::className(), 'targetAttribute' => ['request_id' => 'id']],
         ];
     }
 
@@ -44,29 +43,29 @@ class ProductsPaid extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Products_id' => 'Products ID',
-            'Bills_id' => 'Bills ID',
             'quantity' => 'Quantity',
+            'request_id' => 'Request ID',
+            'product_id' => 'Product ID',
         ];
     }
 
     /**
-     * Gets query for [[Bills]].
+     * Gets query for [[Product]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBills()
+    public function getProduct()
     {
-        return $this->hasOne(Bill::className(), ['id' => 'Bills_id']);
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
 
     /**
-     * Gets query for [[Products]].
+     * Gets query for [[Request]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProducts()
+    public function getRequest()
     {
-        return $this->hasOne(Product::className(), ['id' => 'Products_id']);
+        return $this->hasOne(Request::className(), ['id' => 'request_id']);
     }
 }

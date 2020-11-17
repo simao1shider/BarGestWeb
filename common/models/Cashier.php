@@ -5,14 +5,14 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "cashiers".
+ * This is the model class for table "cashier".
  *
  * @property int $id
  * @property string $date
  * @property int $status
  * @property float $total
  *
- * @property Accounts[] $accounts
+ * @property Account[] $accounts
  */
 class Cashier extends \yii\db\ActiveRecord
 {
@@ -21,7 +21,7 @@ class Cashier extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'cashiers';
+        return 'cashier';
     }
 
     /**
@@ -57,6 +57,6 @@ class Cashier extends \yii\db\ActiveRecord
      */
     public function getAccounts()
     {
-        return $this->hasMany(Account::className(), ['Cashiers_id' => 'id']);
+        return $this->hasMany(Account::className(), ['cashier_id' => 'id']);
     }
 }

@@ -5,14 +5,13 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "tables".
+ * This is the model class for table "table".
  *
  * @property int $id
  * @property int $number
  * @property int $status
  *
  * @property Account[] $accounts
- * @property Bill[] $bills
  */
 class Table extends \yii\db\ActiveRecord
 {
@@ -21,7 +20,7 @@ class Table extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tables';
+        return 'table';
     }
 
     /**
@@ -31,9 +30,7 @@ class Table extends \yii\db\ActiveRecord
     {
         return [
             [['number', 'status'], 'required'],
-            [['number'], 'integer'],
-            [['status'],'boolean'],
-            [['number'], 'unique'],
+            [['number', 'status'], 'integer'],
         ];
     }
 
@@ -56,16 +53,6 @@ class Table extends \yii\db\ActiveRecord
      */
     public function getAccounts()
     {
-        return $this->hasMany(Account::className(), ['Tables_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Bills]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBills()
-    {
-        return $this->hasMany(Bill::className(), ['Tables_id' => 'id']);
+        return $this->hasMany(Account::className(), ['table_id' => 'id']);
     }
 }
