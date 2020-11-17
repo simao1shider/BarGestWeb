@@ -51,7 +51,7 @@ AppAsset::register($this);
                     </a>
                 </li>
                 <li>
-                    <a href="<?=Url::to('../product/index')?>">
+                    <a href="<?=Url::to('../category/index')?>">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
