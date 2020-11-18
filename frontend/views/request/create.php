@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Request */
@@ -16,19 +17,33 @@ $this->title = 'Criar Pedido';
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
-    <div class="text-right">
-        <?php if(isset($_GET["tableId"]))
-            {
-                ?>
-        <button class="btn btn-success" onclick="window.location.href='<?=Url::to(["request/postcreate","Table"=>$_GET["tableId"]])?>'">Finalizar pedido</button>
-        <?php
+    <div>
+        <?php $form = ActiveForm::begin([
+            'method' => 'post',
+            'action' => ['request/postcreate'],
+            'options' => [
+                    'class' => 'form-row',
+		            'enctype' => 'multipart/form-data']
+            ]);
+        ?>
+        <div class="col-9">
+            <?= $form->field($model, 'name')->textInput(['placeholder' => $model->getAttributeLabel('name')])->label(false) ?>
+            <?php
+            if(isset($_GET["tableId"])) {
+                echo $form->field($model, 'table_id')->hiddenInput()->label(false);
             }
             if(isset($_GET["bill"])){
-                ?>
-                <button class="btn btn-success" onclick="window.location.href='<?=Url::to(["request/postcreate","bill"=>$_GET["bill"]])?>'">Finalizar pedido</button>
-                <?php
+                echo $form->field($model, 'account_id')->hiddenInput()->label(false);
             }
             ?>
+        </div>
+        <div class="form-group text-right col-3">
+            <?= Html::submitButton('Finalizar pedido', ['class' => 'btn btn-success',]) ?>
+        </div>
+
+        <?php
+        ActiveForm::end(); ?>
+
     </div>
     
     <div class="row mt-5">

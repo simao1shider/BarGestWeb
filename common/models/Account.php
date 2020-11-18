@@ -12,8 +12,8 @@ use Yii;
  * @property string $dateTime
  * @property int $status
  * @property int $total
- * @property int|null $table_id
- * @property int|null $cashier_id
+ * @property int $table_id
+ * @property int $cashier_id
  *
  * @property Table $table
  * @property Cashier $cashier
@@ -51,7 +51,7 @@ class Account extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Nome da conta',
             'dateTime' => 'Date Time',
             'status' => 'Status',
             'total' => 'Total',

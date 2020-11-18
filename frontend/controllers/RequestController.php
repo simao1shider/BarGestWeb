@@ -68,12 +68,10 @@ class RequestController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Request();
-        $categories = Category::find()->all();
+        $model = new Account();
         if(isset($_GET['bill']) || isset($_GET['tableId'])){
             return $this->render('create', [
                 'model' => $model,
-                'categories' => $categories,
             ]);
             /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -87,16 +85,18 @@ class RequestController extends Controller
 
     public function actionPostcreate()
     {
+        $account=Yii::$app->request->post("Account");
         if(isset($_SESSION["Addproducts"]))
         {
+            print_r($account);
             if(isset($_GET["Table"])){
                 $table = Table::findOne($_GET["Table"]);
-                $bill= new Bill();
-                $bill->Tables_id=$table->id;
-                $bill->dateTime=date("Y-m-d H:i:s");
-                $bill->total=0;
-                $bill->status=1;
-                $bill->save();
+                $account= new Account();
+                $account->table_id=$table->id;
+                $account->dateTime=date("Y-m-d H:i:s");
+                $account->total=0;
+                $account->status=1;
+                $account->save();
                 $table->status=true;
                 $table->save();
                 $account=$this->addRequest($table,$bill,$_SESSION["Addproducts"]);
