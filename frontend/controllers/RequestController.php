@@ -69,7 +69,14 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model = new Account();
-        if(isset($_GET['bill']) || isset($_GET['tableId'])){
+        if(isset($_GET['bill']) || isset($_GET['tableId']))
+        {
+            if(isset($_GET["bill"])){
+                $model->id=$_GET["bill"];
+            }
+            else{
+                $model->table_id=$_GET['tableId'];
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -88,18 +95,17 @@ class RequestController extends Controller
         $account=Yii::$app->request->post("Account");
         if(isset($_SESSION["Addproducts"]))
         {
-            print_r($account);
-            if(isset($_GET["Table"])){
-                $table = Table::findOne($_GET["Table"]);
-                $account= new Account();
-                $account->table_id=$table->id;
-                $account->dateTime=date("Y-m-d H:i:s");
-                $account->total=0;
-                $account->status=1;
-                $account->save();
+            if(isset($account["table_id"])){
+                $table = Table::findOne($account["table_id"]);
+                $newAccount= new Account();
+                $newAccount->load(Yii::$app->request->post());
+                $newAccount->dateTime=date("Y-m-d H:i:s");
+                $newAccount->total=0;
+                $newAccount->status=1;
+                $newAccount->save();
                 $table->status=true;
                 $table->save();
-                $account=$this->addRequest($table,$bill,$_SESSION["Addproducts"]);
+                $account=$this->addRequest($newAccount,$_SESSION["Addproducts"]);
                 if($account->save()){
                     return $this->redirect(["index"]);
                 }
@@ -124,44 +130,25 @@ class RequestController extends Controller
         return null;
     }
 
-    private function addRequest($table,$bill,$addproducts){
-        $account = Account::find()->where(["Tables_id"=>$table->id])->andWhere(["status"=>1]);
-        if(!$account->exists()){
-            $account= new Account();
-            $account->name="Not need";
-            $account->dateTime=date("Y-m-d H:i:s");
-            $account->status=true;
-            $account->total=0;
-            $account->Tables_id=$table->id;
-            $account->Employees_id=1; //TODO:Trocar para o empregado que esta logado
-            $account->Cashiers_id=1; //TODO: Tocar para a caixa que esta aberta
-            $account->save();
-        }
-        else{
-            $account=$account->one();
-        }
+    private function addRequest($account,$addproducts){
         $request = new Request();
         $request->dateTime = date("Y-m-d H:i:s");
-        $request->status=2;
-        $request->Accounts_id=$account->id;
+        $request->status=0;
+        $request->account_id=$account->id;
+        $request->employee_id = 1;
         if($request->save()){
             foreach ($addproducts as $addproduct){
                 $toPaid = new ProductsToBePaid();
-                $toPaid->Requests_id = $request->id;
-                $toPaid->Products_id = $addproduct['id'];
+                $toPaid->request_id = $request->id;
+                $toPaid->product_id = $addproduct['id'];
                 $toPaid->quantity = $addproduct['quantity'];
-                $paid= new ProductsPaid();
-                $paid->Bills_id=$bill->id;
-                $paid->Products_id = $addproduct['id'];
-                $paid->quantity = $addproduct['quantity'];
-                $paid->save();
                 $toPaid->save();
             }
         }
         $total=0;
         foreach ($account->requests as $request){
             foreach ($request->productsToBePas as $productsToPa){
-                $total+=$productsToPa->quantity * $productsToPa->products->price;
+                $total+=$productsToPa->quantity * $productsToPa->product->price;
             }
         }
         $account->total=$total;
