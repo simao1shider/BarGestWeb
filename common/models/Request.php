@@ -17,6 +17,7 @@ use Yii;
  * @property ProductsToBePaid[] $productsToBePas
  * @property Account $account
  * @property Employee $employee
+ * @property Product[] $products
  */
 class Request extends \yii\db\ActiveRecord
 {
@@ -94,5 +95,9 @@ class Request extends \yii\db\ActiveRecord
     public function getEmployee()
     {
         return $this->hasOne(Employee::className(), ['id' => 'employee_id']);
+    }
+
+    public function getProducts(){
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('products_to_be_paid', ['Request_id' => 'id']);
     }
 }

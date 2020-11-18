@@ -123,51 +123,50 @@ class RequestController extends Controller
         }
         return null;
     }
-private function addRequest($table,$bill,$addproducts){
-    $account = Account::find()->where(["Tables_id"=>$table->id])->andWhere(["status"=>1]);
-    if(!$account->exists()){
-        $account= new Account();
-        $account->name="Not need";
-        $account->dateTime=date("Y-m-d H:i:s");
-        $account->status=true;
-        $account->total=0;
-        $account->Tables_id=$table->id;
-        $account->Employees_id=1; //TODO:Trocar para o empregado que esta logado
-        $account->Cashiers_id=1; //TODO: Tocar para a caixa que esta aberta
-        $account->save();
-    }
-    else{
-        $account=$account->one();
-    }
-    $request = new Request();
-    $request->dateTime = date("Y-m-d H:i:s");
-    $request->status=2;
-    $request->Accounts_id=$account->id;
-    if($request->save()){
-        foreach ($addproducts as $addproduct){
-            $toPaid = new ProductsToBePaid();
-            $toPaid->Requests_id = $request->id;
-            $toPaid->Products_id = $addproduct['id'];
-            $toPaid->quantity = $addproduct['quantity'];
-            $paid= new ProductsPaid();
-            $paid->Bills_id=$bill->id;
-            $paid->Products_id = $addproduct['id'];
-            $paid->quantity = $addproduct['quantity'];
-            $paid->save();
-            $toPaid->save();
 
-
+    private function addRequest($table,$bill,$addproducts){
+        $account = Account::find()->where(["Tables_id"=>$table->id])->andWhere(["status"=>1]);
+        if(!$account->exists()){
+            $account= new Account();
+            $account->name="Not need";
+            $account->dateTime=date("Y-m-d H:i:s");
+            $account->status=true;
+            $account->total=0;
+            $account->Tables_id=$table->id;
+            $account->Employees_id=1; //TODO:Trocar para o empregado que esta logado
+            $account->Cashiers_id=1; //TODO: Tocar para a caixa que esta aberta
+            $account->save();
         }
-    }
-    $total=0;
-    foreach ($account->requests as $request){
-        foreach ($request->productsToBePas as $productsToPa){
-            $total+=$productsToPa->quantity * $productsToPa->products->price;
+        else{
+            $account=$account->one();
         }
+        $request = new Request();
+        $request->dateTime = date("Y-m-d H:i:s");
+        $request->status=2;
+        $request->Accounts_id=$account->id;
+        if($request->save()){
+            foreach ($addproducts as $addproduct){
+                $toPaid = new ProductsToBePaid();
+                $toPaid->Requests_id = $request->id;
+                $toPaid->Products_id = $addproduct['id'];
+                $toPaid->quantity = $addproduct['quantity'];
+                $paid= new ProductsPaid();
+                $paid->Bills_id=$bill->id;
+                $paid->Products_id = $addproduct['id'];
+                $paid->quantity = $addproduct['quantity'];
+                $paid->save();
+                $toPaid->save();
+            }
+        }
+        $total=0;
+        foreach ($account->requests as $request){
+            foreach ($request->productsToBePas as $productsToPa){
+                $total+=$productsToPa->quantity * $productsToPa->products->price;
+            }
+        }
+        $account->total=$total;
+        return $account;
     }
-    $account->total=$total;
-    return $account;
-}
     /**
      * Updates an existing Request model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -179,24 +178,21 @@ private function addRequest($table,$bill,$addproducts){
     {
         unset($_SESSION["Addproducts"]);
         $model = $this->findModel($id);
-            $addProducts = null;
-            $count=0;
-            foreach ($model->products as $product){
-                $addToSession=Product::findOne($product->id)->toArray();
-                $addToSession["quantity"]=$product->productsToBePas[0]->quantity;
-                if(!isset($_SESSION["Addproducts"]) || $addProducts == null){
-                    $addProducts=array($product->id=>$addToSession);
+        foreach ($model->productsToBePas as $listProduct){
+                $addToSession=$listProduct->product->toArray();
+                $addToSession["quantity"]=$listProduct->quantity;
+                if(!isset($_SESSION["Addproducts"])){
+                    $addProducts=array($listProduct->product->id=>$addToSession);
                 }
                 else{
                     $addProducts=$_SESSION["Addproducts"];
-                    $addProducts[$product->id]=$addToSession;
+                    $addProducts[$listProduct->product->id]=$addToSession;
                 }
                 $_SESSION["Addproducts"]=$addProducts;
-            }
-            return $this->render('update', [
-                'request' => $model,
-            ]);
-
+        }
+        return $this->render('update', [
+            'request' => $model,
+        ]);
     }
 
     public function actionExecupdate(){

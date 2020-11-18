@@ -53,7 +53,6 @@ class TableController extends Controller
     public function actionView($id)
     {
         $model=Table::findOne($id);
-
         if(isset($_GET['CR'])){
             return $this->render('view', [
                 'model' => $model,

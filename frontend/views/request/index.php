@@ -33,23 +33,7 @@ $this->title = 'Pedidos';
                         ?>
                         <span class="list-group-item list-group-item-action list-group-item-success">
                                 <div class="row">
-                                     <div class="col-1 h3 text-center"><?=$request->accounts->tables->number?></div>
-                                     <div class="col-2 h3 text-center"><?=date_create($request->dateTime)->format("H:i")?></div>
-                                     <div class="col-7">
-                                     <h3>Yaroslav Antonenko</h3>
-                                         <?php
-                                         foreach ($request->productsToBePas as $productToBePaid){
-                                             ?>
-                                             <div class="row ml-3">
-                                                 <div class="col-4 h4 ml-4"><?= $productToBePaid->products->name ?></div>
-                                                 <div class="col-2 h4"><?= $productToBePaid->products->price ?>€</div>
-                                                 <div class="col-1"></div>
-                                                 <div class="col-2 h4"><?= $productToBePaid->quantity ?></div>
-                                             </div>
-                                             <?php
-                                         }
-                                         ?>
-                                     </div>
+                                    <?=$this->render("components\ListRequests",['request'=>$request])?>
                                     <div class="col-2 text-right">
                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                     </div>
@@ -61,23 +45,7 @@ $this->title = 'Pedidos';
                         ?>
                         <span class="list-group-item list-group-item-action list-group-item-warning">
                                  <div class="row">
-                                     <div class="col-1 h3 text-center">23</div>
-                                     <div class="col-2 h3 text-center">23:23</div>
-                                     <div class="col-7">
-                                         <h3>Yaroslav Antonenko</h3>
-                                         <?php
-                                         foreach ($request->productsToBePas as $productToBePaid){
-                                             ?>
-                                             <div class="row ml-3">
-                                                 <div class="col-4 h4 ml-4"><?= $productToBePaid->products->name ?></div>
-                                                 <div class="col-2 h4"><?= $productToBePaid->products->price ?>€</div>
-                                                 <div class="col-1"></div>
-                                                 <div class="col-2 h4"><?= $productToBePaid->quantity ?></div>
-                                             </div>
-                                             <?php
-                                         }
-                                         ?>
-                                     </div>
+                                    <?=$this->render("components\ListRequests",['request'=>$request])?>
                                      <div class="col-2 text-right">
                                          <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para concluido"></i></a>
                                          <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
@@ -90,23 +58,7 @@ $this->title = 'Pedidos';
                         ?>
                         <span class="list-group-item list-group-item-action list-group-item-danger">
                                 <div class="row">
-                                     <div class="col-1 h3 text-center">23</div>
-                                     <div class="col-2 h3 text-center">23:23</div>
-                                     <div class="col-7">
-                                         <h3>Yaroslav Antonenko</h3>
-                                         <?php
-                                         foreach ($request->productsToBePas as $productToBePaid){
-                                             ?>
-                                             <div class="row ml-3">
-                                                 <div class="col-4 h4 ml-4"><?= $productToBePaid->products->name ?></div>
-                                                 <div class="col-2 h4"><?= $productToBePaid->products->price ?>€</div>
-                                                 <div class="col-1"></div>
-                                                 <div class="col-2 h4"><?= $productToBePaid->quantity ?></div>
-                                             </div>
-                                             <?php
-                                         }
-                                         ?>
-                                     </div>
+                                     <?=$this->render("components\ListRequests",['request'=>$request])?>
                                      <div class="col-2 text-right">
                                          <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock" title="Bloquear pedido"></i></a>
                                          <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
@@ -117,11 +69,9 @@ $this->title = 'Pedidos';
                         break;
                 }
                 ?>
-
                 <?php
             }
             ?>
-
         </div>
     </div>
 </div>
