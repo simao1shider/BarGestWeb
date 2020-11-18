@@ -67,7 +67,7 @@ class TableController extends Controller
                 ]);
             }
             else{
-                return $this->redirect(['accounts/view', 'id' => $model->accounts[0]->id]);
+                return $this->redirect(['account/view', 'id' => $model->accounts[0]->id]);
 
             }
         }

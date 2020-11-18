@@ -247,6 +247,9 @@ class RequestController extends Controller
             $account->delete();
             $tableAtualAccounts=Account::find()->where(["table_id"=>$account->table->id,"status"=>0])->all();
             if(empty($tableAtualAccounts)){
+                $total=0;
+                foreach ($table->accounts as $account)
+                    $total+=$account->total;
                 $table->status=false;
                 $table->save();
             }
