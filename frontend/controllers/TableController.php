@@ -60,16 +60,13 @@ class TableController extends Controller
         }
         else{
             $AccountQuantity=count($model->accounts);
-            if($AccountQuantity > 1){
+            if($AccountQuantity != 1){
                 $model = Table::findOne($id);
                 return $this->render('view', [
                     'model' => $model,
                 ]);
             }
-            if($AccountQuantity <= 0){
-                return $this->redirect("../table/index");
-            }
-            if($AccountQuantity == 1){
+            else{
                 return $this->redirect(['accounts/view', 'id' => $model->accounts[0]->id]);
 
             }
