@@ -1,13 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-
-if (empty($products)) {
+if (empty($products) || !isset($products)) {
 ?>
     <h3 class="text-center">Não tem produtos adicionados</h3>
 <?php
 }
-
+else{
 foreach ($products as $product) {
 ?>
     <span class="list-group-item list-group-item-action list-group-item-secondary">
@@ -29,8 +28,5 @@ foreach ($products as $product) {
     </span>
 <?php
 }
+}
 ?>
-<script>
-
-
-</script>

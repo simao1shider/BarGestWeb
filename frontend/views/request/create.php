@@ -10,7 +10,13 @@ use yii\widgets\ActiveForm;
 $this->title = 'Criar Pedido';
 ?>
 <div class="request-create">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?>
+        <?php
+        if(isset($_GET["account"])){
+            echo "<br>Conta:".$model->name."(".$model->id.")";
+        }
+        ?>
+    </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/index.php?r=table%2Findex">Pedidos</a></li>
@@ -27,13 +33,13 @@ $this->title = 'Criar Pedido';
             ]);
         ?>
         <div class="col-9">
-            <?= $form->field($model, 'name')->textInput(['placeholder' => $model->getAttributeLabel('name')])->label(false) ?>
             <?php
             if(isset($_GET["tableId"])) {
+                echo $form->field($model, 'name')->textInput(['placeholder' => $model->getAttributeLabel('name')])->label(false);
                 echo $form->field($model, 'table_id')->hiddenInput()->label(false);
             }
-            if(isset($_GET["bill"])){
-                echo $form->field($model, 'account_id')->hiddenInput()->label(false);
+            if(isset($_GET["account"])){
+                echo $form->field($model, 'id')->hiddenInput()->label(false);
             }
             ?>
         </div>

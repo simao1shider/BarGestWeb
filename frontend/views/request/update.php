@@ -15,7 +15,7 @@ $this->title = 'Pedido';
             <li class="breadcrumb-item"><a href="/index.php?r=table%2Findex">Pedidos</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
-    </nav>d
+    </nav>
     <div class="text-right">
             <button class="btn btn-warning" onclick="window.location.href='<?=Url::to(["request/execupdate",'request'=>$_GET["id"]])?>'">Editar pedido</button>
             <button class="btn btn-danger" onclick="window.location.href='<?=Url::to(["request/delete","id"=>$_GET["id"]])?>'">Eliminar pedido</button>
