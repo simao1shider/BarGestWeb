@@ -56,7 +56,9 @@ $this->title = "Conta ".$account->name;
                                     <span class="h3 mt-2" id="idMesa"><?=$productList->product->name?></span>
                                 </div>
                                 <div class="col-3 h3">
-                                    <span class="mt-2"><?=$productList->quantity?></span>
+                                     <a href="#" onclick="accountAddQuantity(<?=$request->id?>,<?=$productList->product->id?>)" ><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?=$productList->quantity?></span>
+                                     <a href="#" onclick="accountRemoveQuantity(<?=$request->id?>,<?=$productList->product->id?>)"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
                                 </div>
                                 <div class="col-4 h3">
                                     <span class="mt-2"><?=$productList->product->price?></span>
@@ -84,7 +86,7 @@ $this->title = "Conta ".$account->name;
             if(!empty($requests)){
             ?>
             <div class="col-6 text-right">
-                <p class="h4 text-dark mt-4">Total: <span class="h2"><?=$account->total?></span></p>
+                <p class="h4 text-dark mt-4">Total: <span class="h2" id="accountTotal"><?=$account->total?></span></p>
             </div>
             <?php
             }
@@ -101,9 +103,9 @@ $this->title = "Conta ".$account->name;
     ?>
     <div class="modal-body">
         <div class="d-flex justify-content-center">
-            <a href="#"  class="m-2"><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
+
             <h4 class="m-3">4</h4>
-            <a href="#"  class="m-2"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
+
         </div>
     </div>
     <div class="modal-footer">

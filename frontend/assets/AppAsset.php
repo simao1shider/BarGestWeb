@@ -14,6 +14,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js\sidebar.js',
         'js\ajax\gerirPedidos.js',
+        'js\ajax\Account.js',
     ];
     public $css = [
         'css\sidebar.css',
