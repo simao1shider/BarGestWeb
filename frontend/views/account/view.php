@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
@@ -22,49 +21,36 @@ $this->title = "Contas";
         ]) ?>
     </p>
 
-    <?php /* DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'dateTime',
-            'status',
-            'total',
-            'Tables_id',
-            'Employees_id',
-            'Cashiers_id',
-        ],
-    ])*/ ?>
-
     <div class="mt-5 container">
         <div class="row mb-3 ml-1">
-            <div class="col-4"><?= Html::img('@web/img/drinkColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-3"><?= Html::img('@web/img/sortingColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-4"><?= Html::img('@web/img/pricingColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-4"><?= Html::img('@web/img/Icons/Color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-3"><?= Html::img('@web/img/Icons/Color/sorting.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-4"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-1"></div>
         </div>
         <div class="list-group">
             <?php
-            foreach ($model->requests as $request){
-                foreach ($request->productsToBePas as $productList)
-                ?>
-                <span class="list-group-item list-group-item-action list-group-item-secondary">
-                    <div class="row">
-                        <div class="col-4 h3">
-                            <span class="h3 mt-2" id="idMesa"><?=$productList->product->name?></span>
+            foreach ($model->requests as $request) {
+                foreach ($request->productsToBePas as $productList) {
+            ?>
+                    <span class="list-group-item list-group-item-action list-group-item-secondary">
+                        <div class="row">
+                            <div class="col-4 h3">
+                                <span class="h3 mt-2" id="idMesa"><?= $productList->product->name ?></span>
+                            </div>
+                            <div class="col-3 h3">
+                                <span class="mt-2"><?= $productList->quantity ?></span>
+                            </div>
+                            <div class="col-4 h3">
+                                <span class="mt-2"><?= $productList->product->price ?></span>
+                            </div>
+                            <div class="col-1 text-center">
+                                <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
+                            </div>
                         </div>
-                        <div class="col-3 h3">
-                            <span class="mt-2"><?=$productList->quantity?></span>
-                        </div>
-                        <div class="col-4 h3">
-                            <span class="mt-2"><?=$productList->product->price?></span>
-                        </div>
-                        <div class="col-1 text-center">
-                            <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
-                        </div>
-                    </div>
-                </span>
+                    </span>
             <?php
+                }
             }
             ?>
 
@@ -72,14 +58,14 @@ $this->title = "Contas";
         <div class="row mt-4">
             <div class="col-6">
                 <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
-                    <?= Html::img('@web/img/receiptColor.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
+                    <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
                 <a name="" id="" class="btn" href="/index.php?r=bill%2Fsplit&id=2" role="button">
-                    <?= Html::img('@web/img/splitColor.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
+                    <?= Html::img('@web/img/Icons/Color/split.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </a>
             </div>
             <div class="col-6 text-right">
-                <p class="h4 text-dark mt-4">Total: <span class="h2"><?=$model->total?></span></p>
+                <p class="h4 text-dark mt-4">Total: <span class="h2"><?= $model->total ?></span></p>
             </div>
         </div>
     </div>
