@@ -6,25 +6,25 @@ $this->title = $model->name;
 ?>
 <div class="split-view">
 
-    <h1><?= Html::img('@web/img/billColor.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h1><?= Html::img('@web/img/icons/color/bill.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <div class="mt-5 container">
 
         <div class="row">
             <div class="col-6">
                 <div class="row">
-                    <div class="col-6"><?= Html::img('@web/img/drinkColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-                    <div class="col-2"><?= Html::img('@web/img/sortingColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-                    <div class="col-3"><?= Html::img('@web/img/pricingColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+                    <div class="col-6"><?= Html::img('@web/img/icons/color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+                    <div class="col-2"><?= Html::img('@web/img/icons/color/sorting.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+                    <div class="col-3"><?= Html::img('@web/img/icons/color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
                     <div class="col-1"></div>
                 </div>
             </div>
             <div class="col-6">
                 <div class="row ml-2 text-right">
                     <div class="col-1"></div>
-                    <div class="col-6"><?= Html::img('@web/img/drinkColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-                    <div class="col-2"><?= Html::img('@web/img/sortingColor.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-                    <div class="col-3"><?= Html::img('@web/img/pricingColor.png', ['class' => 'align-top mr-4', 'style' => 'width: 45px']) ?></div>
+                    <div class="col-6"><?= Html::img('@web/img/icons/color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+                    <div class="col-2"><?= Html::img('@web/img/icons/color/sorting.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+                    <div class="col-3"><?= Html::img('@web/img/icons/color/pricing.png', ['class' => 'align-top mr-4', 'style' => 'width: 45px']) ?></div>
                 </div>
             </div>
 
@@ -110,7 +110,7 @@ $this->title = $model->name;
             </div>
             <div class="col-6 text-right">
                 <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
-                    <?= Html::img('@web/img/receiptColor.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
+                    <?= Html::img('@web/img/icons/color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
                 <span class="h4 text-dark">Total: <span class="h2">5.99€</span></span>
                 

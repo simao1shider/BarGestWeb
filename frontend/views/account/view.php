@@ -5,11 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
 
-$this->title = "Contas";
+$this->title = "Conta";
 ?>
 <div class="bill-view">
 
-    <h1><?= Html::img('@web/img/billColor.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/bill.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <p class="text-right">
         <?= Html::a('Apagar', ['delete', 'id' => $model->id], [
@@ -57,10 +57,10 @@ $this->title = "Contas";
         </div>
         <div class="row mt-4">
             <div class="col-6">
-                <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" title="Pagar">
                     <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
-                <a name="" id="" class="btn" href="/index.php?r=bill%2Fsplit&id=2" role="button">
+                <a name="" id="" class="btn" href="/index.php?r=bill%2Fsplit&id=2" role="button" title="Dividir Conta">
                     <?= Html::img('@web/img/Icons/Color/split.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </a>
             </div>
@@ -69,14 +69,11 @@ $this->title = "Contas";
             </div>
         </div>
     </div>
-    <!--<div class="modal fade show" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style="padding-right: 17px; display: block;">
+    <div class="modal fade" id="exampleModalCenter" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Pagamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                <div class="modal-body border-bottom text-center">
+                    <h4 class="">Pagamento</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -86,9 +83,10 @@ $this->title = "Contas";
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" class="close" data-dismiss="modal" aria-label="Close">Cancelar</button>
                     <button type="button" class="btn btn-primary">Pagar</button>
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
 </div>
