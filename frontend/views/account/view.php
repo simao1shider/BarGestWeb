@@ -6,14 +6,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
 
-$this->title = "Contas";
+$this->title = "Conta ".$account->name;
 ?>
 <div class="bill-view">
 
     <h1><?= Html::img('@web/img/billColor.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <p class="text-right">
-        <?= Html::a('Apagar', ['delete', 'id' => $model->id], [
+        <?= Html::a('Apagar', ['delete', 'id' => $account->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Tem a certeza que pretende apagar esta conta?',
@@ -45,29 +45,32 @@ $this->title = "Contas";
         </div>
         <div class="list-group">
             <?php
-            foreach ($model->requests as $request){
-                foreach ($request->productsToBePas as $productList)
-                ?>
-                <span class="list-group-item list-group-item-action list-group-item-secondary">
-                    <div class="row">
-                        <div class="col-4 h3">
-                            <span class="h3 mt-2" id="idMesa"><?=$productList->product->name?></span>
-                        </div>
-                        <div class="col-3 h3">
-                            <span class="mt-2"><?=$productList->quantity?></span>
-                        </div>
-                        <div class="col-4 h3">
-                            <span class="mt-2"><?=$productList->product->price?></span>
-                        </div>
-                        <div class="col-1 text-center">
-                            <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
-                        </div>
-                    </div>
-                </span>
-            <?php
-            }
-            ?>
-
+                if(empty($requests)) {
+                    echo '<h3> Não ha produtos prontos para pagamento</h3>';
+                }
+                foreach ($requests as $request){
+                    foreach ($request->productsToBePas as $productList){
+                        ?>
+                        <span class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row">
+                                <div class="col-4 h3">
+                                    <span class="h3 mt-2" id="idMesa"><?=$productList->product->name?></span>
+                                </div>
+                                <div class="col-3 h3">
+                                    <span class="mt-2"><?=$productList->quantity?></span>
+                                </div>
+                                <div class="col-4 h3">
+                                    <span class="mt-2"><?=$productList->product->price?></span>
+                                </div>
+                                <div class="col-1 text-center">
+                                    <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
+                                </div>
+                            </div>
+                        </span>
+                        <?php
+                    }
+                }
+                    ?>
         </div>
         <div class="row mt-4">
             <div class="col-6">
@@ -78,9 +81,15 @@ $this->title = "Contas";
                     <?= Html::img('@web/img/splitColor.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </a>
             </div>
+            <?php
+            if(!empty($requests)){
+            ?>
             <div class="col-6 text-right">
-                <p class="h4 text-dark mt-4">Total: <span class="h2"><?=$model->total?></span></p>
+                <p class="h4 text-dark mt-4">Total: <span class="h2"><?=$account->total?></span></p>
             </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
     <!--<div class="modal fade show" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style="padding-right: 17px; display: block;">

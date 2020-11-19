@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Account;
+use common\models\ProductsToBePaid;
+use common\models\Request;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
@@ -27,8 +29,10 @@ class AccountController extends \yii\web\Controller
 
     public function actionView($id){
 
+        $request=Request::find()->where(["account_id"=>$id,"status"=>3])->all();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'requests' => $request,
+            'account' => $this->findModel($id),
         ]);
     }
 
