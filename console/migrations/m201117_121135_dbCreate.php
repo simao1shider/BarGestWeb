@@ -73,20 +73,23 @@ class m201117_121135_dbCreate extends Migration
             'name' => $this->string()->notNull(),
             'price' => $this->decimal(6,2)->notNull(),
             'profit_margin' => $this->integer()->notNull(),
-            'category_id' => $this->integer(),
-            'iva_id' => $this->integer(),
+            'category_id' => $this->integer()->notNull(),
+            'iva_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createTable('products_to_be_paid', [
             'quantity' => $this->integer()->notNull(),
             'request_id' => $this->integer(),
             'product_id' => $this->integer(),
+            'PRIMARY KEY(request_id, product_id)',
         ], $tableOptions);
 
         $this->createTable('products_paid', [
             'quantity' => $this->integer()->notNull(),
             'request_id' => $this->integer(),
             'product_id' => $this->integer(),
+            'PRIMARY KEY(request_id, product_id)',
+
         ], $tableOptions);
 
         $this->createIndex(

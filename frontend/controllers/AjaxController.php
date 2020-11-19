@@ -3,8 +3,10 @@
 namespace frontend\controllers;
 
 
+use Codeception\Module\Yii2;
 use common\models\Category;
 use common\models\Product;
+use Yii;
 use yii\web\Controller;
 
 class AjaxController extends Controller
@@ -18,40 +20,42 @@ class AjaxController extends Controller
 
     public function actionGet_products()
     {
-        $model = Category::findOne($_POST["categoryId"]);
-        return $this->renderAjax('products', ["products" => $model->products]);
+        $categoryId=Yii::$app->request->post("categoryId");
+        $model = Category::findOne($categoryId);
+        return $this->renderAjax('../request/components/products', ["category" => $model]);
     }
 
     public function actionShow_products()
     {
         if (isset($_SESSION["Addproducts"])) {
-            return $this->renderAjax('ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
+            return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
         } else {
-            return $this->renderAjax('ListOfProducts');
+            return $this->renderAjax('../request/components/ListOfProducts');
         }
     }
 
     public function actionAdd_product()
     {
-        $product = Product::findOne($_POST["id"])->toArray();
+        $productId=Yii::$app->request->post("id");
+        $product = Product::find()->where(['id'=>$productId])->one()->toArray();
         $product["quantity"] = 1;
 
         if (!isset($_SESSION["Addproducts"])) {
-            $addProducts = array($_POST["id"] => $product);
+            $addProducts = array($productId => $product);
         } else {
             $addProducts = $_SESSION["Addproducts"];
-            if (empty($addProducts[$_POST["id"]])) {
-                $addProducts[$_POST["id"]] = $product;
+            if (empty($addProducts[$productId])) {
+                $addProducts[$productId] = $product;
             } else {
-                $addProducts[$_POST["id"]]["quantity"] += 1;
+                $addProducts[$productId]["quantity"] += 1;
             }
         }
-        if (isset($_SESSION["Deleteproducts"][$_POST["id"]])) {
-            unset($_SESSION["Deleteproducts"][$_POST["id"]]);
+        if (isset($_SESSION["Deleteproducts"][$productId])) {
+            unset($_SESSION["Deleteproducts"][$productId]);
         }
         $_SESSION["Addproducts"] = $addProducts;
         //unset( $_SESSION["Addproducts"]);
-        return $this->renderAjax('ListOfProducts', ["products" => $addProducts]);
+        return $this->renderAjax('../request/components/ListOfProducts', ["products" => $addProducts]);
     }
 
     public function actionAdd_product_quantity()
@@ -59,7 +63,7 @@ class AjaxController extends Controller
         $product = $_SESSION["Addproducts"][$_POST["id"]];
         $product["quantity"] += 1;
         $_SESSION["Addproducts"][$_POST["id"]] = $product;
-        return $this->renderAjax('ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
+        return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
     }
     public function actionRemove_product_quantity()
     {
@@ -71,6 +75,6 @@ class AjaxController extends Controller
         } else {
             $_SESSION["Addproducts"][$_POST["id"]] = $product;
         }
-        return $this->renderAjax('ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
+        return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
     }
 }

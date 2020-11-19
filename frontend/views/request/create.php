@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Request */
@@ -9,26 +10,46 @@ use yii\helpers\Url;
 $this->title = 'Criar Pedido';
 ?>
 <div class="request-create">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?>
+        <?php
+        if(isset($_GET["account"])){
+            echo "<br>Conta:".$model->name."(".$model->id.")";
+        }
+        ?>
+    </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/index.php?r=table%2Findex">Pedidos</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
-    <div class="text-right">
-        <?php if(isset($_GET["tableId"]))
-            {
-                ?>
-        <button class="btn btn-success" onclick="window.location.href='<?=Url::to(["request/postcreate","Table"=>$_GET["tableId"]])?>'">Finalizar pedido</button>
-        <?php
+    <div>
+        <?php $form = ActiveForm::begin([
+            'method' => 'post',
+            'action' => ['request/postcreate'],
+            'options' => [
+                    'class' => 'form-row',
+		            'enctype' => 'multipart/form-data']
+            ]);
+        ?>
+        <div class="col-9">
+            <?php
+            if(isset($_GET["tableId"])) {
+                echo $form->field($model, 'name')->textInput(['placeholder' => $model->getAttributeLabel('name')])->label(false);
+                echo $form->field($model, 'table_id')->hiddenInput()->label(false);
             }
-            if(isset($_GET["bill"])){
-                ?>
-                <button class="btn btn-success" onclick="window.location.href='<?=Url::to(["request/postcreate","bill"=>$_GET["bill"]])?>'">Finalizar pedido</button>
-                <?php
+            if(isset($_GET["account"])){
+                echo $form->field($model, 'id')->hiddenInput()->label(false);
             }
             ?>
+        </div>
+        <div class="form-group text-right col-3">
+            <?= Html::submitButton('Finalizar pedido', ['class' => 'btn btn-success',]) ?>
+        </div>
+
+        <?php
+        ActiveForm::end(); ?>
+
     </div>
     
     <div class="row mt-5">
