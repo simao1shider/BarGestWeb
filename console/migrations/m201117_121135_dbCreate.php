@@ -101,7 +101,7 @@ class m201117_121135_dbCreate extends Migration
 
         // add foreign key for table `table`
         $this->addForeignKey(
-            'fk-account-author_id',
+            'fk-account-table_id',
             'account',
             'table_id',
             'table',
