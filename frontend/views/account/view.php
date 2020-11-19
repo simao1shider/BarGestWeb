@@ -92,6 +92,7 @@ $this->title = "Conta ".$account->name;
         </div>
     </div>
     <?php
+    //TODO:Fazer em ajax
     Modal::begin([
             'title' => 'Editar Produto',
             'id'=>'editProduct',
