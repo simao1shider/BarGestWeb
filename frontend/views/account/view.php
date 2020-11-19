@@ -1,8 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-
+use \yii\bootstrap4\Modal;
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
 
@@ -63,7 +62,7 @@ $this->title = "Conta ".$account->name;
                                     <span class="mt-2"><?=$productList->product->price?></span>
                                 </div>
                                 <div class="col-1 text-center">
-                                    <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
+                                    <a href="#" class="mr-5" data-toggle="modal" data-target="#editProduct"><i class="fa fa-2x fa-pencil"></i></a>
                                 </div>
                             </div>
                         </span>
@@ -74,7 +73,7 @@ $this->title = "Conta ".$account->name;
         </div>
         <div class="row mt-4">
             <div class="col-6">
-                <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" class="btn" data-toggle="modal" data-target="payment">
                     <?= Html::img('@web/img/receiptColor.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
                 <a name="" id="" class="btn" href="/index.php?r=bill%2Fsplit&id=2" role="button">
@@ -92,26 +91,44 @@ $this->title = "Conta ".$account->name;
             ?>
         </div>
     </div>
-    <!--<div class="modal fade show" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style="padding-right: 17px; display: block;">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Pagamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                      <label for="">Pretende inserir número de contribuinte?</label>
-                      <input type="number" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-                      <small id="helpId" class="form-text text-muted">Não é obrigatório!</small>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Pagar</button>
-                </div>
-            </div>
+    <?php
+    Modal::begin([
+            'title' => 'Editar Produto',
+            'id'=>'editProduct',
+            'size'=>'modal-lg',
+    ])
+    ?>
+    <div class="modal-body">
+        <div class="d-flex justify-content-center">
+            <a href="#"  class="m-2"><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
+            <h4 class="m-3">4</h4>
+            <a href="#"  class="m-2"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top', 'style' => 'width: 40px']) ?></a>
         </div>
-    </div>-->
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Alterar</button>
+    </div>
+    <?php
+    Modal::end();
+    ?>
+    <?php
+    Modal::begin([
+            'title' => 'Editar Produto',
+            'id'=>'payment',
+            'size'=>'modal-lg',
+    ])
+    ?>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="">Pretende inserir número de contribuinte?</label>
+            <input type="number" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+            <small id="helpId" class="form-text text-muted">Não é obrigatório!</small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Pagar</button>
+    </div>
+    <?php
+    Modal::end();
+    ?>
 </div>
