@@ -27,6 +27,9 @@ $this->title = 'Pedidos';
         </div>
         <div class="list-group">
             <?php
+            if(empty($model)){
+                echo '<h3 class="text-center">Não tem pedidos neste momento</h3>';
+            }
             foreach ($model as $request){
                 switch ($request->status){
                     case 2:
