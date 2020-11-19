@@ -10,10 +10,11 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property string $dateTime
+ * @property int $nif
  * @property int $status
  * @property int $total
- * @property int $table_id
- * @property int $cashier_id
+ * @property int|null $table_id
+ * @property int|null $cashier_id
  *
  * @property Table $table
  * @property Cashier $cashier
@@ -35,9 +36,9 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'dateTime', 'status', 'total'], 'required'],
+            [['name', 'dateTime', 'nif', 'status', 'total'], 'required'],
             [['dateTime'], 'safe'],
-            [['status', 'total', 'table_id', 'cashier_id'], 'integer'],
+            [['nif', 'status', 'total', 'table_id', 'cashier_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['table_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['table_id' => 'id']],
             [['cashier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashier::className(), 'targetAttribute' => ['cashier_id' => 'id']],
@@ -51,8 +52,9 @@ class Account extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Nome da conta',
+            'name' => 'Name',
             'dateTime' => 'Date Time',
+            'nif' => 'Nif',
             'status' => 'Status',
             'total' => 'Total',
             'table_id' => 'Table ID',

@@ -44,6 +44,7 @@ class m201117_121135_dbCreate extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'dateTime' => $this->dateTime()->notNull(),
+            'nif' => $this->integer()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
             'total' => $this->integer()->notNull(),
             'table_id' => $this->integer(),

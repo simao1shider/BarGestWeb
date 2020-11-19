@@ -14,10 +14,11 @@ use Yii;
  * @property int|null $employee_id
  *
  * @property ProductsPaid[] $productsPas
+ * @property Product[] $products
  * @property ProductsToBePaid[] $productsToBePas
+ * @property Product[] $products0
  * @property Account $account
  * @property Employee $employee
- * @property Product[] $products
  */
 class Request extends \yii\db\ActiveRecord
 {
@@ -68,6 +69,16 @@ class Request extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Products]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('products_paid', ['request_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[ProductsToBePas]].
      *
      * @return \yii\db\ActiveQuery
@@ -75,6 +86,16 @@ class Request extends \yii\db\ActiveRecord
     public function getProductsToBePas()
     {
         return $this->hasMany(ProductsToBePaid::className(), ['request_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Products0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts0()
+    {
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('products_to_be_paid', ['request_id' => 'id']);
     }
 
     /**
@@ -95,9 +116,5 @@ class Request extends \yii\db\ActiveRecord
     public function getEmployee()
     {
         return $this->hasOne(Employee::className(), ['id' => 'employee_id']);
-    }
-
-    public function getProducts(){
-        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('products_to_be_paid', ['Request_id' => 'id']);
     }
 }
