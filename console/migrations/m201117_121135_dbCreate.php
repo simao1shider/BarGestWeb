@@ -44,6 +44,7 @@ class m201117_121135_dbCreate extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'dateTime' => $this->dateTime()->notNull(),
+            'nif' => $this->integer()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
             'total' => $this->integer()->notNull(),
             'table_id' => $this->integer(),
@@ -81,16 +82,16 @@ class m201117_121135_dbCreate extends Migration
             'quantity' => $this->integer()->notNull(),
             'request_id' => $this->integer(),
             'product_id' => $this->integer(),
-            'PRIMARY KEY(request_id, product_id)',
         ], $tableOptions);
 
         $this->createTable('products_paid', [
             'quantity' => $this->integer()->notNull(),
             'request_id' => $this->integer(),
             'product_id' => $this->integer(),
-            'PRIMARY KEY(request_id, product_id)',
-
         ], $tableOptions);
+
+        $this->addPrimaryKey('products_to_be_paid_pk', 'products_to_be_paid', ['request_id', 'product_id']);
+        $this->addPrimaryKey('products_paid_pk', 'products_paid', ['request_id', 'product_id']);
 
         $this->createIndex(
             'idx-account-table_id',
@@ -100,7 +101,7 @@ class m201117_121135_dbCreate extends Migration
 
         // add foreign key for table `table`
         $this->addForeignKey(
-            'fk-account-author_id',
+            'fk-account-table_id',
             'account',
             'table_id',
             'table',

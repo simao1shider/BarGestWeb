@@ -30,8 +30,7 @@ class Table extends \yii\db\ActiveRecord
     {
         return [
             [['number', 'status'], 'required'],
-            [['number'], 'integer'],
-            [['status'],'boolean'],
+            [['number', 'status'], 'integer'],
         ];
     }
 

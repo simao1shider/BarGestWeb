@@ -62,6 +62,7 @@ AppAsset::register($this);
                 'itemTemplate' => "\n\t<li class=\"breadcrumb-item\"><i>{link}</i></li>\n",
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
