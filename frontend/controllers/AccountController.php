@@ -29,9 +29,16 @@ class AccountController extends \yii\web\Controller
 
     public function actionView($id){
 
-        $request=Request::find()->where(["account_id"=>$id,"status"=>3])->all();
+        $products=ProductsToBePaid::find()
+            ->select(["name", "price", "sum(quantity) as quantity"])
+            ->innerJoin("request",'request_id=id')
+            ->innerJoin("product","product_id=product.id")
+            ->where(["account_id"=>$id,"status"=>3])
+            ->groupBy("product_id")
+            ->createCommand()->queryAll();
+
         return $this->render('view', [
-            'requests' => $request,
+            'products' => $products,
             'account' => $this->findModel($id),
         ]);
     }

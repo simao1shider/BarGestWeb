@@ -104,4 +104,16 @@ class AjaxController extends Controller
        return json_encode(array("quantity"=>$product->quantity,"total"=>$account->total));
     }
 
+    public function actionAccount_load_products()
+    {
+
+       $product=ProductsToBePaid::find()->where(['request_id'=>$post['request_id'],'product_id'=>$post["product_id"]])->one();
+       $product->quantity-=1;
+       $product->save();
+       $account=$product->request->account;
+       $account->total-=$product->product->price;
+       $account->save();
+       return json_encode(array("quantity"=>$product->quantity,"total"=>$account->total));
+    }
+
 }
