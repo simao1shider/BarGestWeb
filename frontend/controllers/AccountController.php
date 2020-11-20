@@ -31,14 +31,14 @@ class AccountController extends \yii\web\Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-
+                
         if ($model->load(Yii::$app->request->post())) {
             //Caso não indique o nif
             if ($model->nif == 0) {
                 $model->nif = 999999990;
             } else {
                 //Valida se o nif está correto
-                if(!$model->validateNIF($model->nif)){
+                if (!$model->validateNIF($model->nif)) {
                     return $this->redirect(['error']);
                 }
             }
@@ -60,8 +60,17 @@ class AccountController extends \yii\web\Controller
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $productsToBePaid = ProductsToBePaid::find()
+                ->select(["name", "price", "sum(quantity) as quantity"])
+                ->innerJoin("request", 'request_id=id')
+                ->innerJoin("product", "product_id=product.id")
+                ->where(["account_id" => $id, "status" => 3])
+                ->groupBy("product_id")
+                ->createCommand()->queryAll();
+                
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'account' => $this->findModel($id),
+                'productsToBePaid' => $productsToBePaid,
             ]);
         }
     }
@@ -82,6 +91,4 @@ class AccountController extends \yii\web\Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-   
 }

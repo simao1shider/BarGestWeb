@@ -2,18 +2,17 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
-/* @var $model app\models\Bill */
+/* @var $account app\models\Bill */
 
-$this->title = "Conta";
+$this->title = "Conta " . $account->name;
 ?>
 <div class="bill-view">
 
     <h1><?= Html::img('@web/img/Icons/Color/bill.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <p class="text-right">
-        <?= Html::a('Apagar', ['delete', 'id' => $model->id], [
+        <?= Html::a('Apagar', ['delete', 'id' => $account->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Tem a certeza que pretende apagar esta conta?',
@@ -25,52 +24,63 @@ $this->title = "Conta";
     <div class="mt-5 container">
         <div class="row mb-3 ml-1">
             <div class="col-4"><?= Html::img('@web/img/Icons/Color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-3"><?= Html::img('@web/img/Icons/Color/sorting.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
+            <div class="col-3"><?= Html::img('@web/img/Icons/Color/sorting.png', ['class' => 'align-top ml-4', 'style' => 'width: 45px']) ?></div>
             <div class="col-4"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-1"></div>
         </div>
-        <div class="list-group">
+        <div class="list-group" id="listProductsAccount">
             <?php
-            foreach ($model->requests as $request) {
-                foreach ($request->productsToBePas as $productList) {
+            if (!empty($account->requests[0]->productsToBePas)) {
+                foreach ($account->requests as $request) {
+                    foreach ($request->productsToBePas as $productList) {
             ?>
-                    <span class="list-group-item list-group-item-action list-group-item-secondary">
-                        <div class="row">
-                            <div class="col-4 h3">
-                                <span class="h3 mt-2" id="idMesa"><?= $productList->product->name ?></span>
+                        <span class="list-group-item list-group-item-action list-group-item-secondary">
+                            <div class="row">
+                                <div class="col-4 h3">
+                                    <span class="h3 mt-2" id="idMesa"><?= $productList->product->name ?></span>
+                                </div>
+                                <div class="col-3 h3">
+                                    <a href="#"><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $productList->quantity ?></span>
+                                    <a href="#"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                                </div>
+                                <div class="col-4 h3">
+                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $productList->product->price ?> €</span>
+                                </div>
+                                <div class="col-1 text-center">
+                                    <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                                </div>
                             </div>
-                            <div class="col-3 h3">
-                                <span class="mt-2"><?= $productList->quantity ?></span>
-                            </div>
-                            <div class="col-4 h3">
-                                <span class="mt-2"><?= $productList->product->price ?> €</span>
-                            </div>
-                            <div class="col-1 text-center">
-                                <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
-                            </div>
-                        </div>
-                    </span>
+                        </span>
             <?php
+                    }
                 }
+            } else {
+                echo '<p class="text-center">Não existem registos</p>';
             }
             ?>
-
         </div>
         <div class="row mt-4">
             <div class="col-6">
                 <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" title="Pagar">
                     <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
-                <a href="/account/split?id=<?= $model->id ?>" name="splitPayment" class="btn" role="button" title="Dividir Conta">
+                <a href="/account/split?id=<?= $account->id ?>" name="splitPayment" class="btn" role="button" title="Dividir Conta">
                     <?= Html::img('@web/img/Icons/Color/split.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </a>
             </div>
-            <div class="col-6 text-right">
-                <p class="h4 text-dark mt-4">Total: <span class="h2"><?= $model->total ?> €</span></p>
-            </div>
+            <?php
+            if (!empty($requests)) {
+            ?>
+                <div class="col-6 text-right">
+                    <p class="h4 text-dark mt-4">Total: <span class="h2"><?= $account->total ?> €</span></p>
+                </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalCenter" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle" aria-modal="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body border-bottom text-center">
@@ -82,7 +92,7 @@ $this->title = "Conta";
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="mb-3">Pretende inserir número de contribuinte?</label>
-                        <?= $form->field($model, 'nif')->textInput(['type' => 'number']) ?>
+                        <?= $form->field($account, 'nif')->textInput(['type' => 'number']) ?>
                         <small class="form-text text-muted mt-3">Não é obrigatório!</small>
                     </div>
                 </div>
@@ -94,12 +104,13 @@ $this->title = "Conta";
             </div>
         </div>
     </div>
+</div>
 
-    <?php
-        if(false){
-    ?>
+<?php
+if (false) {
+?>
     <div class="alert-message">
-        <div class="alert alert-danger"  role="alert">
+        <div class="alert alert-danger" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -108,7 +119,6 @@ $this->title = "Conta";
             <p class="mb-0">Número de contribuinte inválido!</p>
         </div>
     </div>
-    <?php
-        }
-    ?>
-</div>
+<?php
+}
+?>

@@ -48,13 +48,13 @@ $this->title = $model->number;
             foreach ($model->accounts as $account){
                 if(isset($_GET['CR'])){
                 ?>
-                    <a href="<?=Url::to(['request/create','CR'=>1,'account'=>$account->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$account->id?></span></a>
+                    <a href="<?=Url::to(['request/create','CR'=>1,'account'=>$account->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2"><?=$account->name?></span></a>
                     <?php
                 }
                 else{
                 ?>
 
-                <a href="<?=Url::to(['account/view','id'=>$account->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2">Conta <?=$account->id?></span></a>
+                <a href="<?=Url::to(['account/view','id'=>$account->id])?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2"><?=$account->name?></span></a>
                 <?php
                 }
             }
