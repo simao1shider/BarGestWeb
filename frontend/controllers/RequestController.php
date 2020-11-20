@@ -94,7 +94,6 @@ class RequestController extends Controller
         $account=Yii::$app->request->post("Account");
         if(isset($_SESSION["Addproducts"]) && count($_SESSION["Addproducts"])>0)
         {
-            print_r($account);
             if(isset($account["table_id"])){
                 $table = Table::findOne($account["table_id"]);
                 $newAccount= new Account();
@@ -112,7 +111,6 @@ class RequestController extends Controller
                 }
             }
             if(isset($account["id"])){
-
                 $account=Account::findOne($account["id"]);
                 $account=$this->addRequest($account,$_SESSION["Addproducts"]);
                 if($account->save()){
@@ -131,7 +129,7 @@ class RequestController extends Controller
                 return $this->redirect(["create","CR"=>1,"account"=>$account["id"]]);
             }
         }
-        return null;
+        return $this->redirect(["index"]);
     }
 
     private function addRequest($account,$addproducts){

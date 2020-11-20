@@ -30,7 +30,7 @@ class AccountController extends \yii\web\Controller
     public function actionView($id){
 
         $products=ProductsToBePaid::find()
-            ->select(["name", "price", "sum(quantity) as quantity"])
+            ->select(["name", "price", "sum(quantity) as quantity", "request_id","product_id"])
             ->innerJoin("request",'request_id=id')
             ->innerJoin("product","product_id=product.id")
             ->where(["account_id"=>$id,"status"=>3])

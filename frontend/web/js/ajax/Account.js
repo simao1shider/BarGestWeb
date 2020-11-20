@@ -1,26 +1,31 @@
 'use strict';
 
-function accountAddQuantity(request_id,product_id){
+function accountAddQuantity(account_id,product_id){
     $.ajax({
         url: "../ajax/account_add_quantity",
         method: "post",
-        data: {'request_id':request_id,'product_id':product_id},
+        data: {'account_id':account_id,'product_id':product_id},
     }).done(function (msg){
         msg=jQuery.parseJSON(msg);
-        $("#accountProductQuantity").html(msg["quantity"]);
+        $("#accountProductQuantity_"+product_id).html(msg["quantity"]);
         $("#accountTotal").html(msg.total);
     });
 }
 
-function accountRemoveQuantity(request_id,product_id){
+function accountRemoveQuantity(account_id,product_id){
     $.ajax({
         url: "../ajax/account_remove_quantity",
         method: "post",
-        data: {'request_id':request_id,'product_id':product_id},
+        data: {'account_id':account_id,'product_id':product_id},
     }).done(function (msg){
         msg=jQuery.parseJSON(msg);
-        $("#accountProductQuantity").html(msg["quantity"]);
-        $("#accountTotal").html(msg.total);
+        if(msg["quantity"]==0){
+            $("#product_"+product_id).remove();
+        }
+        else{
+            $("#accountProductQuantity_"+product_id).html(msg["quantity"]);
+        }
+        $("#accountTotal").html(msg["total"]);
     });
 }
 
