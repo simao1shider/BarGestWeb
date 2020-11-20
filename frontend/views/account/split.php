@@ -2,15 +2,14 @@
 
 use yii\helpers\Html;
 
-$this->title = $model->name;
+$this->title = "Pagamento Parcial";
 ?>
 <div class="split-view">
 
     <h1><?= Html::img('@web/img/icons/color/bill.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <div class="mt-5 container">
-
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-6">
                 <div class="row">
                     <div class="col-6"><?= Html::img('@web/img/icons/color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
@@ -27,7 +26,6 @@ $this->title = $model->name;
                     <div class="col-3"><?= Html::img('@web/img/icons/color/pricing.png', ['class' => 'align-top mr-4', 'style' => 'width: 45px']) ?></div>
                 </div>
             </div>
-
         </div>
         <div class="row">
             <div class="col-6">
