@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Request;
 use Yii;
 use common\models\Account;
 use common\models\ProductsPaid;
@@ -31,7 +32,7 @@ class AccountController extends \yii\web\Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-                
+        //TODO:p pagamento numa finção a parte
         if ($model->load(Yii::$app->request->post())) {
             //Caso não indique o nif
             if ($model->nif == 0) {
@@ -76,6 +77,24 @@ class AccountController extends \yii\web\Controller
         }
     }
 
+    public function actionDelete($id){
+        $account=Account::findOne($id);
+        foreach ($account->requests as $request){
+            foreach ($request->productsToBePas as $product){
+                $product->delete();
+            }
+            $request->delete();
+        }
+
+        $table=$account->table;
+        if(count($table->accounts)==0){
+            $table->status=false;
+            $table->save();
+        }
+        $account->delete();
+        $this->redirect(["table/index"]);
+    }
+
     public function actionSplit($id)
     {
 
@@ -83,6 +102,45 @@ class AccountController extends \yii\web\Controller
             'model' => $this->findModel($id),
         ]);
     }
+
+    public function actionDelete_product($request_id,$product_id){
+        $request = Request::findOne($request_id);
+        $account=$request->account;
+        $product=ProductsToBePaid::find()->where(["request_id"=>$request_id,"product_id"=>$product_id])->one();
+        $product->delete();
+        $price=$product->quantity*$product->product->price;
+        $account->total-=$price;
+        $account->save();
+        if(count($request->productsToBePas)<=0){
+            $request->delete();
+            if(count($account->requests)<=0){
+                $table=$account->table;
+                $account->delete();
+                $existAccount=Account::find()->where(["table_id"=>$table->id,"status"=>0]);;
+                if(!$existAccount->exists()){
+                    $table->status=false;
+                    $table->save();
+                }
+                return $this->redirect(["table/index"]);
+            }
+            else{
+                return $this->redirect(["view","id"=>$account->id]);
+            }
+        }
+        if(count($account->requests)<=0){
+            $table=$account->table;
+            $account->delete();
+            $existAccount=Account::find()->where(["table_id"=>$table->id,"status"=>0])->all();
+            if(empty($existAccount)){
+                $table->status=false;
+                $table->save();
+            }
+            return $this->redirect(["table/index"]);
+        }
+        return $this->redirect(["account/view",'id'=>$account->id]);
+    }
+
+
 
     protected function findModel($id)
     {

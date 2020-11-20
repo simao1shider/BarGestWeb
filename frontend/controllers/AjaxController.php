@@ -127,6 +127,14 @@ class AjaxController extends Controller
        }
        if(count($request->productsToBePas)==0){
            $product->request->delete();
+           if(count($account->requests)==0){
+               $table= $account->table;
+               $account->delete();
+               if(count($table->accounts)==0){
+                   $table->status=false;
+                   $table->save();
+               }
+           }
        }
        return json_encode(array("quantity"=>$quantity["quantity"],"total"=>$account->total));
     }

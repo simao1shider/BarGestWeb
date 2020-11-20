@@ -49,7 +49,7 @@ $this->title = "Conta " . $account->name;
                                     <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] ?> €</span>
                                 </div>
                                 <div class="col-1 text-center">
-                                    <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                                    <a href="<?=\yii\helpers\Url::to(["account/delete_product","request_id"=>$product["request_id"],"product_id"=>$product["product_id"]]) ?>" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
                                 </div>
                             </div>
                         </span>
@@ -70,7 +70,7 @@ $this->title = "Conta " . $account->name;
             if(!empty($products)){
             ?>
                 <div class="col-6 text-right">
-                    <p class="h4 text-dark mt-4">Total: <span class="h2"><?= $account->total ?> €</span></p>
+                    <p class="h4 text-dark mt-4" >Total: <span class="h2"><span id="accountTotal"><?= $account->total ?> </span>€</span></p>
                 </div>
             <?php
             }
