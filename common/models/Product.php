@@ -17,7 +17,9 @@ use Yii;
  * @property Category $category
  * @property Iva $iva
  * @property ProductsPaid[] $productsPas
+ * @property Request[] $requests
  * @property ProductsToBePaid[] $productsToBePas
+ * @property Request[] $requests0
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -35,7 +37,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'profit_margin','category_id','iva_id'], 'required'],
+            [['name', 'price', 'profit_margin', 'category_id', 'iva_id'], 'required'],
             [['price'], 'number'],
             [['profit_margin', 'category_id', 'iva_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
@@ -90,6 +92,16 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Requests]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequests()
+    {
+        return $this->hasMany(Request::className(), ['id' => 'request_id'])->viaTable('products_paid', ['product_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[ProductsToBePas]].
      *
      * @return \yii\db\ActiveQuery
@@ -97,5 +109,15 @@ class Product extends \yii\db\ActiveRecord
     public function getProductsToBePas()
     {
         return $this->hasMany(ProductsToBePaid::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Requests0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequests0()
+    {
+        return $this->hasMany(Request::className(), ['id' => 'request_id'])->viaTable('products_to_be_paid', ['product_id' => 'id']);
     }
 }

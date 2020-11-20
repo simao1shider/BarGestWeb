@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "products_paid".
  *
  * @property int $quantity
- * @property int|null $request_id
- * @property int|null $product_id
+ * @property int $request_id
+ * @property int $product_id
  *
  * @property Product $product
  * @property Request $request
@@ -30,8 +30,9 @@ class ProductsPaid extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quantity'], 'required'],
+            [['quantity', 'request_id', 'product_id'], 'required'],
             [['quantity', 'request_id', 'product_id'], 'integer'],
+            [['request_id', 'product_id'], 'unique', 'targetAttribute' => ['request_id', 'product_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['request_id'], 'exist', 'skipOnError' => true, 'targetClass' => Request::className(), 'targetAttribute' => ['request_id' => 'id']],
         ];

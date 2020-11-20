@@ -1,15 +1,16 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
 
-$this->title = "Contas";
+$this->title = "Conta";
 ?>
 <div class="bill-view">
 
-    <h1><?= Html::img('@web/img/billColor.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/bill.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <p class="text-right">
         <?= Html::a('Apagar', ['delete', 'id' => $model->id], [
@@ -42,7 +43,7 @@ $this->title = "Contas";
                                 <span class="mt-2"><?= $productList->quantity ?></span>
                             </div>
                             <div class="col-4 h3">
-                                <span class="mt-2"><?= $productList->product->price ?></span>
+                                <span class="mt-2"><?= $productList->product->price ?> €</span>
                             </div>
                             <div class="col-1 text-center">
                                 <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-2x fa-pencil"></i></a>
@@ -57,38 +58,57 @@ $this->title = "Contas";
         </div>
         <div class="row mt-4">
             <div class="col-6">
-                <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+                <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" title="Pagar">
                     <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
-                <a name="" id="" class="btn" href="/index.php?r=bill%2Fsplit&id=2" role="button">
+                <a href="/account/split?id=<?= $model->id ?>" name="splitPayment" class="btn" role="button" title="Dividir Conta">
                     <?= Html::img('@web/img/Icons/Color/split.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </a>
             </div>
             <div class="col-6 text-right">
-                <p class="h4 text-dark mt-4">Total: <span class="h2"><?= $model->total ?></span></p>
+                <p class="h4 text-dark mt-4">Total: <span class="h2"><?= $model->total ?> €</span></p>
             </div>
         </div>
     </div>
-    <!--<div class="modal fade show" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog" style="padding-right: 17px; display: block;">
+    <div class="modal fade" id="exampleModalCenter" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Pagamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                <div class="modal-body border-bottom text-center">
+                    <h4 class="">Pagamento</h4>
                 </div>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'login-form',
+                ]) ?>
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="">Pretende inserir número de contribuinte?</label>
-                      <input type="number" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-                      <small id="helpId" class="form-text text-muted">Não é obrigatório!</small>
+                        <label class="mb-3">Pretende inserir número de contribuinte?</label>
+                        <?= $form->field($model, 'nif')->textInput(['type' => 'number']) ?>
+                        <small class="form-text text-muted mt-3">Não é obrigatório!</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Pagar</button>
+                    <button type="button" class="btn btn-secondary" class="close" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    <?= Html::submitButton('Pagar', ['class' => 'btn btn-primary', 'name' => 'teste']) ?>
                 </div>
+                <?php ActiveForm::end() ?>
             </div>
         </div>
-    </div>-->
+    </div>
+
+    <?php
+        if(false){
+    ?>
+    <div class="alert-message">
+        <div class="alert alert-danger"  role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading"><i class="fa fa-exclamation-triangle"></i> Erro!</h4>
+            <hr>
+            <p class="mb-0">Número de contribuinte inválido!</p>
+        </div>
+    </div>
+    <?php
+        }
+    ?>
 </div>
