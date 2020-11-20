@@ -38,7 +38,7 @@ $this->title = "Conta " . $account->name;
                         <span class="list-group-item list-group-item-action list-group-item-secondary" id="product_<?=$product["product_id"]?>">
                             <div class="row">
                                 <div class="col-4 h3">
-                                    <span class="h3 mt-2" id="idMesa"><?= $productList->product->name ?></span>
+                                    <span class="h3 mt-2" id="idMesa"><?= $product["name"] ?></span>
                                 </div>
                                 <div class="col-3 h3">
                                      <a href="#"  onclick="accountAddQuantity(<?=$account->id?>,<?=$product["product_id"]?>)" ><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
@@ -46,7 +46,7 @@ $this->title = "Conta " . $account->name;
                                      <a href="#" onclick="accountRemoveQuantity(<?=$account->id?>,<?=$product["product_id"]?>)" ><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
                                 </div>
                                 <div class="col-4 h3">
-                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $productList->product->price ?> €</span>
+                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] ?> €</span>
                                 </div>
                                 <div class="col-1 text-center">
                                     <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
@@ -55,10 +55,6 @@ $this->title = "Conta " . $account->name;
                         </span>
             <?php
                     }
-                }
-            } else {
-                echo '<p class="text-center">Não existem registos</p>';
-            }
             ?>
         </div>
         <div class="row mt-4">

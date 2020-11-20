@@ -38,13 +38,3 @@ function loadAccountProducts(request_id){
         $("#listofProducs_"+request_id).html(msg);
     });
 }
-
-$("#listofProducs").onload(function (){
-    $.ajax({
-        url: "../ajax/account_load_products",
-        method: "post",
-        data: {'request_id':request_id,'product_id':product_id},
-    }).done(function (msg){
-        $("#listofProducs").html(msg);
-    });
-});

@@ -100,6 +100,7 @@ class RequestController extends Controller
                 $newAccount->load(Yii::$app->request->post());
                 $newAccount->dateTime=date("Y-m-d H:i:s");
                 $newAccount->total=0;
+                $newAccount->nif=0;
                 $newAccount->status=0;
                 $newAccount->save();
                 $table->status=true;

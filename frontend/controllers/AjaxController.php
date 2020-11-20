@@ -125,7 +125,7 @@ class AjaxController extends Controller
        if($product->quantity==0){
            $product->delete();
        }
-       if(count($request->products)==0){
+       if(count($request->productsToBePas)==0){
            $product->request->delete();
        }
        return json_encode(array("quantity"=>$quantity["quantity"],"total"=>$account->total));

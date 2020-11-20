@@ -43,13 +43,7 @@ class AccountController extends \yii\web\Controller
                 }
             }
 
-        $products=ProductsToBePaid::find()
-            ->select(["name", "price", "sum(quantity) as quantity", "request_id","product_id"])
-            ->innerJoin("request",'request_id=id')
-            ->innerJoin("product","product_id=product.id")
-            ->where(["account_id"=>$id,"status"=>3])
-            ->groupBy("product_id")
-            ->createCommand()->queryAll();
+
             //Procurar os produtos a serem pagos
             foreach ($model->requests as $request) {
                 foreach ($request->productsToBePas as $productToBePaid) {
@@ -67,17 +61,17 @@ class AccountController extends \yii\web\Controller
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $productsToBePaid = ProductsToBePaid::find()
-                ->select(["name", "price", "sum(quantity) as quantity"])
-                ->innerJoin("request", 'request_id=id')
-                ->innerJoin("product", "product_id=product.id")
-                ->where(["account_id" => $id, "status" => 3])
+            $products=ProductsToBePaid::find()
+                ->select(["name", "price", "sum(quantity) as quantity", "request_id","product_id"])
+                ->innerJoin("request",'request_id=id')
+                ->innerJoin("product","product_id=product.id")
+                ->where(["account_id"=>$id,"status"=>3])
                 ->groupBy("product_id")
                 ->createCommand()->queryAll();
                 
             return $this->render('view', [
                 'account' => $this->findModel($id),
-                'productsToBePaid' => $productsToBePaid,
+                'products' => $products,
             ]);
         }
     }
