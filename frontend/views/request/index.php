@@ -50,7 +50,7 @@ $this->title = 'Pedidos';
                                  <div class="row">
                                     <?=$this->render("components\ListRequests",['request'=>$request])?>
                                      <div class="col-2 text-right">
-                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para concluido"></i></a>
+                                         <a href="<?=Url::to(["request/change_status","prepare"=>$request->id])?>" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para concluido"></i></a>
                                          <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                      </div>
                                 </div>
@@ -63,7 +63,7 @@ $this->title = 'Pedidos';
                                 <div class="row">
                                      <?=$this->render("components\ListRequests",['request'=>$request])?>
                                      <div class="col-2 text-right">
-                                         <a href="/index.php?r=table%2Fview&id=1" class="mr-5"><i class="fa fa-3x fa-lock" title="Bloquear pedido"></i></a>
+                                         <a href="<?=Url::to(["request/change_status","block"=>$request->id])?>" class="mr-5"><i class="fa fa-3x fa-lock" title="Bloquear pedido"></i></a>
                                          <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                      </div>
                                 </div>

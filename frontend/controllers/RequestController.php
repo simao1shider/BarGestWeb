@@ -157,13 +157,7 @@ class RequestController extends Controller
         $account->total=$total;
         return $account;
     }
-    /**
-     * Updates an existing Request model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionUpdate($id)
     {
         unset($_SESSION["Addproducts"]);
@@ -254,6 +248,23 @@ class RequestController extends Controller
             }
         }
         return $this->redirect(['index']);
+    }
+
+
+    public function actionChange_status(){
+        $get=Yii::$app->request->get();
+
+        if(isset($get["block"])){
+            $request=$this->findModel($get["block"]);
+            $request->status=1;
+            $request->save();
+        }
+        if(isset($get["prepare"])){
+            $request=$this->findModel($get["prepare"]);
+            $request->status=2;
+            $request->save();
+        }
+        $this->redirect(["index"]);
     }
 
 
