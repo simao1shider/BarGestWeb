@@ -6,6 +6,7 @@ use Yii;
 use common\models\Account;
 use common\models\ProductsPaid;
 use common\models\ProductsToBePaid;
+use common\models\Request;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
@@ -55,6 +56,7 @@ class AccountController extends \yii\web\Controller
                     //Apagar os produtos do ProductsToBePaid
                     ProductsToBePaid::findOne($productToBePaid->request_id, $productToBePaid->product_id)->delete();
                 }
+                Request::findOne($request->id)->delete();
             }
 
             $model->save();
