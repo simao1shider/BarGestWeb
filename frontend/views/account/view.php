@@ -30,31 +30,31 @@ $this->title = "Conta " . $account->name;
         </div>
         <div class="list-group" id="listProductsAccount">
             <?php
-                if(empty($products)) {
-                    echo '<h3> Não ha produtos prontos para pagamento</h3>';
-                }
-                foreach ($products as $product){
-                        ?>
-                        <span class="list-group-item list-group-item-action list-group-item-secondary" id="product_<?=$product["product_id"]?>">
-                            <div class="row">
-                                <div class="col-4 h3">
-                                    <span class="h3 mt-2" id="idMesa"><?= $product["name"] ?></span>
-                                </div>
-                                <div class="col-3 h3">
-                                     <a href="#"  onclick="accountAddQuantity(<?=$account->id?>,<?=$product["product_id"]?>)" ><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
-                                    <span id="accountProductQuantity_<?=$product["product_id"]?>" class="mt-2 mr-2 ml-2"><?=$product["quantity"]?></span>
-                                     <a href="#" onclick="accountRemoveQuantity(<?=$account->id?>,<?=$product["product_id"]?>)" ><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
-                                </div>
-                                <div class="col-4 h3">
-                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] ?> €</span>
-                                </div>
-                                <div class="col-1 text-center">
-                                    <a href="<?=\yii\helpers\Url::to(["account/delete_product","request_id"=>$product["request_id"],"product_id"=>$product["product_id"]]) ?>" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
-                                </div>
-                            </div>
-                        </span>
+            if (empty($products)) {
+                echo '<h3>Não há produtos prontos para pagamento!</h3>';
+            }
+            foreach ($products as $product) {
+            ?>
+                <span class="list-group-item list-group-item-action list-group-item-secondary" id="product_<?= $product["product_id"] ?>">
+                    <div class="row">
+                        <div class="col-4 h3">
+                            <span class="h3 mt-2" id="idMesa"><?= $product["name"] ?></span>
+                        </div>
+                        <div class="col-3 h3">
+                            <a href="#" onclick="accountAddQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                            <span id="accountProductQuantity_<?= $product["product_id"] ?>" class="mt-2 mr-2 ml-2"><?= $product["quantity"] ?></span>
+                            <a href="#" onclick="accountRemoveQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                        </div>
+                        <div class="col-4 h3">
+                            <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] ?> €</span>
+                        </div>
+                        <div class="col-1 text-center">
+                            <a href="<?= \yii\helpers\Url::to(["account/delete_product", "request_id" => $product["request_id"], "product_id" => $product["product_id"]]) ?>" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                        </div>
+                    </div>
+                </span>
             <?php
-                    }
+            }
             ?>
         </div>
         <div class="row mt-4">
@@ -67,10 +67,10 @@ $this->title = "Conta " . $account->name;
                 </a>
             </div>
             <?php
-            if(!empty($products)){
+            if (!empty($products)) {
             ?>
                 <div class="col-6 text-right">
-                    <p class="h4 text-dark mt-4" >Total: <span class="h2"><span id="accountTotal"><?= $account->total ?> </span>€</span></p>
+                    <p class="h4 text-dark mt-4">Total: <span class="h2"><span id="accountTotal"><?= $account->total ?> </span>€</span></p>
                 </div>
             <?php
             }
