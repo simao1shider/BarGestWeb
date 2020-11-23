@@ -83,37 +83,61 @@ class AjaxController extends Controller
     public function actionAccount_add_quantity()
     {
        $post=Yii::$app->request->post();
-       $product=ProductsToBePaid::find()->where(['request_id'=>$post['request_id'],'product_id'=>$post["product_id"]])->one();
+       $product=ProductsToBePaid::find()
+           ->innerJoin("request","request.id=request_id")
+           ->innerJoin("account","account.id=account_id")
+           ->where(['account_id'=>$post['account_id'],'product_id'=>$post["product_id"]])->one();
        $product->quantity+=1;
        $product->save();
         $account=$product->request->account;
+        $quantity=ProductsToBePaid::find()
+            ->select(["sum(quantity) as quantity"])
+            ->innerJoin("request",'request_id=id')
+            ->innerJoin("product","product_id=product.id")
+            ->where(["account_id"=>$account->id,"status"=>3,"product_id"=>$post["product_id"]])
+            ->groupBy("product_id")
+            ->createCommand()->queryOne();
         $account->total+=$product->product->price;
         $account->save();
-       return json_encode(array("quantity"=>$product->quantity,"total"=>$account->total));
+       return json_encode(array("quantity"=>$quantity["quantity"],"total"=>$account->total));
     }
 
     public function actionAccount_remove_quantity()
     {
        $post=Yii::$app->request->post();
-       $product=ProductsToBePaid::find()->where(['request_id'=>$post['request_id'],'product_id'=>$post["product_id"]])->one();
+       $product=ProductsToBePaid::find()
+            ->innerJoin("request","request.id=request_id")
+            ->innerJoin("account","account.id=account_id")
+            ->where(['account_id'=>$post['account_id'],"request.status"=>3,'product_id'=>$post["product_id"]])->one();
        $product->quantity-=1;
        $product->save();
        $account=$product->request->account;
+       $request=$product->request;
+       $quantity=ProductsToBePaid::find()
+           ->select(["sum(quantity) as quantity"])
+           ->innerJoin("request",'request_id=id')
+           ->innerJoin("product","product_id=product.id")
+           ->where(["account_id"=>$account->id,"status"=>3,"product_id"=>$post["product_id"]])
+           ->groupBy("product_id")
+           ->createCommand()->queryOne();
        $account->total-=$product->product->price;
        $account->save();
-       return json_encode(array("quantity"=>$product->quantity,"total"=>$account->total));
+       if($product->quantity==0){
+           $product->delete();
+       }
+       if(count($request->productsToBePas)==0){
+           $product->request->delete();
+           if(count($account->requests)==0){
+               $table= $account->table;
+               $account->delete();
+               if(count($table->accounts)==0){
+                   $table->status=false;
+                   $table->save();
+               }
+           }
+       }
+       return json_encode(array("quantity"=>$quantity["quantity"],"total"=>$account->total));
     }
 
-    public function actionAccount_load_products()
-    {
-
-       $product=ProductsToBePaid::find()->where(['request_id'=>$post['request_id'],'product_id'=>$post["product_id"]])->one();
-       $product->quantity-=1;
-       $product->save();
-       $account=$product->request->account;
-       $account->total-=$product->product->price;
-       $account->save();
-       return json_encode(array("quantity"=>$product->quantity,"total"=>$account->total));
-    }
 
 }

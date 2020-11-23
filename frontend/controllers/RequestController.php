@@ -94,13 +94,13 @@ class RequestController extends Controller
         $account=Yii::$app->request->post("Account");
         if(isset($_SESSION["Addproducts"]) && count($_SESSION["Addproducts"])>0)
         {
-            print_r($account);
             if(isset($account["table_id"])){
                 $table = Table::findOne($account["table_id"]);
                 $newAccount= new Account();
                 $newAccount->load(Yii::$app->request->post());
                 $newAccount->dateTime=date("Y-m-d H:i:s");
                 $newAccount->total=0;
+                $newAccount->nif=0;
                 $newAccount->status=0;
                 $newAccount->save();
                 $table->status=true;
@@ -112,7 +112,6 @@ class RequestController extends Controller
                 }
             }
             if(isset($account["id"])){
-
                 $account=Account::findOne($account["id"]);
                 $account=$this->addRequest($account,$_SESSION["Addproducts"]);
                 if($account->save()){
@@ -131,7 +130,7 @@ class RequestController extends Controller
                 return $this->redirect(["create","CR"=>1,"account"=>$account["id"]]);
             }
         }
-        return null;
+        return $this->redirect(["index"]);
     }
 
     private function addRequest($account,$addproducts){
@@ -158,13 +157,7 @@ class RequestController extends Controller
         $account->total=$total;
         return $account;
     }
-    /**
-     * Updates an existing Request model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionUpdate($id)
     {
         unset($_SESSION["Addproducts"]);
@@ -255,6 +248,23 @@ class RequestController extends Controller
             }
         }
         return $this->redirect(['index']);
+    }
+
+
+    public function actionChange_status(){
+        $get=Yii::$app->request->get();
+
+        if(isset($get["block"])){
+            $request=$this->findModel($get["block"]);
+            $request->status=1;
+            $request->save();
+        }
+        if(isset($get["prepare"])){
+            $request=$this->findModel($get["prepare"]);
+            $request->status=2;
+            $request->save();
+        }
+        $this->redirect(["index"]);
     }
 
 

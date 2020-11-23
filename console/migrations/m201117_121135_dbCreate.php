@@ -46,7 +46,7 @@ class m201117_121135_dbCreate extends Migration
             'dateTime' => $this->dateTime()->notNull(),
             'nif' => $this->integer()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
-            'total' => $this->integer()->notNull(),
+            'total' => $this->decimal(6,2)->notNull(),
             'table_id' => $this->integer(),
             'cashier_id' => $this->integer(),
         ], $tableOptions);
