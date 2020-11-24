@@ -20,6 +20,11 @@ $this->title = 'Funcionários';
     </p>
 
     <div class="row">
+        <?php
+        foreach ($employees as $employee){
+            
+        }
+        ?>
         <div class="col-md-3">
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
