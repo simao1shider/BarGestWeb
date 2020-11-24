@@ -35,8 +35,8 @@ class EmployeeController extends Controller
      */
     public function actionIndex()
     {
-
         return $this->render('index', [
+            'employees'=>Employee::find()->all(),
         ]);
     }
 
