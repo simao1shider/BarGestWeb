@@ -37,6 +37,7 @@ class CategoryController extends Controller
     {
 
         return $this->render('index', [
+            "categories" => Category::find()->all()
         ]);
     }
 
