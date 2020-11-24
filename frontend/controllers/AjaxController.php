@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 
 use Codeception\Module\Yii2;
+use common\models\Account;
 use common\models\Category;
 use common\models\Product;
 use common\models\ProductsToBePaid;
@@ -21,7 +22,7 @@ class AjaxController extends Controller
 
     public function actionGet_products()
     {
-        $categoryId=Yii::$app->request->post("categoryId");
+        $categoryId = Yii::$app->request->post("categoryId");
         $model = Category::findOne($categoryId);
         return $this->renderAjax('../request/components/products', ["category" => $model]);
     }
@@ -37,8 +38,8 @@ class AjaxController extends Controller
 
     public function actionAdd_product()
     {
-        $productId=Yii::$app->request->post("id");
-        $product = Product::find()->where(['id'=>$productId])->one()->toArray();
+        $productId = Yii::$app->request->post("id");
+        $product = Product::find()->where(['id' => $productId])->one()->toArray();
         $product["quantity"] = 1;
 
         if (!isset($_SESSION["Addproducts"])) {
@@ -66,6 +67,7 @@ class AjaxController extends Controller
         $_SESSION["Addproducts"][$_POST["id"]] = $product;
         return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
     }
+
     public function actionRemove_product_quantity()
     {
         $product = $_SESSION["Addproducts"][$_POST["id"]];
@@ -79,65 +81,69 @@ class AjaxController extends Controller
         return $this->renderAjax('../request/components/ListOfProducts', ["products" => $_SESSION["Addproducts"]]);
     }
 
-
     public function actionAccount_add_quantity()
     {
-       $post=Yii::$app->request->post();
-       $product=ProductsToBePaid::find()
-           ->innerJoin("request","request.id=request_id")
-           ->innerJoin("account","account.id=account_id")
-           ->where(['account_id'=>$post['account_id'],'product_id'=>$post["product_id"]])->one();
-       $product->quantity+=1;
-       $product->save();
-        $account=$product->request->account;
-        $quantity=ProductsToBePaid::find()
+        $post = Yii::$app->request->post();
+        $product = ProductsToBePaid::find()
+            ->innerJoin("request", "request.id=request_id")
+            ->innerJoin("account", "account.id=account_id")
+            ->where(['account_id' => $post['account_id'], 'product_id' => $post["product_id"]])->one();
+        $product->quantity += 1;
+        $product->save();
+        $account = $product->request->account;
+        $quantity = ProductsToBePaid::find()
             ->select(["sum(quantity) as quantity"])
-            ->innerJoin("request",'request_id=id')
-            ->innerJoin("product","product_id=product.id")
-            ->where(["account_id"=>$account->id,"status"=>3,"product_id"=>$post["product_id"]])
+            ->innerJoin("request", 'request_id=id')
+            ->innerJoin("product", "product_id=product.id")
+            ->where(["account_id" => $account->id, "status" => 3, "product_id" => $post["product_id"]])
             ->groupBy("product_id")
             ->createCommand()->queryOne();
-        $account->total+=$product->product->price;
+        $account->total += $product->product->price;
         $account->save();
-       return json_encode(array("quantity"=>$quantity["quantity"],"total"=>$account->total));
+        return json_encode(array("quantity" => $quantity["quantity"], "total" => $account->total));
     }
 
     public function actionAccount_remove_quantity()
     {
-       $post=Yii::$app->request->post();
-       $product=ProductsToBePaid::find()
-            ->innerJoin("request","request.id=request_id")
-            ->innerJoin("account","account.id=account_id")
-            ->where(['account_id'=>$post['account_id'],"request.status"=>3,'product_id'=>$post["product_id"]])->one();
-       $product->quantity-=1;
-       $product->save();
-       $account=$product->request->account;
-       $request=$product->request;
-       $quantity=ProductsToBePaid::find()
-           ->select(["sum(quantity) as quantity"])
-           ->innerJoin("request",'request_id=id')
-           ->innerJoin("product","product_id=product.id")
-           ->where(["account_id"=>$account->id,"status"=>3,"product_id"=>$post["product_id"]])
-           ->groupBy("product_id")
-           ->createCommand()->queryOne();
-       $account->total-=$product->product->price;
-       $account->save();
-       if($product->quantity==0){
-           $product->delete();
-       }
-       if(count($request->productsToBePas)==0){
-           $product->request->delete();
-           if(count($account->requests)==0){
-               $table= $account->table;
-               $account->delete();
-               if(count($table->accounts)==0){
-                   $table->status=false;
-                   $table->save();
-               }
-           }
-       }
-       return json_encode(array("quantity"=>$quantity["quantity"],"total"=>$account->total));
+        $post = Yii::$app->request->post();
+        $product = ProductsToBePaid::find()
+            ->innerJoin("request", "request.id=request_id")
+            ->innerJoin("account", "account.id=account_id")
+            ->where(['account_id' => $post['account_id'], "request.status" => 3, 'product_id' => $post["product_id"]])->one();
+        $product->quantity -= 1;
+        $product->save();
+        $account = $product->request->account;
+        $request = $product->request;
+        $quantity = ProductsToBePaid::find()
+            ->select(["sum(quantity) as quantity"])
+            ->innerJoin("request", 'request_id=id')
+            ->innerJoin("product", "product_id=product.id")
+            ->where(["account_id" => $account->id, "status" => 3, "product_id" => $post["product_id"]])
+            ->groupBy("product_id")
+            ->createCommand()->queryOne();
+        $account->total -= $product->product->price;
+        $account->save();
+        if ($product->quantity == 0) {
+            $product->delete();
+        }
+        if (count($request->productsToBePas) == 0) {
+            $product->request->delete();
+            if (count($account->requests) == 0) {
+                $table = $account->table;
+                $account->delete();
+                if (count($table->accounts) == 0) {
+                    $table->status = false;
+                    $table->save();
+                }
+            }
+        }
+        return json_encode(array("quantity" => $quantity["quantity"], "total" => $account->total));
     }
 
+    public function actionProductsToBePaid(){
+        $post = Yii::$app->request->post();
+        
+        $products = ProductsToBePaid::find()->where('request.account.id' == $post['account_id']);
 
+    }
 }
