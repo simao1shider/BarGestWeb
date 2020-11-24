@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use backend\assets\AppAsset;
 use common\widgets\Alert;
+use \yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -35,32 +36,32 @@ AppAsset::register($this);
 
             <ul class="components">
                 <li class="active">
-                    <a href="/index.php?r=site%2Findex" title="Home">
+                    <a href="<?=Url::to(["site/index"])?>" title="Home">
                         <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=employee%2Findex" title="Funcionários">
+                    <a href="<?=Url::to(["employee/index"])?>" title="Funcionários">
                         <?= Html::img('@web/img/Icons/Blue/people.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=cashier%2Findex" title="Caixas">
+                    <a href="<?=Url::to(["cashier/index"])?>" title="Caixas">
                         <?= Html::img('@web/img/Icons/Blue/register.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=category%2Findex" title="Categorias">
+                    <a href="<?=Url::to(["category/index"])?>" title="Categorias">
                         <?= Html::img('@web/img/Icons/Blue/tags.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=product%2Findex" title="Produtos">
+                    <a href="<?=Url::to(["product/index"])?>" title="Produtos">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=bill%2Findex" title="Vendas">
+                    <a href="<?=Url::to(["bill/index"])?>" title="Vendas">
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
