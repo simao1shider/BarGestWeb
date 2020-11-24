@@ -22,7 +22,9 @@ $this->title = 'Funcionários';
     <div class="row">
         <?php
         foreach ($employees as $employee){
+            ?>
             
+        <?
         }
         ?>
         <div class="col-md-3">
