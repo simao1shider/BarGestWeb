@@ -23,130 +23,23 @@ $this->title = 'Funcionários';
         <?php
         foreach ($employees as $employee){
             ?>
-            
-        <?
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2"><?=$employee->name?></span></h4>
+                        <p class="text-dark m-0">Email: <span class="card-text text-secondary"><?=$employee->email?></span></p>
+                        <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary"><?=$employee->phone?></span></p>
+                        <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary"><?=$employee->birthDate?></span></p>
+                        <div class="btn-group float-right mt-1">
+                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
         }
         ?>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                    <h4><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top mr-2', 'style' => 'width: 40px']) ?><span class="mt-2">Simão Marques</span></h4>
-                    <p class="text-dark m-0">Email: <span class="card-text text-secondary">simao@teste.pt</span></p>
-                    <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary">934234578</span></p>
-                    <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary">24-07-2000</span></p>
-                    <p class="text-dark m-0">Salário: <span class="card-text text-secondary">800€</span></p>
-                    <div class="btn-group float-right mt-1">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
         
     </div>
 
