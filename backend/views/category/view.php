@@ -25,7 +25,7 @@ $this->title = 'Categorias';
         </ol>
     </nav>
     <p>
-        <?= Html::a('Criar <i class="fa fa-plus"></i>', ['product/create'], ['class' => 'btn btn-success float-right']) ?>
+        <?= Html::a('Criar <i class="fa fa-plus"></i>', ['product/create','categoryId'=>$category->id], ['class' => 'btn btn-success float-right']) ?>
     </p>
 
     <div class="mt-5 container">
