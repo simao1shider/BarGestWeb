@@ -26,6 +26,11 @@ $this->title = 'Categorias';
     <div class="mt-5 container">
         <div class="row">
             <?php
+            if(empty($categories)){
+                ?>
+                <h2>Não existem categorias</h2>
+                    <?php
+            }
             foreach ($categories as $category){
                 ?>
                 <div class="col-4 mt-3">

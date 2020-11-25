@@ -1,37 +1,58 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\helpers\Url;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Category */
+/* @var $searchModel app\models\CategorySearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->title = 'Categorias';
 ?>
-<div class="category-view">
+<div class="category-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/grid.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
+    <p style="text-align: end">
+        <?= Html::a('Editar <i class="fa fa-plus"></i>', ['update','id'=>$category->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Eliminar <i class="fa fa-plus"></i>', ['delete'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
+        </ol>
+    </nav>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Criar <i class="fa fa-plus"></i>', ['product/create'], ['class' => 'btn btn-success float-right']) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-        ],
-    ]) ?>
+    <div class="mt-5 container">
+        <div class="row">
+            <?php
+            if(empty($category->products)){
+                ?>
+                <h2>Esta categoria não tem produtos</h2>
+                    <?php
+            }
+            foreach ($category->products as $product){
+                ?>
+                <div class="col-4 mt-3">
+                    <a href="<?=Url::to(["view","id"=>$product->id])?>">
+                        <div class="card shadow-sm text-center pt-2 pb-2">
+                            <div class="card-body">
+                                <h5 class="card-title mt-5 mb-5"><?=$product->name?></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+
+    </div>
+
 
 </div>
