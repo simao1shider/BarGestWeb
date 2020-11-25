@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Category;
 use common\models\Iva;
 use Yii;
 use common\models\Product;
@@ -65,18 +66,27 @@ class ProductController extends Controller
         $model = new Product();
 
         if(isset($_POST["Product"])){
-            $model->category_id=$categoryId;
+            if($categoryId!=null)
+                $model->category_id=$categoryId;
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['index']);
             }
         }
 
-
-
-        return $this->render('create', [
-            'ivas'=>Iva::find()->asArray()->all(),
-            'product' => $model,
-        ]);
+        if($categoryId==null)
+        {
+            return $this->render('create', [
+                'ivas'=>Iva::find()->asArray()->all(),
+                'categories'=>Category::find()->asArray()->all(),
+                'product' => $model,
+            ]);
+        }
+        else{
+            return $this->render('create', [
+                'ivas'=>Iva::find()->asArray()->all(),
+                'product' => $model,
+            ]);
+        }
     }
 
     /**
