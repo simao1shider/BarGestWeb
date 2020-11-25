@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Iva;
 use Yii;
 use common\models\Product;
 use common\models\ProductySearch;
@@ -58,16 +59,22 @@ class ProductController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($categoryId)
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(isset($_POST["Product"])){
+            $model->category_id=$categoryId;
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['index']);
+            }
         }
 
+
+
         return $this->render('create', [
-            'model' => $model,
+            'ivas'=>Iva::find()->asArray()->all(),
+            'product' => $model,
         ]);
     }
 

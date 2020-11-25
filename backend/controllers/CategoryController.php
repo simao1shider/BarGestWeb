@@ -86,7 +86,7 @@ class CategoryController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index', 'id' => $model->id]);
         }
-        
+
         return $this->render('update', [
             'model' => $model,
         ]);
