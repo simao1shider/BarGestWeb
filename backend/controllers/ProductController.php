@@ -38,6 +38,7 @@ class ProductController extends Controller
     {
 
         return $this->render('index', [
+            'products'=>Product::find()->all()
         ]);
     }
 
@@ -59,7 +60,7 @@ class ProductController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($categoryId)
+    public function actionCreate($categoryId=null)
     {
         $model = new Product();
 
