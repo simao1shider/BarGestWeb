@@ -98,14 +98,16 @@ class ProductController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $product = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($product->load(Yii::$app->request->post()) && $product->save()) {
+            return $this->redirect(['view', 'id' => $product->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'product' => $product,
+            'ivas'=>Iva::find()->all(),
+            'categories'=>Category::find()->all()
         ]);
     }
 
