@@ -25,6 +25,7 @@ class m201117_121135_dbCreate extends Migration
             'phone' => $this->integer()->unique(),
             'birthDate' => $this->date(),
             'phone' => $this->integer(),
+            'user_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createTable('table', [
@@ -47,26 +48,28 @@ class m201117_121135_dbCreate extends Migration
             'nif' => $this->integer()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
             'total' => $this->decimal(6,2)->notNull(),
-            'table_id' => $this->integer(),
-            'cashier_id' => $this->integer(),
+            'table_id' => $this->integer()->notNull(),
+            'cashier_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createTable('request', [
             'id' => $this->primaryKey(),
             'dateTime' => $this->dateTime()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
-            'account_id' => $this->integer(),
-            'employee_id' => $this->integer(),
+            'account_id' => $this->integer()->notNull(),
+            'employee_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
+            'status' => $this->tinyInteger()->notNull(),
         ], $tableOptions);
 
         $this->createTable('iva', [
             'id' => $this->primaryKey(),
             'rate' => $this->integer()->unique(),
+            'status' => $this->tinyInteger()->notNull(),
         ], $tableOptions);
 
         $this->createTable('product', [
@@ -75,23 +78,40 @@ class m201117_121135_dbCreate extends Migration
             'price' => $this->decimal(6,2)->notNull(),
             'profit_margin' => $this->integer()->notNull(),
             'category_id' => $this->integer()->notNull(),
+            'status' => $this->tinyInteger()->notNull(),
             'iva_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createTable('products_to_be_paid', [
             'quantity' => $this->integer()->notNull(),
-            'request_id' => $this->integer(),
-            'product_id' => $this->integer(),
+            'request_id' => $this->integer()->notNull(),
+            'product_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->createTable('products_paid', [
             'quantity' => $this->integer()->notNull(),
-            'request_id' => $this->integer(),
-            'product_id' => $this->integer(),
+            'request_id' => $this->integer()->notNull(),
+            'product_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
         $this->addPrimaryKey('products_to_be_paid_pk', 'products_to_be_paid', ['request_id', 'product_id']);
         $this->addPrimaryKey('products_paid_pk', 'products_paid', ['request_id', 'product_id']);
+
+        $this->createIndex(
+            'idx-employee-user_id',
+            'employee',
+            'user_id'
+        );
+
+        // add foreign key for table `table`
+        $this->addForeignKey(
+            'fk-employee-user_id',
+            'employee',
+            'user_id',
+            'user',
+            'id',
+            'CASCADE'
+        );
 
         $this->createIndex(
             'idx-account-table_id',
