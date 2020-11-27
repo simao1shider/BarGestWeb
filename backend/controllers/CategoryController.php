@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Product;
 use Yii;
 use common\models\Category;
 use common\models\CategorySearch;
@@ -51,6 +52,7 @@ class CategoryController extends Controller
     {
         return $this->render('view', [
             'category' => $this->findModel($id),
+            'products' => Product::find()->where(['status'=>true,'category_id'=>$id])->all(),
         ]);
     }
 

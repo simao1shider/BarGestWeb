@@ -39,7 +39,7 @@ class ProductController extends Controller
     {
 
         return $this->render('index', [
-            'products'=>Product::find()->all()
+            'products'=>Product::find()->where(["status"=>true])->all()
         ]);
     }
 
@@ -68,6 +68,7 @@ class ProductController extends Controller
         if(isset($_POST["Product"])){
             if($categoryId!=null)
                 $model->category_id=$categoryId;
+            $model->status=true;
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['index']);
             }
@@ -120,8 +121,9 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $product=$this->findModel($id);
+        $product->status=false;
+        $product->save();
         return $this->redirect(['index']);
     }
 
