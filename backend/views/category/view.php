@@ -31,15 +31,15 @@ $this->title = 'Categorias';
     <div class="mt-5 container">
         <div class="row">
             <?php
-            if(empty($category->products)){
+            if(empty($products)){
                 ?>
                 <h2>Esta categoria não tem produtos</h2>
                     <?php
             }
-            foreach ($category->products as $product){
+            foreach ($products as $product){
                 ?>
                 <div class="col-4 mt-3">
-                    <a href="<?=Url::to(["view","id"=>$product->id])?>">
+                    <a href="<?=Url::to(["product/view","id"=>$product->id])?>">
                         <div class="card shadow-sm text-center pt-2 pb-2">
                             <div class="card-body">
                                 <h5 class="card-title mt-5 mb-5"><?=$product->name?></h5>

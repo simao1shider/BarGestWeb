@@ -11,6 +11,7 @@ use Yii;
  * @property string $name
  * @property float $price
  * @property int $profit_margin
+ * @property boolean $status
  * @property int $category_id
  * @property int $iva_id
  *
@@ -37,8 +38,9 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'profit_margin', 'category_id', 'iva_id'], 'required'],
+            [['name', 'price', 'profit_margin', 'category_id', 'iva_id','status'], 'required'],
             [['price'], 'number'],
+            [['status'], 'boolean'],
             [['profit_margin', 'category_id', 'iva_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
