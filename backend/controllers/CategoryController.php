@@ -64,8 +64,9 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $model = new Category();
-
+        $model->status=true;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['index']);
         }
 
@@ -105,6 +106,10 @@ class CategoryController extends Controller
     {
         $category=$this->findModel(Yii::$app->request->post("id"));
         $category->status=false;
+        foreach ($category->products as $product){
+            $product->status=false;
+            $product->save();
+        }
         $category->save();
         return $this->redirect(['index']);
     }

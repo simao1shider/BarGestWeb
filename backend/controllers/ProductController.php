@@ -77,14 +77,14 @@ class ProductController extends Controller
         if($categoryId==null)
         {
             return $this->render('create', [
-                'ivas'=>Iva::find()->asArray()->all(),
-                'categories'=>Category::find()->asArray()->all(),
+                'ivas'=>Iva::find()->where(["status"=>true])->all(),
+                'categories'=>Category::find()->where(["status"=>true])->all(),
                 'product' => $model,
             ]);
         }
         else{
             return $this->render('create', [
-                'ivas'=>Iva::find()->asArray()->all(),
+                'ivas'=>Iva::find()->where(["status"=>true])->all(),
                 'product' => $model,
             ]);
         }
@@ -106,9 +106,9 @@ class ProductController extends Controller
         }
 
         return $this->render('update', [
-            'product' => $product,
-            'ivas'=>Iva::find()->all(),
-            'categories'=>Category::find()->all()
+            'product' => Product::find()->where(["status"=>true,"id"=>$id])->one(),
+            'ivas'=>Iva::find()->where(["status"=>true])->all(),
+            'categories'=>Category::find()->where(["status"=>true])->all(),
         ]);
     }
 
