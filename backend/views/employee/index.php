@@ -21,6 +21,9 @@ $this->title = 'Funcionários';
 
     <div class="row">
         <?php
+        if(empty($employees)){
+            echo "<h3>Não tem funionarios ativos atualemente</h3>";
+        }
         foreach ($employees as $employee){
             ?>
             <div class="col-md-3">
