@@ -38,6 +38,15 @@ $this->title = 'Categorias';
                         <div class="card shadow-sm text-center pt-2 pb-2">
                             <div class="card-body">
                                 <h5 class="card-title mt-5 mb-5"><?=$category->name?></h5>
+                                <div class="btn-group float-right mt-1">
+                                    <a href="<?=Url::to(["category/update","id"=>$category->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
+                                    <?= Html::a(' <i class="fa fa-trash"></i>', ['delete'], ['class' => 'btn btn-sm btn-outline-danger',
+                                        'data-method' => 'POST',
+                                        'data-params' => [
+                                            'id' => $category->id,
+                                        ],
+                                    ]) ?>
+                                </div>
                             </div>
                         </div>
                     </a>
