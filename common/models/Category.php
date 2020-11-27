@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $name
+ * @property boolean $status
  *
  * @property Product[] $products
  */
@@ -28,9 +29,10 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name','status'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
+            [['status'],'boolean']
         ];
     }
 

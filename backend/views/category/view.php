@@ -16,7 +16,12 @@ $this->title = 'Categorias';
 
     <p style="text-align: end">
         <?= Html::a('Editar <i class="fa fa-plus"></i>', ['update','id'=>$category->id], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Eliminar <i class="fa fa-plus"></i>', ['delete'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Eliminar <i class="fa fa-plus"></i>', ['delete'], ['class' => 'btn btn-success',
+            'data-method' => 'POST',
+            'data-params' => [
+                'id' => $category->id,
+            ],
+        ]) ?>
     </p>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

@@ -38,7 +38,7 @@ class CategoryController extends Controller
     {
 
         return $this->render('index', [
-            "categories" => Category::find()->all()
+            "categories" => Category::find()->where(['status'=>true])->all()
         ]);
     }
 
@@ -101,10 +101,11 @@ class CategoryController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $this->findModel($id)->delete();
-
+        $category=$this->findModel(Yii::$app->request->post("id"));
+        $category->status=false;
+        $category->save();
         return $this->redirect(['index']);
     }
 
