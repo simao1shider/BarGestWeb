@@ -12,7 +12,9 @@ use Yii;
  * @property string $email
  * @property int|null $phone
  * @property string|null $birthDate
+ * @property int $user_id
  *
+ * @property User $user
  * @property Request[] $requests
  */
 class Employee extends \yii\db\ActiveRecord
@@ -31,11 +33,12 @@ class Employee extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'email'], 'required'],
-            [['phone'], 'integer'],
+            [['name', 'email', 'user_id'], 'required'],
+            [['phone', 'user_id'], 'integer'],
             [['birthDate'], 'safe'],
             [['name', 'email'], 'string', 'max' => 255],
             [['email'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -50,7 +53,18 @@ class Employee extends \yii\db\ActiveRecord
             'email' => 'Email',
             'phone' => 'Phone',
             'birthDate' => 'Birth Date',
+            'user_id' => 'User ID',
         ];
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

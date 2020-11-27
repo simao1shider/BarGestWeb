@@ -21,6 +21,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+
+ * @property Employee[] $employees
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -56,6 +58,17 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+
+    /**
+     * Gets query for [[Employees]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployees()
+    {
+        return $this->hasMany(Employee::className(), ['user_id' => 'id']);
     }
 
     /**
