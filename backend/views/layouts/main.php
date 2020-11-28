@@ -61,7 +61,7 @@ AppAsset::register($this);
                     </a>
                 </li>
                 <li>
-                    <a href="<?=Url::to(["bill/index"])?>" title="Vendas">
+                    <a href="<?=Url::to(["sale/index"])?>" title="Vendas">
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
