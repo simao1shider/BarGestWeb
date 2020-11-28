@@ -51,7 +51,7 @@ $this->title = 'Vendas';
                         <span class="mt-2"><?=$account->total?>€</span>
                     </div>
                     <div class="col-2 h3">
-                        <a href="#" class="btn btn-outline-dark"><i class="fa fa-2x fa-eye"></i></a>
+                        <a href="<?=Url::to(["view","id"=>$account->id])?>" class="btn btn-outline-dark"><i class="fa fa-2x fa-eye"></i></a>
                     </div>
                 </div>
             </span>

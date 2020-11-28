@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Account;
+use common\models\ProductsPaid;
 use Yii;
 use common\models\Bill;
 use common\models\BillSearch;
@@ -53,8 +54,27 @@ class SaleController extends Controller
      */
     public function actionView($id)
     {
+        $account = Account::findOne(["id"=>$id,"status"=>Account::STATUS_PAYED]);
+        if(empty($account))
+            return $this->redirect("index");
+
+
+        $productsPaid=ProductsPaid::find()
+            ->innerJoin("request","request_id=request.id")
+            ->where(["account_id"=>$id])
+            ->groupBy("product_id")
+            ->all();
+        foreach ($productsPaid as $product){
+            $product->quantity= ProductsPaid::find()
+                ->innerJoin("request","request_id=request.id")
+                ->where(["account_id"=>$id,"product_id"=>$product->product_id])
+                ->sum("quantity");
+        }
+
+
         return $this->render('view', [
-            'account' => Account::findOne($id),
+            'account' => $account,
+            'products' => $productsPaid,
         ]);
     }
 
