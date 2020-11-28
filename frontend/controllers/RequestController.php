@@ -102,6 +102,7 @@ class RequestController extends Controller
                 $newAccount->total=0;
                 $newAccount->nif=0;
                 $newAccount->status=0;
+                $newAccount->cashier_id=1;
                 $newAccount->save();
                 $table->status=true;
                 $table->save();

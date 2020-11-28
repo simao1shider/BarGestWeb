@@ -22,6 +22,8 @@ use Yii;
  */
 class Account extends \yii\db\ActiveRecord
 {
+    const STATUS_PAYED = true;
+    const STATUS_CURRENT = false;
     /**
      * {@inheritdoc}
      */
@@ -38,7 +40,8 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['name', 'dateTime', 'nif', 'status', 'total'], 'required'],
             [['dateTime'], 'safe'],
-            [['nif', 'status', 'table_id', 'cashier_id'], 'integer'],
+            [['nif', 'table_id', 'cashier_id'], 'integer'],
+            ['status','boolean'],
             ['total','number'],
             [['name'], 'string', 'max' => 255],
             [['table_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['table_id' => 'id']],

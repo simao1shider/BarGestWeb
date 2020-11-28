@@ -1,10 +1,12 @@
 <?php
 
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\BillSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+
+/* @var $accounts common\models\Account */
+
 
 $this->title = 'Vendas';
 ?>
@@ -22,7 +24,9 @@ $this->title = 'Vendas';
         <div class="row">
         <div class="col-md-8"></div>
         <div class="col-md-4">
-            <input type="date" class="form-control" name="date">
+            <?php $form = ActiveForm::begin(); ?>
+                <input type="date" onchange="$(this).closest('form').trigger('submit');" class="form-control" name="date">
+            <?php ActiveForm::end(); ?>
         </div>
         </div>
         
@@ -32,58 +36,28 @@ $this->title = 'Vendas';
             <div class="col-1"></div>
         </div>
         <div class="list-group">
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
+            <?php
+            if(empty($accounts)){
+                echo "<h3>Não existem faturas</h3>";
+            }
+            foreach ($accounts as $account){
+                ?>
+                <span class="list-group-item list-group-item-action list-group-item-secondary">
                 <div class="row">
                     <div class="col-6 h3">
-                        <span class="h3 mt-2" id="idMesa">23:12:24</span>
+                        <span class="h3 mt-2"><?=$account->dateTime?></span>
                     </div>
                     <div class="col-4 h3">
-                        <span class="mt-2">5.99€</span>
+                        <span class="mt-2"><?=$account->total?>€</span>
                     </div>
                     <div class="col-2 h3">
                         <a href="#" class="btn btn-outline-dark"><i class="fa fa-2x fa-eye"></i></a>
                     </div>
                 </div>
             </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-6 h3">
-                        <span class="h3 mt-2" id="idMesa">23:12:24</span>
-                    </div>
-                    <div class="col-4 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class="btn btn-outline-dark"><i class="fa fa-2x fa-eye"></i></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-6 h3">
-                        <span class="h3 mt-2" id="idMesa">23:12:24</span>
-                    </div>
-                    <div class="col-4 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class="btn btn-outline-dark"><i class="fa fa-2x fa-eye"></i></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-6 h3">
-                        <span class="h3 mt-2" id="idMesa">23:12:24</span>
-                    </div>
-                    <div class="col-4 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class="btn btn-outline-dark"><i class="fa fa-2x fa-eye"></i></a>
-                    </div>
-                </div>
-            </span>
+            <?php
+            }
+            ?>
         </div>
     </div>
 
