@@ -78,7 +78,7 @@ class EmployeeController extends Controller
                 $employee->email=$employeePost["email"];
                 $employee->phone=$employeePost["phone"];
                 $employee->birthDate=$employeePost["birthDate"];
-                if ( $employee->save()) {
+                if ($employee->save()) {
                     return $this->redirect(['view', 'id' => $employee->id]);
                 }
             }
@@ -105,7 +105,7 @@ class EmployeeController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'employee' => $model,
         ]);
     }
 
