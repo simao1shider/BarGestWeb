@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Employee;
 use common\models\EmployeeSearch;
@@ -35,8 +36,9 @@ class EmployeeController extends Controller
      */
     public function actionIndex()
     {
+        $employee=Employee::find()->innerJoin("user","user.id=user_id")->where(["user.status"=>User::STATUS_ACTIVE])->all();
         return $this->render('index', [
-            'employees'=>Employee::find()->all(),
+            'employees'=>$employee,
         ]);
     }
 
