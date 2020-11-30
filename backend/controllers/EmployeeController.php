@@ -102,8 +102,10 @@ class EmployeeController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $employee=$this->findModel($id);
+        $user=User::findOne($employee->user_id);
+        $user->status=User::STATUS_DELETED;
+        $user->save();
         return $this->redirect(['index']);
     }
 

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->title = 'Funcionários';
 ?>
@@ -22,7 +23,7 @@ $this->title = 'Funcionários';
     <div class="row">
         <?php
         if(empty($employees)){
-            echo "<h3>Não tem funionarios ativos atualemente</h3>";
+            echo "<h3>Não tem funionarios ativos atualmente</h3>";
         }
         foreach ($employees as $employee){
             ?>
@@ -34,8 +35,8 @@ $this->title = 'Funcionários';
                         <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary"><?=$employee->phone?></span></p>
                         <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary"><?=$employee->birthDate?></span></p>
                         <div class="btn-group float-right mt-1">
-                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></button>
+                            <a href=<?=URL::to(["update","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
+                            <a href="<?=URL::to(["view","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></a>
                         </div>
                     </div>
                 </div>
