@@ -3,9 +3,9 @@
 namespace backend\controllers;
 
 use common\models\User;
+use frontend\models\SignupForm;
 use Yii;
 use common\models\Employee;
-use common\models\EmployeeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -62,14 +62,30 @@ class EmployeeController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Employee();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $employee = new Employee();
+        $signup = new SignupForm();
+        if(isset($_POST["Employee"]) && isset($_POST["SignupForm"])) {
+            $employeePost = Yii::$app->request->post("Employee");
+            $signupPost=Yii::$app->request->post("SignupForm");
+            $signup->username=$signupPost["username"];
+            $signup->password= $signupPost["password"];
+            $signup->email = $employeePost["email"];
+            if($signup->signup()){
+                $employee->user_id=User::find()
+                    ->where(['id' => User::find()->max('id')])
+                    ->one()->id;
+                $employee->name=$employeePost["name"];
+                $employee->email=$employeePost["email"];
+                $employee->phone=$employeePost["phone"];
+                $employee->birthDate=$employeePost["birthDate"];
+                if ( $employee->save()) {
+                    return $this->redirect(['view', 'id' => $employee->id]);
+                }
+            }
         }
-
         return $this->render('create', [
-            'model' => $model,
+            'employee' => $employee,
+            'signup'=>$signup,
         ]);
     }
 
