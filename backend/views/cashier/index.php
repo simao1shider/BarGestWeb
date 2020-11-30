@@ -19,81 +19,66 @@ $this->title = 'Caixas';
     </nav>
 
     <p class="text-right">
-        <?= Html::a('Abrir Caixa <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Abrir Caixa <i class="fa fa-plus"></i>', ['abrircaixa'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <div class="mt-5 container">
         <div class="row mb-3 ml-1">
             <div class="col-8"><?= Html::img('@web/img/Icons/Color/clock.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-2"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
-            <div class="col-1"></div>
+            <div class="col-2"></div>
         </div>
         <div class="list-group">
+        <?php
+            foreach($cashiers as $cashier){
+        ?>
             <span class="list-group-item list-group-item-action list-group-item-secondary">
                 <div class="row">
                     <div class="col-8 h3">
-                        <span class="h3 mt-2" id="idMesa">28-11-2020</span>
+                        <span class="h3 mt-2" id="idMesa"><?= $cashier->date ?></span>
                     </div>
                     <div class="col-2 h3">
-                        <span class="mt-2">5.99€</span>
+                        <span class="mt-2"><?= $cashier->total ?>€</span>
                     </div>
                     <div class="col-2 h3">
-                        <a href="#" class=""><?= Html::img('@web/img/Icons/Color/unlocked.png', ['class' => 'align-top', 'style' => 'width: 50px']) ?></a>
+                    <a href="#" class="btn"><?= Html::img('@web/img/Icons/Color/eye.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></a>
+                        <?php 
+                            if($cashier->status == 1){
+                        ?>
+                            <a href="#" class="btn" data-toggle="modal" data-target="#staticBackdrop"><?= Html::img('@web/img/Icons/Color/unlocked.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></a>
+                        <?php
+                            }else{
+                        ?>
+                            <a href="#" class="btn" class=""><?= Html::img('@web/img/Icons/Color/locked.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></a>
+                        <?php
+                            }
+                        ?>
                     </div>
                 </div>
             </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-8 h3">
-                        <span class="h3 mt-2" id="idMesa">27-11-2020</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class=""><?= Html::img('@web/img/Icons/Color/unlocked.png', ['class' => 'align-top', 'style' => 'width: 50px']) ?></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-8 h3">
-                        <span class="h3 mt-2" id="idMesa">26-11-2020</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class=""><?= Html::img('@web/img/Icons/Color/unlocked.png', ['class' => 'align-top', 'style' => 'width: 50px']) ?></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-8 h3">
-                        <span class="h3 mt-2" id="idMesa">25-11-2020</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class=""><?= Html::img('@web/img/Icons/Color/unlocked.png', ['class' => 'align-top', 'style' => 'width: 50px']) ?></a>
-                    </div>
-                </div>
-            </span>
-            <span class="list-group-item list-group-item-action list-group-item-secondary">
-                <div class="row">
-                    <div class="col-8 h3">
-                        <span class="h3 mt-2" id="idMesa">24-11-2020</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <span class="mt-2">5.99€</span>
-                    </div>
-                    <div class="col-2 h3">
-                        <a href="#" class=""><?= Html::img('@web/img/Icons/Color/unlocked.png', ['class' => 'align-top', 'style' => 'width: 50px']) ?></a>
-                    </div>
-                </div>
-            </span>
+        <?php
+            } 
+        ?>
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Fechar Caixa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Tem a certeza que pretende fechar a caixa?</p>
+      </div>
+      <div class="modal-footer">
+        <a href="fecharcaixa" type="button" class="btn btn-danger">Fechar Caixa</a>
+      </div>
+    </div>
+  </div>
 </div>
