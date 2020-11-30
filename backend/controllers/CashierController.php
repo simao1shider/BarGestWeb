@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Cashier;
-use common\models\CashierSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,8 +34,9 @@ class CashierController extends Controller
      */
     public function actionIndex()
     {
-
+        $cashiers = Cashier::find()->orderBy(['date' => SORT_DESC])->all();
         return $this->render('index', [
+            'cashiers' => $cashiers
         ]);
     }
 
@@ -91,18 +91,40 @@ class CashierController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Cashier model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    public function actionFecharcaixa(){
+        
+        $caixa = Cashier::find()->where(['status' => 1])->one();
+        $caixa->status = 0;
+        $caixa->save();
 
-        return $this->redirect(['index']);
+        $cashiers = Cashier::find()->all();
+        return $this->redirect(['cashier/index']);
+    }
+
+    public function actionAbrircaixa(){
+        $caixan = Cashier::find()->where(['status' => 1])->count();
+        $caixad = Cashier::find()->where(['date' => date("Y/m/d")])->count();
+
+        if($caixad > 0){
+            return $this->render('error',[
+                'message' => 'Já foi aberta uma caixa hoje!'
+            ]);
+        }
+        if($caixan == 0){
+            $caixa = new Cashier();
+            $caixa->status = 1;
+            $caixa->total = 0;
+            $caixa->date = date("Y/m/d");
+            $caixa->save();
+        }
+        else{
+            return $this->render('error',[
+                'message' => 'Uma caixa já está aberta, apenas pode ter uma caixa aberta!'
+            ]);
+        }
+
+        $cashiers = Cashier::find()->all();
+        return $this->redirect(['cashier/index']);
     }
 
     /**
