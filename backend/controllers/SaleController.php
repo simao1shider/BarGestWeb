@@ -37,7 +37,7 @@ class SaleController extends Controller
      */
     public function actionIndex()
     {
-        $accounts=Account::find()->where(["status"=>Account::STATUS_PAYED]);
+        $accounts=Account::find()->where(["status"=>Account::PAID]);
         if(isset($_POST["date"])){
             $accounts->andwhere(['like', 'dateTime', Yii::$app->request->post("date")]);
         }
@@ -54,7 +54,7 @@ class SaleController extends Controller
      */
     public function actionView($id)
     {
-        $account = Account::findOne(["id"=>$id,"status"=>Account::STATUS_PAYED]);
+        $account = Account::findOne(["id"=>$id,"status"=>Account::PAID]);
         if(empty($account))
             return $this->redirect("index");
 

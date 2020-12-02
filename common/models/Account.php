@@ -22,8 +22,8 @@ use Yii;
  */
 class Account extends \yii\db\ActiveRecord
 {
-    const STATUS_PAYED = true;
-    const STATUS_CURRENT = false;
+    const PAID = true;
+    const TOPAY = false;
     /**
      * {@inheritdoc}
      */

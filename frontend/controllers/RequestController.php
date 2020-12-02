@@ -68,13 +68,11 @@ class RequestController extends Controller
         unset($_SESSION["Addproducts"]);
         unset($_SESSION["Deleteproducts"]);
         $model = new Account();
-        if(isset($_GET['account']) || isset($_GET['tableId']))
-        {
-            if(isset($_GET["account"])){
-                $model=Account::findOne($_GET["account"]);
-            }
-            else{
-                $model->table_id=$_GET['tableId'];
+        if (isset($_GET['account']) || isset($_GET['tableId'])) {
+            if (isset($_GET["account"])) {
+                $model = Account::findOne($_GET["account"]);
+            } else {
+                $model->table_id = $_GET['tableId'];
             }
             return $this->render('create', [
                 'model' => $model,
@@ -82,66 +80,62 @@ class RequestController extends Controller
             /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }*/
-
-        }
-        else{
-            return $this->redirect(['table/index','CR'=>'1']);
+        } else {
+            return $this->redirect(['table/index', 'CR' => '1']);
         }
     }
 
     public function actionPostcreate()
     {
-        $account=Yii::$app->request->post("Account");
-        if(isset($_SESSION["Addproducts"]) && count($_SESSION["Addproducts"])>0)
-        {
-            if(isset($account["table_id"])){
+        $account = Yii::$app->request->post("Account");
+        if (isset($_SESSION["Addproducts"]) && count($_SESSION["Addproducts"]) > 0) {
+            if (isset($account["table_id"])) {
                 $table = Table::findOne($account["table_id"]);
-                $newAccount= new Account();
+                $newAccount = new Account();
                 $newAccount->load(Yii::$app->request->post());
-                $newAccount->dateTime=date("Y-m-d H:i:s");
-                $newAccount->total=0;
-                $newAccount->nif=0;
-                $newAccount->status=0;
-                $newAccount->cashier_id=1;
+                $newAccount->dateTime = date("Y-m-d H:i:s");
+                $newAccount->total = 0;
+                $newAccount->nif = 0;
+                $newAccount->status = 0;
+                $newAccount->cashier_id = 1;
                 $newAccount->save();
-                $table->status=true;
+                $table->status = true;
                 $table->save();
-                $account=$this->addRequest($newAccount,$_SESSION["Addproducts"]);
-                if($account->save()){
+                $account = $this->addRequest($newAccount, $_SESSION["Addproducts"]);
+                if ($account->save()) {
                     unset($_SESSION["Addproducts"]);
                     return $this->redirect(["index"]);
                 }
             }
-            if(isset($account["id"])){
-                $account=Account::findOne($account["id"]);
-                $account=$this->addRequest($account,$_SESSION["Addproducts"]);
-                if($account->save()){
+            if (isset($account["id"])) {
+                $account = Account::findOne($account["id"]);
+                $account = $this->addRequest($account, $_SESSION["Addproducts"]);
+                if ($account->save()) {
                     unset($_SESSION["Addproducts"]);
                     return $this->redirect(["index"]);
                 }
             }
-        }
-        else{
-            if(isset($_GET["Table"])){
+        } else {
+            if (isset($_GET["Table"])) {
                 //TODO:Notificar que não hove inserção do produto
-                return $this->redirect(["create","Table"=>$account["table_id"]]);
-            }
-            else{
+                return $this->redirect(["create", "Table" => $account["table_id"]]);
+            } else {
                 //TODO:Notificar que não hove inserção do produto
-                return $this->redirect(["create","CR"=>1,"account"=>$account["id"]]);
+                return $this->redirect(["create", "CR" => 1, "account" => $account["id"]]);
             }
         }
         return $this->redirect(["index"]);
     }
 
-    private function addRequest($account,$addproducts){
+    private function addRequest($account, $addproducts)
+    {
         $request = new Request();
         $request->dateTime = date("Y-m-d H:i:s");
-        $request->status=0;
-        $request->account_id=$account->id;
+        $request->status = 0;
+        $request->account_id = $account->id;
         $request->employee_id = 1;
-        if($request->save()){
-            foreach ($addproducts as $addproduct){
+        if ($request->save()) {
+            foreach ($addproducts as $addproduct) {
                 $toPaid = new ProductsToBePaid();
                 $toPaid->request_id = $request->id;
                 $toPaid->product_id = $addproduct['id'];
@@ -149,13 +143,13 @@ class RequestController extends Controller
                 $toPaid->save();
             }
         }
-        $total=0;
-        foreach ($account->requests as $request){
-            foreach ($request->productsToBePas as $productsToPa){
-                $total+=$productsToPa->quantity * $productsToPa->product->price;
+        $total = 0;
+        foreach ($account->requests as $request) {
+            foreach ($request->productsToBePas as $productsToPa) {
+                $total += $productsToPa->quantity * $productsToPa->product->price;
             }
         }
-        $account->total=$total;
+        $account->total = $total;
         return $account;
     }
 
@@ -163,38 +157,36 @@ class RequestController extends Controller
     {
         unset($_SESSION["Addproducts"]);
         $model = $this->findModel($id);
-        foreach ($model->productsToBePas as $listProduct){
-                $addToSession=$listProduct->product->toArray();
-                $addToSession["quantity"]=$listProduct->quantity;
-                if(!isset($_SESSION["Addproducts"])){
-                    $addProducts=array($listProduct->product->id=>$addToSession);
-                }
-                else{
-                    $addProducts=$_SESSION["Addproducts"];
-                    $addProducts[$listProduct->product->id]=$addToSession;
-                }
-                $_SESSION["Addproducts"]=$addProducts;
+        foreach ($model->productsToBePas as $listProduct) {
+            $addToSession = $listProduct->product->toArray();
+            $addToSession["quantity"] = $listProduct->quantity;
+            if (!isset($_SESSION["Addproducts"])) {
+                $addProducts = array($listProduct->product->id => $addToSession);
+            } else {
+                $addProducts = $_SESSION["Addproducts"];
+                $addProducts[$listProduct->product->id] = $addToSession;
+            }
+            $_SESSION["Addproducts"] = $addProducts;
         }
         return $this->render('update', [
             'request' => $model,
         ]);
     }
 
-    public function actionExecupdate(){
+    public function actionExecupdate()
+    {
         $model = $this->findModel($_GET["request"]);
-        if(isset($_SESSION["Addproducts"]))
-        {
-            foreach ($_SESSION["Addproducts"] as $product){
-                $con= ProductsToBePaid::find()
-                    ->where(["request_id"=>$model->id])
-                    ->andWhere(["product_id"=>$product['id']]);
-                if($con->exists()){
-                    $edit=$con->one();
+        if (isset($_SESSION["Addproducts"])) {
+            foreach ($_SESSION["Addproducts"] as $product) {
+                $con = ProductsToBePaid::find()
+                    ->where(["request_id" => $model->id])
+                    ->andWhere(["product_id" => $product['id']]);
+                if ($con->exists()) {
+                    $edit = $con->one();
                     print_r($edit);
-                    $edit->quantity=$product["quantity"];
+                    $edit->quantity = $product["quantity"];
                     $edit->update();
-                }
-                else{
+                } else {
                     $edit = new ProductsToBePaid();
                     $edit->product_id = $product['id'];
                     $edit->request_id = $model->id;
@@ -204,12 +196,11 @@ class RequestController extends Controller
             }
             unset($_SESSION["Addproducts"]);
         }
-        if(isset($_SESSION["Deleteproducts"]))
-        {
-            foreach ($_SESSION["Deleteproducts"] as $product){
+        if (isset($_SESSION["Deleteproducts"])) {
+            foreach ($_SESSION["Deleteproducts"] as $product) {
                 ProductsToBePaid::find()
-                    ->where(["request_id"=>$model->id])
-                    ->andWhere(["product_id"=>$product])->one()->delete();
+                    ->where(["request_id" => $model->id])
+                    ->andWhere(["product_id" => $product])->one()->delete();
             }
             unset($_SESSION["Deleteproducts"]);
         }
@@ -230,21 +221,21 @@ class RequestController extends Controller
      */
     public function actionDelete($id)
     {
-        $request= $this->findModel($id);
-        foreach ($request->productsToBePas as $connection){
+        $request = $this->findModel($id);
+        foreach ($request->productsToBePas as $connection) {
             $connection->delete();
         }
         $account = $request->account;
         $request->delete();
-        if(!count($account->requests)>0){
-            $table=$account->table;
+        if (!count($account->requests) > 0) {
+            $table = $account->table;
             $account->delete();
-            $tableAtualAccounts=Account::find()->where(["table_id"=>$account->table->id,"status"=>0])->all();
-            if(empty($tableAtualAccounts)){
-                $total=0;
+            $tableAtualAccounts = Account::find()->where(["table_id" => $account->table->id, "status" => 0])->all();
+            if (empty($tableAtualAccounts)) {
+                $total = 0;
                 foreach ($table->accounts as $account)
-                    $total+=$account->total;
-                $table->status=false;
+                    $total += $account->total;
+                $table->status = false;
                 $table->save();
             }
         }
@@ -252,17 +243,18 @@ class RequestController extends Controller
     }
 
 
-    public function actionChange_status(){
-        $get=Yii::$app->request->get();
+    public function actionChange_status()
+    {
+        $get = Yii::$app->request->get();
 
-        if(isset($get["block"])){
-            $request=$this->findModel($get["block"]);
-            $request->status=1;
+        if (isset($get["block"])) {
+            $request = $this->findModel($get["block"]);
+            $request->status = 1;
             $request->save();
         }
-        if(isset($get["prepare"])){
-            $request=$this->findModel($get["prepare"]);
-            $request->status=2;
+        if (isset($get["prepare"])) {
+            $request = $this->findModel($get["prepare"]);
+            $request->status = 2;
             $request->save();
         }
         $this->redirect(["index"]);
