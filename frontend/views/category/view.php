@@ -4,9 +4,9 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Category */
+/* @var $products common\models\Product */
 
-$this->title = $category->name;
+$this->title = $products[0]->category->name;
 ?>
 <div class="category-view">
 
@@ -35,7 +35,7 @@ $this->title = $category->name;
     <div class="mt-5 container">
         <div class="row">
             <?php
-            foreach ($category->products as $product) {
+            foreach ($products as $product) {
             ?>
                 <div class="col-4 mt-3">
                     <a href="#">

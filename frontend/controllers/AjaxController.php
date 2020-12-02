@@ -15,7 +15,7 @@ class AjaxController extends Controller
 {
     public function actionGet_categories()
     {
-        $model = Category::find()->all();
+        $model = Category::find()->where(["status"=>Category::STATUS_ACTIVE])->all();
 
         return $this->renderAjax('../request/components/categories', ["categories" => $model]);
     }
@@ -23,8 +23,8 @@ class AjaxController extends Controller
     public function actionGet_products()
     {
         $categoryId = Yii::$app->request->post("categoryId");
-        $model = Category::findOne($categoryId);
-        return $this->renderAjax('../request/components/products', ["category" => $model]);
+        $model = Product::find()->where(["category_id"=>$categoryId,"status"=>Category::STATUS_ACTIVE])->all();
+        return $this->renderAjax('../request/components/products', ["products" => $model]);
     }
 
     public function actionShow_products()

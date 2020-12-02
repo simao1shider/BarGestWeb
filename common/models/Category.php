@@ -15,6 +15,9 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+
+    const STATUS_ACTIVE = true;
+    const STATUS_DELETED = false;
     /**
      * {@inheritdoc}
      */

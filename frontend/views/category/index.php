@@ -25,7 +25,7 @@ $this->title = 'Categorias';
             foreach ($categories as $category) {
             ?>
                 <div class="col-4 mt-3">
-                    <a href="<?=Url::to('../category/view/?id='.$category->id)?>">
+                    <a href="<?=Url::to(['category/view',"id"=>$category->id])?>">
                         <div class="card shadow-sm text-center pt-2 pb-2">
                             <div class="card-body">
                                 <h5 class="card-title mt-5 mb-5"><?= $category->name ?></h5>

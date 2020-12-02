@@ -67,7 +67,7 @@ class AccountController extends \yii\web\Controller
                 ->select(["name", "price", "sum(quantity) as quantity", "request_id", "product_id"])
                 ->innerJoin("request", 'request_id=id')
                 ->innerJoin("product", "product_id=product.id")
-                ->where(["account_id" => $id, "status" => 3])
+                ->where(["account_id" => $id, "request.status" => 3])
                 ->groupBy("product_id")
                 ->createCommand()->queryAll();
 
@@ -89,11 +89,12 @@ class AccountController extends \yii\web\Controller
         }
 
         $table = $account->table;
-        if (count($table->accounts) == 0) {
+        $account->delete();
+        $quantAccounts= Account::find()->where(["table_id"=>$table->id, "status"=>Account::TOPAY])->count();
+        if ($quantAccounts == 0) {
             $table->status = false;
             $table->save();
         }
-        $account->delete();
         $this->redirect(["table/index"]);
     }
 

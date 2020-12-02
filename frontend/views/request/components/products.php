@@ -3,7 +3,7 @@
 </div>
 
 <?php
-foreach ($category->products as $product) {
+foreach ($products as $product) {
     ?>
     <div class="col-4 mt-3" onclick="addProduct(<?=$product->id?>)">
             <div class="card shadow-sm text-center pt-2 pb-2" style="cursor: pointer">
