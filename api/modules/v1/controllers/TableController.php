@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Account;
 use yii\rest\ActiveController;
 use yii\web\Response;
 
@@ -23,5 +24,9 @@ class TableController extends ActiveController
             ]
         ];
         return $behaviors;
+    }
+
+    public function actionTable_accounts($id){
+        return Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$id])->all();
     }
 }
