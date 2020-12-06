@@ -52,6 +52,14 @@ return [
                         'GET accounts/{id}' => 'table_accounts',
                     ],
 
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/request',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET current' => 'current_requests',
+                    ],
                 ]
             ],        
         ]
