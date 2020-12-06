@@ -22,6 +22,11 @@ use Yii;
  */
 class Request extends \yii\db\ActiveRecord
 {
+    const STATUS_REQUEST = 0;
+    const STATUS_COOKING = 1;
+    const STATUS_READY = 2;
+    const STATUS_DELIVERED = 3;
+
     /**
      * {@inheritdoc}
      */
