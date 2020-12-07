@@ -15,6 +15,8 @@ use Yii;
  */
 class Table extends \yii\db\ActiveRecord
 {
+    const STATUS_FREE=false;
+    const STATUS_BUSY=true;
     /**
      * {@inheritdoc}
      */

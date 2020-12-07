@@ -59,6 +59,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET current' => 'current_requests',
+                        'DELETE delete/{id}' => 'delete_request',
                     ],
                 ]
             ],        
