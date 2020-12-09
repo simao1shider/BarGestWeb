@@ -60,6 +60,32 @@ return [
                     'extraPatterns' => [
                         'GET current' => 'current_requests',
                         'DELETE delete/{id}' => 'delete_request',
+                        'POST create/account/{id}' => 'create_requestinaccount',
+                        'POST create/table/{id}' => 'create_requestintable',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/category',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET all' => 'category',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/product',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET category/{id}' => 'get_porducts_by_category',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/account',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET info/{id}' => 'accountinfo',
                     ],
                 ]
             ],        
