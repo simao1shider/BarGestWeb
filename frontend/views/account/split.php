@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 $this->title = "Pagamento Parcial";
 ?>
@@ -29,27 +31,70 @@ $this->title = "Pagamento Parcial";
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="list-group" id="listProductsToBePaid"></div>
+                <div class="list-group">
+                    <?php
+                    if (empty($productstobepaid)) {
+                        echo '<h4>Não há produtos prontos para pagamento!</h4>';
+                    }else{
+                    foreach ($productstobepaid as $product) {
+                    ?>
+                        <span class="list-group-item list-group-item-action list-group-item-secondary" id="product_<?= $product["product_id"] ?>">
+                            <div class="row">
+                                <div class="col-5 h3">
+                                    <span class="h3 mt-2" id="idMesa"><?= $product["name"] ?></span>
+                                </div>
+                                <div class="col-2 h3">
+                                    <span id="accountProductQuantity_<?= $product["product_id"] ?>" class="mt-2 mr-2 ml-2"><?= $product["quantity"] ?></span>
+                                </div>
+                                <div class="col-4 h3">
+                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] ?> €</span>
+                                </div>
+                                <div class="col-1 text-center">
+                                    <?= Html::a('<i class="fa fa-2x fa-arrow-right mr-5"></i>', Url::to(['account/ltr?id='.$account->id]), ['data-method' => 'POST',
+                                        'data-params' => [
+                                            'productId' => $product["product_id"],
+                                        ]]) ?>
+                                </div>
+                            </div>
+                        </span>
+                    <?php
+                        }
+                    }
+                    ?>
+                </div>
             </div>
             <div class="col-6">
                 <div class="list-group text-right">
+                <?php
+                    if (empty($productstopay)) {
+                        echo '<h4>Adicione produtos transferindo da lista do lado esquerdo!</h4>';
+                    }else{
+                    foreach ($productstopay as $product) {
+                ?>
                     <span class="list-group-item list-group-item-action list-group-item-secondary">
                         <div class="row">
                             <div class="col-1 text-center">
-                                <a href="#" class="mr-5"><i class="fa fa-2x fa-arrow-left"></i></a>
+                            <?= Html::a('<i class="fa fa-2x fa-arrow-left mr-5"></i>', Url::to(['account/rtl?id='.$account->id]), ['data-method' => 'POST',
+                                        'data-params' => [
+                                            'productId' => $product["product_id"],
+                                        ]]) ?>
                             </div>
                             <div class="col-6 h3">
-                                <span class="h3 mt-2" id="idMesa">Gordons</span>
+                                <span class="h3 mt-2" id="idMesa"><?= $product["name"] ?></span>
                             </div>
                             <div class="col-2 h3">
-                                <span class="mt-2">3</span>
+                                <span class="mt-2"><?= $product["quantity"] ?></span>
                             </div>
                             <div class="col-3 h3">
-                                <span class="mt-2">5.99€</span>
+                                <span class="mt-2"><?= $product["price"] ?> €</span>
                             </div>
 
                         </div>
                     </span>
+                <?php
+                    }
+                }
+                ?>
                 </div>
             </div>
         </div>
@@ -61,8 +106,34 @@ $this->title = "Pagamento Parcial";
                 <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                     <?= Html::img('@web/img/icons/color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
-                <span class="h4 text-dark">Total: <span class="h2">5.99€</span></span>
+                <span class="h4 text-dark">Total: <span class="h2"><?= $_SESSION['total'] ?>€</span></span>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" aria-labelledby="exampleModalCenterTitle" aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body border-bottom text-center">
+                    <h4 class="">Pagamento</h4>
+                </div>
+                <?php $form = ActiveForm::begin([
+                    'id' => 'payment-form',
+                    'action' => 'paysplitaccount?id='.$account->id
+                ]) ?>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="mb-3">Pretende inserir número de contribuinte?</label>
+                        <?= $form->field($account, 'nif')->textInput(['type' => 'number']) ?>
+                        <small class="form-text text-muted mt-3">Não é obrigatório!</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" class="close" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                    <?= Html::submitButton('Pagar', ['class' => 'btn btn-primary', 'name' => 'teste']) ?>
+                </div>
+                <?php ActiveForm::end() ?>
             </div>
         </div>
     </div>
