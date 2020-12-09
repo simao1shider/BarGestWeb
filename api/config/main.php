@@ -59,9 +59,11 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET current' => 'current_requests',
+                        'GET info/{id}' => 'info',
                         'DELETE delete/{id}' => 'delete_request',
                         'POST create/account/{id}' => 'create_requestinaccount',
                         'POST create/table/{id}' => 'create_requestintable',
+                        'PUT edit/{id}' => 'request_edit',
                     ],
                 ],
                 [

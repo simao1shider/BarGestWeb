@@ -3,6 +3,7 @@
 namespace api\modules\v1\controllers;
 
 use common\models\Account;
+use common\models\Product;
 use common\models\ProductsToBePaid;
 use common\models\Request;
 use common\models\Table;
@@ -37,6 +38,15 @@ class RequestController extends ActiveController
             ->where(["!=","request.status",Request::STATUS_DELIVERED])
             ->andWhere(["account.status"=>Account::TOPAY])
             ->orderBy("dateTime desc")
+            ->asArray()
+            ->all();
+    }
+
+    public function actionInfo($id){
+        return ProductsToBePaid::find()
+            ->select("product.id,name,price,quantity")
+            ->innerJoin("product","product_id=product.id")
+            ->where(["request_id"=>$id])
             ->asArray()
             ->all();
     }
@@ -145,5 +155,26 @@ class RequestController extends ActiveController
         }
 
         return "Request created successfully";
+    }
+
+    public function actionRequest_edit($id){
+        ProductsToBePaid::deleteAll(["request_id"=>$id]);
+        $producsjson=Yii::$app->request->post("products");
+        $products=json_decode($producsjson);
+        if(!empty($products))
+        {
+            foreach ($products as $product){
+                $addProduct=new ProductsToBePaid();
+                $addProduct->request_id=$id;
+                $addProduct->product_id=$product->id;
+                $addProduct->quantity=$product->quantity;
+                $addProduct->save();
+            }
+        }
+        else{
+            Request::findOne($id)->delete();
+        }
+
+        return "Edit successfully";
     }
 }
