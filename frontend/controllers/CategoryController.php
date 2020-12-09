@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Category;
+use common\models\Product;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -33,7 +34,7 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
-        $categories = Category::find()->all();
+        $categories = Category::find()->where(["status"=>Category::STATUS_ACTIVE])->all();
 
         return $this->render('index', [
             'categories' => $categories,
@@ -48,10 +49,10 @@ class CategoryController extends Controller
      */
     public function actionView($id)
     {
-        $category = $this->findModel($id);
+        $products = Product::find()->where(["status"=>Product::STATUS_ACTIVE,"category_id"=>$id])->all();
 
         return $this->render('view', [
-            'category' => $category,
+            'products' => $products,
         ]);
     }
 
@@ -64,7 +65,7 @@ class CategoryController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Category::findOne($id)) !== null) {
+        if (($model = Category::find()->where(["status"=>Category::STATUS_ACTIVE,"id"=>$id])->one()) !== null) {
             return $model;
         }
 

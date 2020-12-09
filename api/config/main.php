@@ -46,10 +46,10 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => 'v1/country',
-                    'pluralize' => 'false',
+                    'controller' => 'v1/table',
+                    'pluralize' => false,
                     'extraPatterns' => [
-                        'GET teste' => 'teste',
+                        'GET accounts/{id}' => 'table_accounts',
                     ],
 
                 ]

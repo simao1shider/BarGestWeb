@@ -93,11 +93,12 @@ class AccountController extends \yii\web\Controller
         }
 
         $table = $account->table;
-        if (count($table->accounts) == 0) {
+        $account->delete();
+        $quantAccounts= Account::find()->where(["table_id"=>$table->id, "status"=>Account::TOPAY])->count();
+        if ($quantAccounts == 0) {
             $table->status = false;
             $table->save();
         }
-        $account->delete();
         $this->redirect(["table/index"]);
     }
 
