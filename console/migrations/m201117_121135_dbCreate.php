@@ -25,6 +25,7 @@ class m201117_121135_dbCreate extends Migration
             'phone' => $this->integer()->unique(),
             'birthDate' => $this->date(),
             'phone' => $this->integer(),
+            'user_id' => $this->integer(),
         ], $tableOptions);
 
         $this->createTable('table', [
@@ -62,11 +63,13 @@ class m201117_121135_dbCreate extends Migration
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
+            'status' => $this->tinyInteger(),
         ], $tableOptions);
 
         $this->createTable('iva', [
             'id' => $this->primaryKey(),
             'rate' => $this->integer()->unique(),
+            'status' => $this->tinyInteger(),
         ], $tableOptions);
 
         $this->createTable('product', [
@@ -74,6 +77,7 @@ class m201117_121135_dbCreate extends Migration
             'name' => $this->string()->notNull(),
             'price' => $this->decimal(6,2)->notNull(),
             'profit_margin' => $this->integer()->notNull(),
+            'status' => $this->tinyInteger(),
             'category_id' => $this->integer()->notNull(),
             'iva_id' => $this->integer()->notNull(),
         ], $tableOptions);
@@ -249,6 +253,22 @@ class m201117_121135_dbCreate extends Migration
             'products_paid',
             'request_id',
             'request',
+            'id',
+            'CASCADE'
+        );
+
+        $this->createIndex(
+            'idx-user_id',
+            'employee',
+            'id'
+        );
+
+        // add foreign key for table `products_paid`
+        $this->addForeignKey(
+            'fk-user_id',
+            'employee',
+            'user_id',
+            'user',
             'id',
             'CASCADE'
         );

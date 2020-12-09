@@ -35,32 +35,32 @@ AppAsset::register($this);
 
             <ul class="components">
                 <li class="active">
-                    <a href="/index.php?r=site%2Findex" title="Home">
+                    <a href="site/index" title="Home">
                         <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=employee%2Findex" title="Funcionários">
+                    <a href="employee/index" title="Funcionários">
                         <?= Html::img('@web/img/Icons/Blue/people.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=cashier%2Findex" title="Caixas">
+                    <a href="cashier/index" title="Caixas">
                         <?= Html::img('@web/img/Icons/Blue/register.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=category%2Findex" title="Categorias">
+                    <a href="category/index" title="Categorias">
                         <?= Html::img('@web/img/Icons/Blue/tags.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=product%2Findex" title="Produtos">
+                    <a href="product/index" title="Produtos">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
                 <li>
-                    <a href="/index.php?r=bill%2Findex" title="Vendas">
+                    <a href="bill/index" title="Vendas">
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
