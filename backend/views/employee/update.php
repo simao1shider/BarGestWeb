@@ -6,34 +6,46 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $employee common\models\Employee */
 
-$this->title = 'Update Employee: ' . $employee->name;
-$this->params['breadcrumbs'][] = ['label' => 'Employees', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $employee->name, 'url' => ['view', 'id' => $employee->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = $employee->name;
 ?>
 <div class="employee-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="index">Funcionários</a></li>
+            <li class="breadcrumb-item" aria-current="page">Editar</li>
+            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
+        </ol>
+    </nav>
 
     <div class="employee-form">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <?php $form = ActiveForm::begin(); ?>
 
-        <?php $form = ActiveForm::begin(); ?>
+                <?= $form->field($employee, 'name')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($employee, 'name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($employee, 'email')->input('email') ?>
 
-        <?= $form->field($employee, 'email')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($employee, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+                    'mask' => '999999999',
+                ]) ?>
 
-        <?= $form->field($employee, 'phone')->textInput() ?>
+                <?= $form->field($employee, 'birthDate')->widget(\yii\widgets\MaskedInput::className(), [
+                    'mask' => '9999-99-99',
+                ]) ?>
 
-        <?= $form->field($employee, 'birthDate')->textInput() ?>
+                <div class="form-group">
+                    <?= Html::submitButton('Guardar', ['class' => 'btn btn-success float-right']) ?>
+                </div>
 
-
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?php ActiveForm::end(); ?>
+            </div>
         </div>
-
-        <?php ActiveForm::end(); ?>
-
     </div>
 
 </div>
