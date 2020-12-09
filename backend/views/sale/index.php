@@ -24,9 +24,20 @@ $this->title = 'Vendas';
         <div class="row">
         <div class="col-md-8"></div>
         <div class="col-md-4">
-            <?php $form = ActiveForm::begin(); ?>
-                <input type="date" onchange="$(this).closest('form').trigger('submit');" class="form-control" name="date">
-            <?php ActiveForm::end(); ?>
+            <?php $form = ActiveForm::begin(); 
+                if(isset($date)){
+            ?>
+                    <input type="date" value="<?= $date ?>" onchange="$(this).closest('form').trigger('submit');" class="form-control" name="date">
+            <?php
+                }
+                else
+                {
+            ?>
+                    <input type="date" onchange="$(this).closest('form').trigger('submit');" class="form-control" name="date">
+            <?php  
+                }
+                ActiveForm::end(); 
+            ?>
         </div>
         </div>
         
