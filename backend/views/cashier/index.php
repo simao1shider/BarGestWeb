@@ -19,7 +19,7 @@ $this->title = 'Caixas';
     </nav>
 
     <p class="text-right">
-        <?= Html::a('Abrir Caixa <i class="fa fa-plus"></i>', ['abrircaixa'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Abrir Caixa <i class="fa fa-plus"></i>', ['abrircaixa'], ['class' => 'btn btn-outline-success']) ?>
     </p>
 
     <div class="mt-5 container">

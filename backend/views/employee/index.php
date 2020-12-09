@@ -16,7 +16,7 @@ $this->title = 'Funcionários';
     </nav>
 
     <p class="text-right">
-        <?= Html::a('Criar <i class="fa fa-plus ml-1"></i>', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar <i class="fa fa-plus ml-1"></i>', ['create'], ['class' => 'btn btn-outline-success']) ?>
     </p>
 
     <div class="row">
