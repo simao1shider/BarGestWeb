@@ -37,12 +37,16 @@ class SaleController extends Controller
      */
     public function actionIndex()
     {
-        $accounts=Account::find()->where(["status"=>Account::PAID]);
-        if(isset($_POST["date"])){
+        $accounts = Account::find()->where(["status" => Account::PAID]);
+        if (isset($_POST["date"])) {
             $accounts->andwhere(['like', 'dateTime', Yii::$app->request->post("date")]);
+            return $this->render('index', [
+                "accounts" => $accounts->all(),
+                "date" => Yii::$app->request->post("date"),
+            ]);
         }
         return $this->render('index', [
-            "accounts"=>$accounts->all(),
+            "accounts" => $accounts->all(),
         ]);
     }
 
@@ -54,20 +58,20 @@ class SaleController extends Controller
      */
     public function actionView($id)
     {
-        $account = Account::findOne(["id"=>$id,"status"=>Account::PAID]);
-        if(empty($account))
+        $account = Account::findOne(["id" => $id, "status" => Account::PAID]);
+        if (empty($account))
             return $this->redirect("index");
 
 
-        $productsPaid=ProductsPaid::find()
-            ->innerJoin("request","request_id=request.id")
-            ->where(["account_id"=>$id])
+        $productsPaid = ProductsPaid::find()
+            ->innerJoin("request", "request_id=request.id")
+            ->where(["account_id" => $id])
             ->groupBy("product_id")
             ->all();
-        foreach ($productsPaid as $product){
-            $product->quantity= ProductsPaid::find()
-                ->innerJoin("request","request_id=request.id")
-                ->where(["account_id"=>$id,"product_id"=>$product->product_id])
+        foreach ($productsPaid as $product) {
+            $product->quantity = ProductsPaid::find()
+                ->innerJoin("request", "request_id=request.id")
+                ->where(["account_id" => $id, "product_id" => $product->product_id])
                 ->sum("quantity");
         }
 

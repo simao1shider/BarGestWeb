@@ -50,10 +50,10 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Nome',
             'email' => 'Email',
-            'phone' => 'Phone',
-            'birthDate' => 'Birth Date',
+            'phone' => 'Telemóvel',
+            'birthDate' => 'Data de Nascimento',
             'user_id' => 'User ID',
         ];
     }

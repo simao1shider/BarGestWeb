@@ -57,11 +57,11 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'price' => 'Price',
-            'profit_margin' => 'Profit Margin',
-            'category_id' => 'Category ID',
-            'iva_id' => 'Iva ID',
+            'name' => 'Nome',
+            'price' => 'Preço',
+            'profit_margin' => 'Margem de Lucro',
+            'category_id' => 'Categoria',
+            'iva_id' => 'Iva',
         ];
     }
 

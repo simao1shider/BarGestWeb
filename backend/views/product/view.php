@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="product-view">
+<div class="product-view container-fluid ml-5">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

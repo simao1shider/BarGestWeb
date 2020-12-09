@@ -4,7 +4,8 @@
 html,
 body {
   height: 100%;
-  width: 100%
+  width: 100%;
+  overflow-x: hidden;
 }
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
@@ -80,6 +81,9 @@ span {
     min-width: 80px;
     max-width: 80px;
     text-align: center;
+    height:100%;
+    position:fixed;
+    float: left;
 }
 
 #sidebar.active .sidebar-header h3,
@@ -266,3 +270,17 @@ a.article:hover {
     }
 }
 /*End Sidebar*/
+
+.alert-message {
+    position: fixed;
+    width: 50%;
+    min-width: 200px;
+    max-width: 400px;
+    z-index: 1100;
+    bottom: 25px;
+    right: 25px;
+    padding: 10px;
+}
+.container-fluid{
+    padding-right: 40px;
+}

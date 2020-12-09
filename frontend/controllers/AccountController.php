@@ -32,7 +32,7 @@ class AccountController extends \yii\web\Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        //TODO:Colocar o pagamento numa função à parte
+
         if ($model->load(Yii::$app->request->post())) {
             //Caso não indique o nif
             if ($model->nif == 0) {
@@ -43,7 +43,6 @@ class AccountController extends \yii\web\Controller
                     return $this->redirect(['error']);
                 }
             }
-
 
             //Procurar os produtos a serem pagos
             foreach ($model->requests as $request) {
@@ -57,12 +56,17 @@ class AccountController extends \yii\web\Controller
                     //Apagar os produtos do ProductsToBePaid
                     ProductsToBePaid::findOne($productToBePaid->request_id, $productToBePaid->product_id)->delete();
                 }
-                Request::findOne($request->id)->delete();
+                $request = Request::findOne($request->id);
+                $request->status = 4;
+                $request->save();
             }
 
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            unset($_SESSION['productstobepaid']);
+            unset($_SESSION['productstopay']);
+
             $products = ProductsToBePaid::find()
                 ->select(["name", "price", "sum(quantity) as quantity", "request_id", "product_id"])
                 ->innerJoin("request", 'request_id=id')
@@ -100,25 +104,149 @@ class AccountController extends \yii\web\Controller
 
     public function actionSplit($id)
     {
-        $model = $this->findModel($id);
+        //unset($_SESSION['productstobepaid']);
+        //unset($_SESSION['productstopay']);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if(isset($_SESSION['productstopay'])){
+            return $this->render('split', [
+                'account' => $this->findModel($id),
+                'productstobepaid' => $_SESSION['productstobepaid'],
+                'productstopay' => $_SESSION['productstopay'],
+            ]);
+        }
+        else {
+            unset($_SESSION['productstobepaid']);
+            unset($_SESSION['productstopay']);
+            unset($_SESSION['total']);
 
-            return $this->redirect(['split', 'id' => $model->id]);
-        } else {
-            $products = ProductsToBePaid::find()
+            $productstobepaid = ProductsToBePaid::find()
                 ->select(["name", "price", "sum(quantity) as quantity", "request_id", "product_id"])
                 ->innerJoin("request", 'request_id=id')
                 ->innerJoin("product", "product_id=product.id")
-                ->where(["account_id" => $id, "status" => 3])
+                ->where(["account_id" => $id, "request.status" => 3])
                 ->groupBy("product_id")
                 ->createCommand()->queryAll();
+            
+            
+            foreach($productstobepaid as $product){
+                $_SESSION['productstobepaid'][$product['product_id']] = $product;
+            }
+
+            $_SESSION['total'] = 0;
+            
+            foreach($_SESSION['productstobepaid'] as $product){
+                $_SESSION['total'] += $product['price'] * $product['quantity'];
+            }
 
             return $this->render('split', [
                 'account' => $this->findModel($id),
-                'products' => $products,
+                'productstobepaid' => $_SESSION['productstobepaid'],
             ]);
         }
+    }
+
+    public function actionLtr($id){
+
+        $request = Yii::$app->request;
+        $product_id = $request->post('productId');
+
+        //* Caso o produto nao exista na lista
+        if(isset($_SESSION['productstopay'][$product_id])){
+            $_SESSION['productstopay'][$product_id]['quantity'] += 1;
+            if($_SESSION['productstobepaid'][$product_id]['quantity'] == 1){
+                unset($_SESSION['productstobepaid'][$product_id]);
+            }
+            else{
+                $_SESSION['productstobepaid'][$product_id]['quantity'] -= 1;
+            }
+        }
+        else{
+            $_SESSION['productstopay'][$product_id] = $_SESSION['productstobepaid'][$product_id];
+            $_SESSION['productstopay'][$product_id]['quantity'] = 1;
+            if($_SESSION['productstobepaid'][$product_id]['quantity'] == 1){
+                unset($_SESSION['productstobepaid'][$product_id]);
+            }
+            else{
+                $_SESSION['productstobepaid'][$product_id]['quantity'] -= 1;
+            }
+        }
+        return $this->redirect(["split", 'id' => $id]);
+    }
+
+    public function actionRtl($id){
+        $request = Yii::$app->request;
+        $product_id = $request->post('productId');
+
+        //* Caso o produto nao exista na lista
+        if(isset($_SESSION['productstobepaid'][$product_id])){
+            $_SESSION['productstobepaid'][$product_id]['quantity'] += 1;
+            if($_SESSION['productstopay'][$product_id]['quantity'] == 1){
+                unset($_SESSION['productstopay'][$product_id]);
+            }
+            else{
+                $_SESSION['productstopay'][$product_id]['quantity'] -= 1;
+            }
+        }
+        else{
+            $_SESSION['productstobepaid'][$product_id] = $_SESSION['productstopay'][$product_id];
+            $_SESSION['productstobepaid'][$product_id]['quantity'] = 1;
+            if($_SESSION['productstopay'][$product_id]['quantity'] == 1){
+                unset($_SESSION['productstopay'][$product_id]);
+            }
+            else{
+                $_SESSION['productstopay'][$product_id]['quantity'] -= 1;
+            }
+        }
+        return $this->redirect(["split", 'id' => $id]);
+
+    }
+
+    public function actionPaysplitaccount($id){
+        $model = $this->findModel($id);
+
+        if ($model->nif == 0) {
+            $model->nif = 999999990;
+        } else {
+            //Valida se o nif está correto
+            if (!$model->validateNIF($model->nif)) {
+                return $this->redirect(['error']);
+            }
+        }
+
+            $productstobepaid = ProductsToBePaid::find()
+                                    ->innerJoin("request", 'request_id = id')
+                                    ->innerJoin("product", "product_id = product.id")
+                                    ->where(["account_id" => $id, "request.status" => 3])
+                                    ->All();
+                                    
+            foreach($productstobepaid as $producttobepaid){
+                if(isset($_SESSION['productstopay'][$producttobepaid->product_id])){
+                    if($_SESSION['productstopay'][$producttobepaid->product_id]['quantity'] < $producttobepaid->quantity){
+                        
+                        $producttopaydb = new ProductsPaid();
+                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->product_id = $producttobepaid->product_id;
+                        $producttopaydb->quantity = $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
+                        $producttopaydb->save();
+
+                        $producttobepaid->quantity -= $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
+                        $producttobepaid->save();
+                        unset($_SESSION['productstopay'][$_SESSION['productstopay'][$producttobepaid->product_id]['product_id']]);
+                    }
+                    else{
+                        $producttopaydb = new ProductsPaid();
+                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->product_id = $producttobepaid->product_id;
+                        $producttopaydb->quantity = $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
+                        $producttopaydb->save();
+
+                        unset($_SESSION['productstopay'][$_SESSION['productstopay'][$producttobepaid->product_id]['product_id']]);
+                        $producttobepaid->delete();
+                    }
+                }
+            }        
+
+        return $this->redirect(["split", 'id' => $id]);
     }
 
     public function actionDelete_product($request_id, $product_id)
@@ -157,8 +285,6 @@ class AccountController extends \yii\web\Controller
         }
         return $this->redirect(["account/view", 'id' => $account->id]);
     }
-
-
 
     protected function findModel($id)
     {
