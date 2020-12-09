@@ -123,7 +123,7 @@ class RequestController extends ActiveController
                 $request=new Request();
                 $request->dateTime = date("Y-m-d H:i:s");
                 $request->status= Request::STATUS_REQUEST;
-                $request->account_id=$id;
+                $request->account_id=$account->id;
                 $request->employee_id=1;
                 if($request->save()){
 
