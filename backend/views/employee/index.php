@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 $this->title = 'Funcionários';
 ?>
-<div class="employee-index">
+<div class="employee-index container-fluid ml-5">
     <h1><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <nav aria-label="breadcrumb">
@@ -19,7 +19,7 @@ $this->title = 'Funcionários';
         <?= Html::a('Criar <i class="fa fa-plus ml-1"></i>', ['create'], ['class' => 'btn btn-outline-success']) ?>
     </p>
 
-    <div class="row">
+    <div class="containerr row">
         <?php
         if(empty($employees)){
             echo "<h3>Não tem funionarios ativos atualmente</h3>";

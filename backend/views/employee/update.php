@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = $employee->name;
 ?>
-<div class="employee-update">
+<div class="employee-update container-fluid ml-5">
 
     <h1><?= Html::img('@web/img/Icons/Color/waiter.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 

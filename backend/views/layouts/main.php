@@ -27,8 +27,8 @@ AppAsset::register($this);
 
 <body>
     <?php $this->beginBody() ?>
-    <div class="wrapper">
-        <nav id="sidebar" class="active">
+    <div class="wrapper" id="container">
+        <nav id="sidebar" class="active" id="sidebar">
             <div class="sidebar-header">
                 <!--<h3>BarGest</h3>-->
                 <strong class="">BG</strong> <?php // Html::img('@web/img/Logo/white.png', ['class' => 'mr-5', 'style' => 'width: 55px;']) ?>

@@ -9,7 +9,7 @@ use yii\widgets\ListView;
 
 $this->title = 'Produtos';
 ?>
-<div class="product-index">
+<div class="product-index container-fluid ml-5">
 
     <h1><?= Html::img('@web/img/Icons/Color/drink.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
     <nav aria-label="breadcrumb">
@@ -43,7 +43,7 @@ $this->title = 'Produtos';
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <a href="<?= Url::to(["product/view", "id" => $product->id]) ?>" class="text-center">
+                                    <a class="text-center">
                                         <h5 class="card-title mt-5"><?= $product->name ?></h5>
                                         <span class="mb-4 text-secondary"><?= $product->price ?> €</span>
                                     </a>
