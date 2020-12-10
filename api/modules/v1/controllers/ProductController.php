@@ -26,6 +26,11 @@ class ProductController extends ActiveController
         return $behaviors;
     }
 
+    public function actionGetall(){
+        return Product::find()
+            ->where(["status"=>Product::STATUS_ACTIVE])
+            ->all();
+    }
 
     public function actionGet_porducts_by_category($id){
         return Product::find()

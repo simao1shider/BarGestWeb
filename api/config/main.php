@@ -80,6 +80,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET category/{id}' => 'get_porducts_by_category',
+                        'GET all' => 'getall',
                     ],
                 ],
                 [
