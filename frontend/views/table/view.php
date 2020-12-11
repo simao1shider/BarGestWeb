@@ -8,13 +8,14 @@ use \yii\helpers\Url;
 
 $this->title = $model->number;
 ?>
-<div class="table-view">
+<div class="table-view container-fluid ml-5">
 
-    <h1>Mesa <?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/table.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=Url::to("index")?>">Mesas</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Contas</li>
+            <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="index">Mesas</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
@@ -23,7 +24,7 @@ $this->title = $model->number;
         ?>
         <p>
             <?= Html::a('<i class="fa fa-trash"></i>', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger btn-lg float-right',
+                'class' => 'btn btn-outline-danger btn-lg float-right',
                 'data' => [
                     'confirm' => 'Tem a certeza que pretende apagar?',
                     'method' => 'post',
