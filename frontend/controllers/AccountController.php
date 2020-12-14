@@ -60,7 +60,7 @@ class AccountController extends \yii\web\Controller
                 $request->status = 4;
                 $request->save();
             }
-
+            $model->status = 1;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
