@@ -2,18 +2,31 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use \yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $account app\models\Bill */
 
-$this->title = "Conta " . $account->name;
+$this->title = $account->name;
 ?>
-<div class="bill-view">
+<div class="bill-view container-fluid ml-5">
 
-    <h1><?= Html::img('@web/img/Icons/Color/sale.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h3>
+        <?= Html::img('@web/img/Icons/Color/account.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?>
+        <span class="mt-4 h4"><span class="text-secondary h3">Nome da conta:</span> <?= Html::encode($this->title) ?></span>
+    </h3>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="../table/index">Mesas</a></li>
+            <li class="breadcrumb-item"><a href="../table/view?id=<?= $account->table->id ?>">Mesa <?= $account->table->number ?></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
+        </ol>
+    </nav>
 
     <p class="text-right">
         <?= Html::a('Apagar', ['delete', 'id' => $account->id], [
-            'class' => 'btn btn-danger',
+            'class' => 'btn btn-outline-danger',
             'data' => [
                 'confirm' => 'Tem a certeza que pretende apagar esta conta?',
                 'method' => 'post',
@@ -62,7 +75,7 @@ $this->title = "Conta " . $account->name;
                 <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" title="Pagar">
                     <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
-                <a href="/account/split?id=<?= $account->id ?>" name="splitPayment" class="btn" role="button" title="Dividir Conta">
+                <a href="split?id=<?= $account->id ?>" name="splitPayment" class="btn" role="button" title="Dividir Conta">
                     <?= Html::img('@web/img/Icons/Color/split.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </a>
             </div>
