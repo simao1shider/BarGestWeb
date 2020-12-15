@@ -58,4 +58,22 @@ class Table extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Account::className(), ['table_id' => 'id']);
     }
+
+    public function getTotal($id){
+        $table=ProductsToBePaid::find()
+            ->select("quantity,price")
+            ->innerJoin("product","product_id=product.id")
+            ->innerJoin("request","request_id=request.id")
+            ->innerJoin("account","account_id=account.id")
+            ->innerJoin("table","table_id=table.id")
+            ->where(["table_id"=>$id,"account.status"=>Account::TOPAY])
+            ->asArray()
+            ->all();
+        $total=0;
+        foreach ($table as $item){
+            $total+=$item["quantity"]*$item["price"];
+        }
+        return $total;
+
+    }
 }

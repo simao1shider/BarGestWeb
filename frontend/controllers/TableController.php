@@ -35,7 +35,7 @@ class TableController extends Controller
     public function actionIndex()
     {
         $model = Table::find()->orderBy('number')->all();
-
+        $table = new Table();
         return $this->render('index', [
             'model' => $model
         ]);
