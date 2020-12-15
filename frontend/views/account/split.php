@@ -6,9 +6,9 @@ use yii\widgets\ActiveForm;
 
 $this->title = "Pagamento Parcial";
 ?>
-<div class="split-view">
+<div class="split-view container-fluid ml-5">
 
-    <h1><?= Html::img('@web/img/icons/color/sale.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h1><?= Html::img('@web/img/icons/color/split.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
 
     <div class="mt-5 container">
         <div class="row mb-3">

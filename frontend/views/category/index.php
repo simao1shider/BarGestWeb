@@ -9,12 +9,12 @@ use yii\helpers\Url;
 
 $this->title = 'Categorias';
 ?>
-<div class="category-index">
+<div class="category-index container-fluid ml-5">
 
     <h1><?= Html::img('@web/img/Icons/Color/grid.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>

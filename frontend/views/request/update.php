@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 $this->title = 'Pedido';
 ?>
-<div class="request-create">
+<div class="request-create container-fluid ml-5">
     <h1><?= Html::encode($this->title) ?></h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

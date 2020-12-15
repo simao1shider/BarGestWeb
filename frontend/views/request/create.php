@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Criar Pedido';
 ?>
-<div class="request-create">
+<div class="request-create container-fluid ml-5">
     <h1><?= Html::encode($this->title) ?>
         <?php
         if(isset($_GET["account"])){
@@ -19,7 +19,8 @@ $this->title = 'Criar Pedido';
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index.php?r=table%2Findex">Pedidos</a></li>
+            <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="../request/index">Pedidos</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
