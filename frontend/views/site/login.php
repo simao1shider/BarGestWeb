@@ -13,7 +13,7 @@ $this->registerCssFile("/css/login.css");
         <h1 class="h2 mb-3 font-weight-normal">BarGest<span style="color: #F50057;">Web</span></h1>
         <h1 class="h5 mb-3 font-weight-normal">Sistema de Autenticação</h1>
     </div>
-<?php $form = ActiveForm::begin(['id' => 'form-login']); ?>
+<?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($model, 'username') ?>
 

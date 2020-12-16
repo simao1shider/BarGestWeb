@@ -54,6 +54,18 @@ $this->title = 'Mesas';
                 }
                 ?>
             <?php
+            } else {
+            ?>
+                <a href="<?= (isset($_GET['CR']) ? Url::to(['view', 'CR' => 1, 'id' => $item->id]) :  Url::to(['view', 'id' => $item->id])) ?>" class="list-group-item list-group-item-action list-group-item-warning">
+                    <?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?>
+                    <span class="h3 ml-3 mt-2">Mesa <?= $item->number ?></span>
+                    <?php
+
+                    ?>
+                    <span class="h3 mr-3 mt-2 float-right"><?= $item->getTotal($item->id) ?>€</span>
+                </a>
+            <?php
+
             }
             ?>
 

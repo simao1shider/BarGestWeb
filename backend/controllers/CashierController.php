@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Cashier;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,6 +20,19 @@ class CashierController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['BackShowCashier'],
+                    ],
+                ],
+                /*'denyCallback' => function($rule, $action){
+                    $this->render("../layouts/error403");
+                }*/
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -127,13 +141,7 @@ class CashierController extends Controller
         return $this->redirect(['cashier/index']);
     }
 
-    /**
-     * Finds the Cashier model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Cashier the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     protected function findModel($id)
     {
         if (($model = Cashier::findOne($id)) !== null) {

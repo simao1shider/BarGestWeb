@@ -4,10 +4,12 @@ namespace frontend\controllers;
 
 use common\models\Account;
 
+use common\models\Employee;
 use common\models\ProductsToBePaid;
 use common\models\Table;
 use Yii;
 use common\models\Request;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,6 +25,37 @@ class RequestController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['showCreateRequest'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['postcreate'],
+                        'roles' => ['createRequest'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -38,7 +71,9 @@ class RequestController extends Controller
      */
     public function actionIndex()
     {
-        $model = Request::find()->all();
+        $model = Request::find()
+            ->where("status!=".Request::STATUS_DELIVERED)
+            ->all();
 
         return $this->render('index', [
             'model' => $model,
@@ -96,10 +131,10 @@ class RequestController extends Controller
                 $newAccount->dateTime = date("Y-m-d H:i:s");
                 $newAccount->total = 0;
                 $newAccount->nif = 0;
-                $newAccount->status = 0;
+                $newAccount->status = Account::TOPAY;
                 $newAccount->cashier_id = 1;
                 $newAccount->save();
-                $table->status = true;
+                $table->status = Table::STATUS_BUSY;
                 $table->save();
                 $account = $this->addRequest($newAccount, $_SESSION["Addproducts"]);
                 if ($account->save()) {
@@ -131,9 +166,9 @@ class RequestController extends Controller
     {
         $request = new Request();
         $request->dateTime = date("Y-m-d H:i:s");
-        $request->status = 0;
+        $request->status = Request::STATUS_REQUEST;
         $request->account_id = $account->id;
-        $request->employee_id = 1;
+        $request->employee_id = Employee::findOne(["user_id"=>Yii::$app->user->id])->id;
         if ($request->save()) {
             foreach ($addproducts as $addproduct) {
                 $toPaid = new ProductsToBePaid();
