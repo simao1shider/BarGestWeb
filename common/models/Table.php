@@ -66,7 +66,7 @@ class Table extends \yii\db\ActiveRecord
             ->innerJoin("request","request_id=request.id")
             ->innerJoin("account","account_id=account.id")
             ->innerJoin("table","table_id=table.id")
-            ->where(["table_id"=>$id,"account.status"=>Account::TOPAY])
+            ->where(["table_id"=>$id,"account.status"=> 3])
             ->asArray()
             ->all();
         $total=0;
