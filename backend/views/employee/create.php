@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -43,6 +44,8 @@ $this->title = 'Criar Funcionário';
                 <?= $form->field($signup, 'username')->textInput() ?>
 
                 <?= $form->field($signup, 'password')->passwordInput() ?>
+
+                <?= $form->field($signup, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),['prompt'=>'Selecione o tipo de utilizador']);?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Criar', ['class' => 'btn btn-success float-right']) ?>

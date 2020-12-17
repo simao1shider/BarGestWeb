@@ -33,6 +33,13 @@ $this->title = 'Funcionários';
                         <p class="text-dark m-0">Email: <span class="card-text text-secondary"><?=$employee->email?></span></p>
                         <p class="text-dark m-0">Telemóvel: <span class="card-text text-secondary"><?=$employee->phone?></span></p>
                         <p class="text-dark m-0">Data de nascimento: <span class="card-text text-secondary"><?=$employee->birthDate?></span></p>
+                        <p class="text-dark m-0">Tipo: <span class="card-text text-secondary"><?php
+                                $userAssigned=Yii::$app->authManager->getAssignments($employee->user_id);
+                                foreach($userAssigned as $userAssign){
+                                    echo $userAssign->roleName;
+                                    break;
+                                }
+                                ?></span></p>
                         <div class="btn-group float-right mt-1">
                             <a href=<?=URL::to(["update","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
                             <a href="<?=URL::to(["view","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></a>

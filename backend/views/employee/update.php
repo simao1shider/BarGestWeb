@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -38,6 +39,8 @@ $this->title = $employee->name;
                 <?= $form->field($employee, 'birthDate')->widget(\yii\widgets\MaskedInput::className(), [
                     'mask' => '9999-99-99',
                 ]) ?>
+
+                <?= $form->field($signup, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),['prompt'=>'Selecione o tipo de utilizador']);?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Guardar', ['class' => 'btn btn-success float-right']) ?>

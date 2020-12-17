@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Account;
 
+use common\models\Cashier;
 use common\models\Employee;
 use common\models\ProductsToBePaid;
 use common\models\Table;
@@ -31,10 +32,7 @@ class RequestController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['view'],
+                        'roles' => ['counter']
                     ],
                     [
                         'allow' => true,
@@ -49,12 +47,22 @@ class RequestController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['update'],
+                        'roles' => ['showUpdateRequest'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['change_status'],
+                        'roles' => ['changeStatusRequest'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['delete'],
+                        'roles' => ['deleteRequest'],
                     ],
                 ],
+                'denyCallback' => function ($rule) {
+                    return Yii::$app->response->redirect(['site/login']);
+                },
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -71,6 +79,10 @@ class RequestController extends Controller
      */
     public function actionIndex()
     {
+        if(empty(Yii::$app->user->id)){
+            echo 'teste';
+        }
+        print_r(Yii::$app->user->id);
         $model = Request::find()
             ->where("status!=".Request::STATUS_DELIVERED)
             ->all();
@@ -132,7 +144,7 @@ class RequestController extends Controller
                 $newAccount->total = 0;
                 $newAccount->nif = 0;
                 $newAccount->status = Account::TOPAY;
-                $newAccount->cashier_id = 1;
+                $newAccount->cashier_id = Cashier::findOne(["status"=>Cashier::OPEN])->id;
                 $newAccount->save();
                 $table->status = Table::STATUS_BUSY;
                 $table->save();

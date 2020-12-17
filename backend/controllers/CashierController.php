@@ -22,16 +22,14 @@ class CashierController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['index'],
                 'rules' => [
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                        'roles' => ['BackShowCashier'],
+                        'roles' => ['admin'],
                     ],
                 ],
-                /*'denyCallback' => function($rule, $action){
-                    $this->render("../layouts/error403");
-                }*/
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),

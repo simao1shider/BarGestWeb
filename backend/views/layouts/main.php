@@ -65,6 +65,9 @@ AppAsset::register($this);
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
+                <li>
+
+                </li>
             </ul>
         </nav>
         <div id="content" class="mt-5 ml-5">

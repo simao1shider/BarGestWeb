@@ -16,9 +16,9 @@ use Yii;
  */
 class Cashier extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    const OPEN = true;
+    const CLOSE = false;
+
     public static function tableName()
     {
         return 'cashier';
@@ -32,7 +32,7 @@ class Cashier extends \yii\db\ActiveRecord
         return [
             [['date', 'status', 'total'], 'required'],
             [['date'], 'safe'],
-            [['status'], 'integer'],
+            [['status'], 'boolean'],
             [['total'], 'number'],
         ];
     }

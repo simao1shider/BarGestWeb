@@ -70,6 +70,7 @@ class EmployeeController extends Controller
             $signup->username=$signupPost["username"];
             $signup->password= $signupPost["password"];
             $signup->email = $employeePost["email"];
+            $signup->role = $signupPost["role"];
             if($signup->signup()){
                 $employee->user_id=User::find()
                     ->where(['id' => User::find()->max('id')])
@@ -98,14 +99,36 @@ class EmployeeController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $employee = $this->findModel($id);
+        $signup = new SignupForm();
+        $role=null;
+        $userAssigned=Yii::$app->authManager->getAssignments($employee->user_id);
+        foreach($userAssigned as $userAssign){
+            $role=$userAssign->roleName;
+            break;
+        }
+        if(isset($_POST["Employee"]) && isset($_POST["SignupForm"])) {
+            $employeePost = Yii::$app->request->post("Employee");
+            $employee->name = $employeePost["name"];
+            $employee->email = $employeePost["email"];
+            $employee->phone = $employeePost["phone"];
+            $employee->birthDate = $employeePost["birthDate"];
+            if ($employee->save()) {
+                if(!$role==null){
+                    $assignedRole=Yii::$app->authManager->getRole($role);
+                    Yii::$app->authManager->revoke($assignedRole, $employee->user_id);
+                }
+                Yii::$app->authManager->assign(Yii::$app->authManager->getRole(Yii::$app->request->post("SignupForm")["role"]), $employee->user_id);
+                return $this->redirect(['view', 'id' => $employee->id]);
+            }
         }
 
+
+        $signup->role=$role;
+
         return $this->render('update', [
-            'employee' => $model,
+            'employee' => $employee,
+            'signup'=>$signup,
         ]);
     }
 
