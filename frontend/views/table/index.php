@@ -49,11 +49,8 @@ $this->title = 'Mesas';
                 <?php
 
                 }
-                ?>
-            <?php
             }
-
-        ?>
+                ?>
         </div>
     </div>
 </div>
