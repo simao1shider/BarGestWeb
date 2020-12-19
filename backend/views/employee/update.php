@@ -36,9 +36,12 @@ $this->title = $employee->name;
                     'mask' => '999999999',
                 ]) ?>
 
-                <?= $form->field($employee, 'birthDate')->widget(\yii\widgets\MaskedInput::className(), [
-                    'mask' => '9999-99-99',
-                ]) ?>
+                <div class="form-group field-employee-birthdate">
+                    <label for="employee-birthdate">Data de Nascimento</label>
+                    <input type="date" id="employee-birthdate" class="form-control" name="Employee[birthDate]">
+
+                    <div class="invalid-feedback"></div>
+                </div>
 
                 <?= $form->field($signup, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),['prompt'=>'Selecione o tipo de utilizador']);?>
 

@@ -17,8 +17,8 @@ class m201214_194322_init_rbac extends Migration
     {
         $auth = Yii::$app->authManager;
 
-        $rule = new common\models\UserGroupRule;
-        $auth->add($rule);
+       // $rule = new common\models\UserGroupRule;
+        //$auth->add($rule);
 
         $createShowRequest= $auth->createPermission("showCreateRequest");
         $createShowRequest->description = 'Show view create a request in frontend';

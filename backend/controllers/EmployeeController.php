@@ -6,6 +6,7 @@ use common\models\User;
 use frontend\models\SignupForm;
 use Yii;
 use common\models\Employee;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,16 @@ class EmployeeController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','view','create','update','delete'],
+                        'roles' => ['admin']
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,6 +47,8 @@ class EmployeeController extends Controller
      */
     public function actionIndex()
     {
+        //print_r(Yii::$app->user->identity->group);
+        print_r(Yii::$app->user->id);
         $employee=Employee::find()->innerJoin("user","user.id=user_id")->where(["user.status"=>User::STATUS_ACTIVE])->all();
         return $this->render('index', [
             'employees'=>$employee,

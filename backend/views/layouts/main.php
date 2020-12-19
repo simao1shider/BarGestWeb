@@ -34,7 +34,7 @@ AppAsset::register($this);
                 <strong class="">BG</strong> <?php // Html::img('@web/img/Logo/white.png', ['class' => 'mr-5', 'style' => 'width: 55px;']) ?>
             </div>
 
-            <ul class="components">
+            <ul class="components" style="height: 100%">
                 <li class="active">
                     <a href="<?=Url::to(["site/index"])?>" title="Home">
                         <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
@@ -65,8 +65,8 @@ AppAsset::register($this);
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
-
+                <li style="position: absolute;bottom: 10px; width: 100%">
+                    <?= Html::a("<i class='fa fa-power-off fa-5x' style='color: red' ></i>",Url::to(["site/logout"]))?>
                 </li>
             </ul>
         </nav>

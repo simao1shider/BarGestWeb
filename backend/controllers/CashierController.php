@@ -22,11 +22,10 @@ class CashierController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index','view','create','update','fecharcaixa','abrircaixa'],
                         'roles' => ['admin'],
                     ],
                 ],

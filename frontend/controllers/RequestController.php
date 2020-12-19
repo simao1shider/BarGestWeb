@@ -32,37 +32,34 @@ class RequestController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                        'roles' => ['counter']
+                        'roles' => ['@']
                     ],
                     [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['showCreateRequest'],
+                        'roles' => ['@'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['postcreate'],
-                        'roles' => ['createRequest'],
+                        'roles' => ['@'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['showUpdateRequest'],
+                        'roles' => ['@'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['change_status'],
-                        'roles' => ['changeStatusRequest'],
+                        'roles' => ['@'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteRequest'],
+                        'roles' => ['@'],
                     ],
                 ],
-                'denyCallback' => function ($rule) {
-                    return Yii::$app->response->redirect(['site/login']);
-                },
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
