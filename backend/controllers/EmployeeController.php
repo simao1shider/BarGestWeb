@@ -27,7 +27,7 @@ class EmployeeController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index','view','create','update','delete','resetpassword'],
                         'roles' => ['admin']
                     ],
                 ],
@@ -36,6 +36,7 @@ class EmployeeController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'resetpassword'=>['POST']
                 ],
             ],
         ];
@@ -47,8 +48,6 @@ class EmployeeController extends Controller
      */
     public function actionIndex()
     {
-        //print_r(Yii::$app->user->identity->group);
-        print_r(Yii::$app->user->id);
         $employee=Employee::find()->innerJoin("user","user.id=user_id")->where(["user.status"=>User::STATUS_ACTIVE])->all();
         return $this->render('index', [
             'employees'=>$employee,
@@ -82,6 +81,7 @@ class EmployeeController extends Controller
             $signupPost=Yii::$app->request->post("SignupForm");
             $signup->username=$signupPost["username"];
             $signup->password= $signupPost["password"];
+            $signup->password_repeat= $signupPost["password_repeat"];
             $signup->email = $employeePost["email"];
             $signup->role = $signupPost["role"];
             if($signup->signup()){
@@ -145,13 +145,14 @@ class EmployeeController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Employee model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    public function actionResetpassword(){
+        $post=Yii::$app->request->post("SignupForm");
+        $user=User::findOne(["id"=>Employee::findOne(["id"=>$post["id"]])->user_id]);
+        $user->setPassword($post["password"]);
+        $user->save();
+        return $this->redirect(["view","id"=>$post["id"]]);
+    }
+
     public function actionDelete($id)
     {
         $employee=$this->findModel($id);

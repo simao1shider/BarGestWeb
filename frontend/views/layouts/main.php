@@ -55,6 +55,9 @@ AppAsset::register($this);
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
+                <li style="position: absolute;bottom: 10px; width: 100%">
+                    <?= Html::a("<i class='fa fa-power-off fa-5x' style='color: red' ></i>",Url::to(["site/logout"]))?>
+                </li>
             </ul>
         </nav>
         <div id="content" class="mt-5 ml-5">

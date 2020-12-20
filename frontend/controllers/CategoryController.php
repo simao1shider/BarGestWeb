@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Category;
 use common\models\Product;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,6 +20,16 @@ class CategoryController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','view'],
+                        'roles' => ['employee'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -28,10 +39,7 @@ class CategoryController extends Controller
         ];
     }
 
-    /**
-     * Lists all Category models.
-     * @return mixed
-     */
+
     public function actionIndex()
     {
         $categories = Category::find()->where(["status"=>Category::STATUS_ACTIVE])->all();
@@ -41,12 +49,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Category model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionView($id)
     {
         $products = Product::find()->where(["status"=>Product::STATUS_ACTIVE,"category_id"=>$id])->all();
@@ -56,13 +59,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Finds the Category model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Category the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     protected function findModel($id)
     {
         if (($model = Category::find()->where(["status"=>Category::STATUS_ACTIVE,"id"=>$id])->one()) !== null) {

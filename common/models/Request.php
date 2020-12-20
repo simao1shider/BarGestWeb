@@ -26,6 +26,7 @@ class Request extends \yii\db\ActiveRecord
     const STATUS_COOKING = 1;
     const STATUS_READY = 2;
     const STATUS_DELIVERED = 3;
+    const STATUS_PAYED = 4;
 
     /**
      * {@inheritdoc}
