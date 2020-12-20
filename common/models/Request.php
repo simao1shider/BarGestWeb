@@ -152,12 +152,15 @@ class Request extends \yii\db\ActiveRecord
         $id = $this->id;
         $dateTime = $this->dateTime;
         $status = $this->status;
+        $productsPas = $this->productsPas;
 
         $request = new Request();
         $request->id = $id;
         $request->dateTime = $dateTime;
         $request->status = $status;
+        $request->productsPas = $productsPas;
 
+        //TODO Enviar para um empregado especifico
         $requestInJSON = Json::encode($request);
         if ($insert) {
             $this->FazPublish("INSERT_Request", $requestInJSON);
