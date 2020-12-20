@@ -12,6 +12,7 @@ use Yii;
 use common\models\Request;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -136,14 +137,23 @@ class RequestController extends Controller
                 $newAccount->total = 0;
                 $newAccount->nif = 0;
                 $newAccount->status = Account::TOPAY;
-                $newAccount->cashier_id = Cashier::findOne(["status"=>Cashier::OPEN])->id;
-                $newAccount->save();
+                $cashier=Cashier::findOne(["status"=>Cashier::OPEN]);
+                if(!empty($cashier))
+                    $newAccount->cashier_id = $cashier->id;
+                else
+                    throw new HttpException(404,"Não existem caixas abertas");
+                if(!$newAccount->save())
+                    throw new HttpException(500,"Não foi possivel criar uma conta");
                 $table->status = Table::STATUS_BUSY;
-                $table->save();
+                if(!$table->save())
+                    throw new HttpException(500,"Não foi possivel alterar o estao da mesa");
                 $account = $this->addRequest($newAccount, $_SESSION["Addproducts"]);
                 if ($account->save()) {
                     unset($_SESSION["Addproducts"]);
                     return $this->redirect(["index"]);
+                }
+                else{
+                    throw new HttpException(500,"Não foi possivel adicionar productos a conta");
                 }
             }
             if (isset($account["id"])) {
@@ -152,6 +162,9 @@ class RequestController extends Controller
                 if ($account->save()) {
                     unset($_SESSION["Addproducts"]);
                     return $this->redirect(["index"]);
+                }
+                else{
+                    throw new HttpException(500,"Não foi possivel adicionar productos a conta");
                 }
             }
         } else {
