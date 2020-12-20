@@ -16,14 +16,28 @@ class m201214_194322_init_rbac extends Migration
     public function safeUp()
     {
         $auth = Yii::$app->authManager;
+        //Table Permissions
+        $showTables = $auth->createPermission("showTables");
+        $showTables->description = 'Show all tables in frontend';
+        $auth->add($showTables);
 
-       // $rule = new common\models\UserGroupRule;
-        //$auth->add($rule);
+        $showTable = $auth->createPermission("showTable");
+        $showTable->description = 'Show specific tables in frontend';
+        $auth->add($showTable);
 
+        $showCreateTable = $auth->createPermission("showCreateTable");
+        $showCreateTable->description = 'Show view for create tables in frontend';
+        $auth->add($showCreateTable);
+
+        $createTable = $auth->createPermission("createTable");
+        $createTable->description = 'Create tables in frontend';
+        $auth->add($createTable);
+        //----------- End Table Permissions
+
+        //Request Permissions
         $createShowRequest= $auth->createPermission("showCreateRequest");
         $createShowRequest->description = 'Show view create a request in frontend';
         $auth->add($createShowRequest);
-
 
         $createRequest = $auth->createPermission('createRequest');
         $createRequest->description = 'Create a request in frontend';
@@ -48,31 +62,49 @@ class m201214_194322_init_rbac extends Migration
         $changeStatusRequest = $auth->createPermission('changeStatusRequest');
         $changeStatusRequest->description = 'Change status of request in frontend';
         $auth->add($changeStatusRequest);
+        //----------- End Request Permissions
 
+        //Category Permissions
+        $showCategories = $auth->createPermission('$showCategories');
+        $showCategories->description = 'Show all categories in frontend';
+        $auth->add($showCategories);
+
+        $showCategory = $auth->createPermission('$showCategory');
+        $showCategory->description = 'Show products in specific category in frontend';
+        $auth->add($showCategory);
+        //----------- End Category Permissions
+
+        //Create Roles
         $employee = $auth->createRole('employee');
-        //$employee->ruleName = $rule->name;
         $counter = $auth->createRole('counter');
-        //$counter->ruleName = $rule->name;
         $admin = $auth->createRole('admin');
-        //$admin->ruleName = $rule->name;
-
         $auth->add($employee);
         $auth->add($counter);
         $auth->add($admin);
 
+        //Assigns
+        //---Requests
         $auth->addChild($employee, $updateRequest);
         $auth->addChild($employee,$updateShowRequest);
         $auth->addChild($employee,$deleteRequest);
         $auth->addChild($employee,$changeStatusRequest);
         $auth->addChild($employee, $createShowRequest);
         $auth->addChild($employee, $createRequest);
-        //$auth->addChild($employee,$listRequest);
-        $auth->addChild($counter,$listRequest);
+        $auth->addChild($employee,$listRequest);
+        //---Tables
+        $auth->addChild($employee,$showTables);
+        $auth->addChild($employee,$showTable);
+        $auth->addChild($employee,$showCreateTable);
+        $auth->addChild($employee,$createTable);
+        //---Category
+        $auth->addChild($employee,$showCategories);
+        $auth->addChild($employee,$showCategory);
+        //---Hierarchy
         $auth->addChild($counter, $employee);
         $auth->addChild($admin, $counter);
         $auth->addChild($admin, $employee);
 
-
+        //Create Admin
         $transaction = $this->getDb()->beginTransaction();
         $newuser = \Yii::createObject([
             'class'    => User::className(),
@@ -101,8 +133,9 @@ class m201214_194322_init_rbac extends Migration
             return false;
         }
         $transaction->commit();
+        //----------- End Create Admin
 
-
+        //Assign role admin to user admin
         $auth->assign($admin, $newuser->id);
 
     }
@@ -116,9 +149,12 @@ class m201214_194322_init_rbac extends Migration
         $auth->removeAll();
         $transaction = $this->getDb()->beginTransaction();
         $user = User::findOne(['username'=>'admin']);
-        if (!$user->delete()) {
-            $transaction->rollBack();
-            return false;
+        //Delete Admin and Employee(employee in casked)
+        if(!empty($user)){
+            if (!$user->delete()) {
+                $transaction->rollBack();
+                return false;
+            }
         }
         $transaction->commit();
     }

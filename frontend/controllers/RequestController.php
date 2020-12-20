@@ -32,32 +32,37 @@ class RequestController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                        'roles' => ['@']
+                        'roles' => ['listRequest']
                     ],
                     [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['@'],
+                        'roles' => ['showCreateRequest'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['postcreate'],
-                        'roles' => ['@'],
+                        'roles' => ['createRequest'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['update'],
-                        'roles' => ['@'],
+                        'roles' => ['showUpdateRequest'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['execupdate'],
+                        'roles' => ['updateRequest'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['change_status'],
-                        'roles' => ['@'],
+                        'roles' => ['changeStatusRequest'],
                     ],
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['@'],
+                        'roles' => ['deleteRequest'],
                     ],
                 ],
             ],
@@ -79,7 +84,6 @@ class RequestController extends Controller
         if(empty(Yii::$app->user->id)){
             echo 'teste';
         }
-        print_r(Yii::$app->user->id);
         $model = Request::find()
             ->where("status!=".Request::STATUS_DELIVERED)
             ->all();
@@ -89,12 +93,7 @@ class RequestController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Request model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionView($id)
     {
         return $this->render('view', [
@@ -102,11 +101,7 @@ class RequestController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Request model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
+
     public function actionCreate()
     {
         unset($_SESSION["Addproducts"]);
@@ -227,7 +222,6 @@ class RequestController extends Controller
                     ->andWhere(["product_id" => $product['id']]);
                 if ($con->exists()) {
                     $edit = $con->one();
-                    print_r($edit);
                     $edit->quantity = $product["quantity"];
                     $edit->update();
                 } else {
@@ -256,13 +250,7 @@ class RequestController extends Controller
         return null;
     }
 
-    /**
-     * Deletes an existing Request model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionDelete($id)
     {
         $request = $this->findModel($id);
@@ -286,7 +274,6 @@ class RequestController extends Controller
         return $this->redirect(['index']);
     }
 
-
     public function actionChange_status()
     {
         $get = Yii::$app->request->get();
@@ -305,13 +292,6 @@ class RequestController extends Controller
     }
 
 
-    /**
-     * Finds the Request model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Request the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Request::findOne($id)) !== null) {

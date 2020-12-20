@@ -4,7 +4,9 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Table;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -19,10 +21,14 @@ class TableController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','view','create'],
+                        'roles' => ['employee'],
+                    ],
                 ],
             ],
         ];
@@ -35,25 +41,24 @@ class TableController extends Controller
     public function actionIndex()
     {
         $model = Table::find()->orderBy('number')->all();
-        $table = new Table();
         return $this->render('index', [
             'model' => $model
         ]);
     }
 
-    /**
-     * Displays a single Table model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionView($id)
     {
         $model=Table::findOne($id);
         if(isset($_GET['CR'])){
-            return $this->render('view', [
-                'model' => $model,
-            ]);
+            if(Yii::$app->user->can("createRequest"))
+            {
+                return $this->render('view', [
+                    'model' => $model,
+                ]);
+            }else{
+                throw new HttpException(403,"Não tem premisões para aceder a este ficheiro");
+            }
         }
         else{
             $AccountQuantity=count($model->accounts);
@@ -70,11 +75,7 @@ class TableController extends Controller
         }
     }
 
-    /**
-     * Creates a new Table model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
+
     public function actionCreate()
     {
         $model = new Table();
@@ -91,13 +92,6 @@ class TableController extends Controller
     }
 
 
-    /**
-     * Finds the Table model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Table the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Table::findOne($id)) !== null) {

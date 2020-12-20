@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\models\Table;
 use Yii;
 use common\models\Account;
 use common\models\ProductsPaid;
 use common\models\ProductsToBePaid;
 use common\models\Request;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 
@@ -15,6 +17,21 @@ class AccountController extends \yii\web\Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view','delete'],
+                        'roles' => ['employee'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['split','ltr','rtl','paysplitaccount','delete_product'],
+                        'roles' => ['counter'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -24,10 +41,6 @@ class AccountController extends \yii\web\Controller
         ];
     }
 
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
 
     public function actionView($id)
     {
@@ -57,10 +70,10 @@ class AccountController extends \yii\web\Controller
                     ProductsToBePaid::findOne($productToBePaid->request_id, $productToBePaid->product_id)->delete();
                 }
                 $request = Request::findOne($request->id);
-                $request->status = 4;
+                $request->status = Request::STATUS_PAYED;
                 $request->save();
             }
-            $model->status = 1;
+            $model->status = Account::PAID;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -96,7 +109,7 @@ class AccountController extends \yii\web\Controller
         $account->delete();
         $quantAccounts= Account::find()->where(["table_id"=>$table->id, "status"=>Account::TOPAY])->count();
         if ($quantAccounts == 0) {
-            $table->status = false;
+            $table->status = Table::STATUS_FREE;
             $table->save();
         }
         $this->redirect(["table/index"]);

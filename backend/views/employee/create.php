@@ -32,7 +32,9 @@ $this->title = 'Criar Funcionário';
 
                 <?= $form->field($employee, 'email')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($employee, 'phone')->textInput() ?>
+                <?= $form->field($employee, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+                    'mask' => '999999999',
+                ]) ?>
 
                 <div class="form-group field-employee-birthdate">
                     <label for="employee-birthdate">Data de Nascimento</label>
@@ -44,6 +46,7 @@ $this->title = 'Criar Funcionário';
                 <?= $form->field($signup, 'username')->textInput() ?>
 
                 <?= $form->field($signup, 'password')->passwordInput() ?>
+                <?= $form->field($signup, 'password_repeat')->passwordInput() ?>
 
                 <?= $form->field($signup, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),['prompt'=>'Selecione o tipo de utilizador']);?>
 
