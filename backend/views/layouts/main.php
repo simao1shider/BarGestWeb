@@ -28,6 +28,9 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrapper" id="container">
+        <?php 
+            if(!Yii::$app->user->isGuest){
+        ?>
         <nav id="sidebar" class="active" id="sidebar">
             <div class="sidebar-header">
                 <!--<h3>BarGest</h3>-->
@@ -70,6 +73,9 @@ AppAsset::register($this);
                 </li>
             </ul>
         </nav>
+        <?php 
+           }
+        ?>
         <div id="content" class="mt-5 ml-5">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

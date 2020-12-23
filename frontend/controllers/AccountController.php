@@ -22,12 +22,12 @@ class AccountController extends \yii\web\Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['view','delete'],
+                        'actions' => ['view','split','ltr','rtl','paysplitaccount'],
                         'roles' => ['employee'],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['split','ltr','rtl','paysplitaccount','delete_product'],
+                        'actions' => ['delete_product', 'delete'],
                         'roles' => ['counter'],
                     ],
                 ],

@@ -25,7 +25,7 @@ $this->title = $account->name;
     </nav>
 
     <p class="text-right">
-        <?= Html::a('Apagar', ['delete', 'id' => $account->id], [
+        <?= Html::a('Apagar Conta', ['delete', 'id' => $account->id], [
             'class' => 'btn btn-outline-danger',
             'data' => [
                 'confirm' => 'Tem a certeza que pretende apagar esta conta?',

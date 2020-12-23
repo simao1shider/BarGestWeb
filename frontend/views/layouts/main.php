@@ -28,6 +28,9 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrapper">
+        <?php 
+            if(!Yii::$app->user->isGuest){
+        ?>
         <nav id="sidebar" class="active">
             <div class="sidebar-header">
                 <!--<h3>BarGest</h3>-->
@@ -60,6 +63,9 @@ AppAsset::register($this);
                 </li>
             </ul>
         </nav>
+        <?php 
+           }
+        ?>
         <div id="content" class="mt-5 ml-5">
             <?= Breadcrumbs::widget([
                 'itemTemplate' => "\n\t<li class=\"breadcrumb-item\"><i>{link}</i></li>\n",
