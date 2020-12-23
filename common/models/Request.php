@@ -44,7 +44,10 @@ class Request extends \yii\db\ActiveRecord
         return [
             [['dateTime', 'status'], 'required'],
             [['dateTime'], 'safe'],
-            [['status', 'account_id', 'employee_id'], 'integer'],
+            [['dateTime'], 'date','format'=>'yyyy-M-d H:m:s'],
+            [['account_id', 'employee_id'], 'integer'],
+            [['account_id', 'employee_id'], 'required'],
+            ['status','integer','min'=>0,'max'=>4],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],
         ];
