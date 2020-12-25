@@ -83,4 +83,23 @@ class AccountController extends ActiveController
         return "Pagamento efetuado com sucesso!";
 
     }
+
+    public function actionSplitPay($id){
+        $nif = Yii::$app->request->post('nif');
+        $products = Yii::$app->request->post('products');
+
+        $account = Account::findOne($id);
+        if (empty($nif)) {
+            throw new HttpException(404, 'Request not found.');
+        }
+
+        if ($nif == null) {
+            $nif = 999999990;
+        } else {
+            //Valida se o nif está correto
+            if (!$account->validateNIF($nif)) {
+                throw new HttpException(415, 'NIF is not valid!');
+            }
+        }
+    }
 }
