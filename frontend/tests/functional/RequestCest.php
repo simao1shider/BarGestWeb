@@ -47,6 +47,7 @@ class RequestCest
         $I->amOnPage(["request/index"]);
         $I->seeInTitle("Pedidos");
         $I->see("Não tem pedidos neste momento");
+
     }
 
     public function trySeeIndexWithRequest(FunctionalTester $I){

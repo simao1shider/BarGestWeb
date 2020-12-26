@@ -16,7 +16,10 @@ $this->registerCssFile("/css/login.css");
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin([
+                'id'=>'form-login'
+            ]
+        ); ?>
 
         <?= $form->field($model, 'username') ?>
 

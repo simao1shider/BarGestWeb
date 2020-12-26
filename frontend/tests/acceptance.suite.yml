@@ -1,0 +1,20 @@
+suite_namespace: frontend\tests\acceptance
+actor: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+              url: 'http://localhost/BarGestWeb/frontend/web/'
+              window_size: false # disabled in ChromeDriver
+              port: 9515
+              browser: chrome
+              entryScript: index-test.php
+        - Yii2:
+              part: [orm, fixtures] # allow to use AR methods
+              cleanup: false # don't wrap test in transaction
+              entryScript: index-test.php
+              transaction: false
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=bargest_test'
+            user: 'root'
+            password: ''
+            cleanup: true
