@@ -101,5 +101,47 @@ class AccountController extends ActiveController
                 throw new HttpException(415, 'NIF is not valid!');
             }
         }
+
+        $productstobepaid = ProductsToBePaid::find()
+                                    ->innerJoin("request", 'request_id = id')
+                                    ->innerJoin("product", "product_id = product.id")
+                                    ->where(["account_id" => $id, "request.status" => 3])
+                                    ->all();
+        
+        foreach($products as $product){
+            foreach($productstobepaid as $producttobepaid){
+                if($producttobepaid->product_id == $product['product_id']){
+                    if($product['quantity'] < $producttobepaid->quantity){
+
+                        $producttopaydb = new ProductsPaid();
+                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->product_id = $producttobepaid->product_id;
+                        $producttopaydb->quantity = $product['quantity'];
+                        
+
+                        $producttobepaid->quantity -= $product['quantity'];
+                        if($producttopaydb->save() && $producttobepaid->save()){
+                            //nice
+                        }
+                        else{
+                            throw new HttpException(415, 'Parâmetros Inválidos!');
+                        }
+                    }
+                    else{
+                        $producttopaydb = new ProductsPaid();
+                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->product_id = $producttobepaid->product_id;
+                        $producttopaydb->quantity = $product['quantity'];
+
+                        if($producttopaydb->save() && $producttobepaid->delete()){
+                            //nice
+                        }
+                        else{
+                            throw new HttpException(415, 'Parâmetros Inválidos!');
+                        }
+                    }
+                }
+            }
+        }
     }
 }
