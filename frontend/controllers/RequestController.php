@@ -10,6 +10,7 @@ use common\models\ProductsToBePaid;
 use common\models\Table;
 use Yii;
 use common\models\Request;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -111,8 +112,18 @@ class RequestController extends Controller
         if (isset($_GET['account']) || isset($_GET['tableId'])) {
             if (isset($_GET["account"])) {
                 $model = Account::findOne($_GET["account"]);
+                if($model == null){
+                    throw new HttpException(404,"Conta não existe");
+                }
             } else {
-                $model->table_id = $_GET['tableId'];
+                echo Table::find()->where(["id"=>$_GET['tableId']])->exists();
+                if(Table::find()->where(["id"=>$_GET['tableId']])->exists()){
+                    $model->table_id = $_GET['tableId'];
+                }
+                else
+                {
+                    throw new HttpException(404,"Mesa não existe");
+                }
             }
             return $this->render('create', [
                 'model' => $model,
@@ -168,9 +179,9 @@ class RequestController extends Controller
                 }
             }
         } else {
-            if (isset($_GET["Table"])) {
+            if (isset($account["table_id"])) {
                 //TODO:Notificar que não hove inserção do produto
-                return $this->redirect(["create", "Table" => $account["table_id"]]);
+                return $this->redirect(["create", "tableId" => $account["table_id"]]);
             } else {
                 //TODO:Notificar que não hove inserção do produto
                 return $this->redirect(["create", "CR" => 1, "account" => $account["id"]]);

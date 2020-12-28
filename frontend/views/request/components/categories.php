@@ -1,4 +1,7 @@
 <?php
+if(empty($categories)){
+    echo "<h3>Não existem categorias</h3>";
+}
 foreach ($categories as $category) {
     ?>
     <div class="col-4 mt-3">

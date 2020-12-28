@@ -6,17 +6,17 @@ use \yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\Table */
 
-$this->title = $model->number;
+$this->title = "Contas";
 ?>
 <div class="table-view container-fluid ml-5">
 
-    <h1><?= Html::img('@web/img/Icons/Color/table.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <h1><?= Html::img('@web/img/Icons/Color/table.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2"><span class="mt-2"><?= Html::encode($model->number) ?></span></h1>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
             <li class="breadcrumb-item"><a href="index">Mesas</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($model->number) ?></li>
         </ol>
     </nav>
     <div class="btn-group btn-group-toggle float-right">

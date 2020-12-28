@@ -27,6 +27,7 @@ $this->title = 'Criar Pedido';
     <div>
         <?php $form = ActiveForm::begin([
             'method' => 'post',
+            'id'=>'account-form',
             'action' => ['request/postcreate'],
             'options' => [
                     'class' => 'form-row',
@@ -45,7 +46,7 @@ $this->title = 'Criar Pedido';
             ?>
         </div>
         <div class="form-group text-right col-3">
-            <?= Html::submitButton('Finalizar pedido', ['class' => 'btn btn-success',]) ?>
+            <?= Html::submitButton('Finalizar pedido', ['class' => 'btn btn-success','name'=>"finishRequest"]) ?>
         </div>
 
         <?php

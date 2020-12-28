@@ -15,7 +15,7 @@ $this->title = 'Pedidos';
         <span class="badge badge-danger">Pedido em Espera</span>
     </h5>
     <p>
-        <?= Html::a('Criar Pedido <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success float-right']) ?>
+        <?= Html::a('Criar Pedido <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success float-right','name'=>"CreateRequest"]) ?>
     </p>
 
     <div class="mt-5 container">
