@@ -84,11 +84,13 @@ class AccountController extends ActiveController
 
     }
 
-    public function actionSplitPay($id){
+    public function actionSplitpay($id){
+        //return print_r(Yii::$app->request->post());
         $nif = Yii::$app->request->post('nif');
-        $products = Yii::$app->request->post('products');
-
+        $products = json_decode(Yii::$app->request->post('products'));
+        
         $account = Account::findOne($id);
+        
         if (empty($nif)) {
             throw new HttpException(404, 'Request not found.');
         }
@@ -103,35 +105,35 @@ class AccountController extends ActiveController
         }
 
         $productstobepaid = ProductsToBePaid::find()
-                                    ->innerJoin("request", 'request_id = id')
+                                    ->innerJoin("request", 'request_id = request.id')
                                     ->innerJoin("product", "product_id = product.id")
                                     ->where(["account_id" => $id, "request.status" => 3])
                                     ->all();
-        
+                                    //return print_r($productstobepaid);
         foreach($products as $product){
             foreach($productstobepaid as $producttobepaid){
-                if($producttobepaid->product_id == $product['product_id']){
-                    if($product['quantity'] < $producttobepaid->quantity){
-
+                if($producttobepaid->product_id == $product->id){
+                    if($product->quantity < $producttobepaid->quantity){
                         $producttopaydb = new ProductsPaid();
                         $producttopaydb->request_id = $producttobepaid->request_id;
                         $producttopaydb->product_id = $producttobepaid->product_id;
-                        $producttopaydb->quantity = $product['quantity'];
+                        $producttopaydb->quantity = $product->quantity;
                         
 
-                        $producttobepaid->quantity -= $product['quantity'];
+                        $producttobepaid->quantity -= $product->quantity;
                         if($producttopaydb->save() && $producttobepaid->save()){
                             //nice
                         }
                         else{
                             throw new HttpException(415, 'Parâmetros Inválidos!');
                         }
+                        
                     }
                     else{
                         $producttopaydb = new ProductsPaid();
                         $producttopaydb->request_id = $producttobepaid->request_id;
                         $producttopaydb->product_id = $producttobepaid->product_id;
-                        $producttopaydb->quantity = $product['quantity'];
+                        $producttopaydb->quantity = $product->quantity;
 
                         if($producttopaydb->save() && $producttobepaid->delete()){
                             //nice
@@ -143,5 +145,6 @@ class AccountController extends ActiveController
                 }
             }
         }
+        return "Pagamento efetuado com Sucesso!";
     }
 }

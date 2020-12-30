@@ -89,7 +89,8 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET info/{id}' => 'accountinfo',
-                        'PUT pay/{id}' => 'pay'
+                        'PUT pay/{id}' => 'pay',
+                        'PUT splitpay/{id}' => 'splitpay',
                     ],
                 ]
             ],        
