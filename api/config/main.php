@@ -50,6 +50,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET accounts/{id}' => 'table_accounts',
+                        'GET tables' => 'table',
                     ],
 
                 ],
