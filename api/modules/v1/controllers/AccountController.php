@@ -2,14 +2,18 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Product;
+use common\models\ProductsToBePaid;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\web\HttpException;
 use common\models\Account;
 use common\models\Request;
 use common\models\ProductsPaid;
-use common\models\ProductsToBePaid;
 use yii;
+use yii\filters\auth\CompositeAuth;
+use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\QueryParamAuth;
 
 class AccountController extends ActiveController
 {
@@ -27,6 +31,22 @@ class AccountController extends ActiveController
                 'application/json' => Response::FORMAT_JSON,
 
             ]
+        ];
+        $behaviors['authenticator'] = [
+            'class' => CompositeAuth::className(),
+            'authMethods' => [
+                [
+                    'class' => HttpBasicAuth::className(),
+                    'auth' => function ($username, $password){
+                        $user = \common\models\User::findByUsername($username);
+                        if ($user && $user->validatePassword($password)){
+                            return $user;
+                        }
+                        return null;
+                    }
+                ],
+                QueryParamAuth::className(),
+            ],
         ];
         return $behaviors;
     }
@@ -84,11 +104,13 @@ class AccountController extends ActiveController
 
     }
 
-    public function actionSplitPay($id){
+    public function actionSplitpay($id){
+        //return print_r(Yii::$app->request->post());
         $nif = Yii::$app->request->post('nif');
-        $products = Yii::$app->request->post('products');
-
+        $products = json_decode(Yii::$app->request->post('products'));
+        
         $account = Account::findOne($id);
+        
         if (empty($nif)) {
             throw new HttpException(404, 'Request not found.');
         }
@@ -101,5 +123,48 @@ class AccountController extends ActiveController
                 throw new HttpException(415, 'NIF is not valid!');
             }
         }
+
+        $productstobepaid = ProductsToBePaid::find()
+                                    ->innerJoin("request", 'request_id = request.id')
+                                    ->innerJoin("product", "product_id = product.id")
+                                    ->where(["account_id" => $id, "request.status" => 3])
+                                    ->all();
+                                    //return print_r($productstobepaid);
+        foreach($products as $product){
+            foreach($productstobepaid as $producttobepaid){
+                if($producttobepaid->product_id == $product->id){
+                    if($product->quantity < $producttobepaid->quantity){
+                        $producttopaydb = new ProductsPaid();
+                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->product_id = $producttobepaid->product_id;
+                        $producttopaydb->quantity = $product->quantity;
+                        
+
+                        $producttobepaid->quantity -= $product->quantity;
+                        if($producttopaydb->save() && $producttobepaid->save()){
+                            //nice
+                        }
+                        else{
+                            throw new HttpException(415, 'Parâmetros Inválidos!');
+                        }
+                        
+                    }
+                    else{
+                        $producttopaydb = new ProductsPaid();
+                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->product_id = $producttobepaid->product_id;
+                        $producttopaydb->quantity = $product->quantity;
+
+                        if($producttopaydb->save() && $producttobepaid->delete()){
+                            //nice
+                        }
+                        else{
+                            throw new HttpException(415, 'Parâmetros Inválidos!');
+                        }
+                    }
+                }
+            }
+        }
+        return "Pagamento efetuado com Sucesso!";
     }
 }

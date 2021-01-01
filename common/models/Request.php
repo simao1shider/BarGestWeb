@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "request".
@@ -125,5 +126,50 @@ class Request extends \yii\db\ActiveRecord
     public function getEmployee()
     {
         return $this->hasOne(Employee::className(), ['id' => 'employee_id']);
+    }
+
+    //* Função que faz o publish com um canal e mensagem à escolha
+    public function FazPublish($canal, $msg)
+    {
+        $server = '127.0.0.1';
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = uniqid();
+        $mqtt= new phpMQTT($server, $port, $client_id);
+        try {
+            if ($mqtt->connect(true)) {
+                $mqtt->publish($canal, $msg, 1);
+                $mqtt->disconnect();
+                $mqtt->close();
+            } else {
+                file_put_contents("debug.output", "Time out!");
+            }
+        }catch (\Exception $X)
+        {}
+    }
+
+    //* Após guardar 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $id = $this->id;
+        $dateTime = $this->dateTime;
+        $status = $this->status;
+        $productsPas = $this->productsPas;
+
+        $request = new Request();
+        $request->id = $id;
+        $request->dateTime = $dateTime;
+        $request->status = $status;
+        $request->productsPas = $productsPas;
+
+        //TODO Enviar para um empregado especifico
+        $requestInJSON = Json::encode($request);
+        if ($insert) {
+            $this->FazPublish("INSERT_Request", $requestInJSON);
+        }else{
+            $this->FazPublish("UPDATE_Request", $requestInJSON);
+        }
     }
 }
