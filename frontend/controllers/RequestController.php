@@ -83,9 +83,6 @@ class RequestController extends Controller
      */
     public function actionIndex()
     {
-        if(empty(Yii::$app->user->id)){
-            echo 'teste';
-        }
         $model = Request::find()
             ->where("status!=".Request::STATUS_DELIVERED)
             ->all();
@@ -116,7 +113,6 @@ class RequestController extends Controller
                     throw new HttpException(404,"Conta não existe");
                 }
             } else {
-                echo Table::find()->where(["id"=>$_GET['tableId']])->exists();
                 if(Table::find()->where(["id"=>$_GET['tableId']])->exists()){
                     $model->table_id = $_GET['tableId'];
                 }
