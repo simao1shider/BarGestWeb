@@ -153,23 +153,12 @@ class Request extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        $id = $this->id;
-        $dateTime = $this->dateTime;
-        $status = $this->status;
-        $productsPas = $this->productsPas;
-
-        $request = new Request();
-        $request->id = $id;
-        $request->dateTime = $dateTime;
-        $request->status = $status;
-        $request->productsPas = $productsPas;
-
-        //TODO Enviar para um empregado especifico
-        $requestInJSON = Json::encode($request);
+        
+        $requestInJSON = Json::encode($this);
         if ($insert) {
-            $this->FazPublish("INSERT_Request", $requestInJSON);
+            $this->FazPublish("INSERT_Request_".Yii::$app->user->id, $requestInJSON);
         }else{
-            $this->FazPublish("UPDATE_Request", $requestInJSON);
+            $this->FazPublish("UPDATE_Request_".Yii::$app->user->id, $requestInJSON);
         }
     }
 }
