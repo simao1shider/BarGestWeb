@@ -41,7 +41,7 @@ $this->title = 'Funcionários';
                                 }
                                 ?></span></p>
                         <div class="btn-group float-right mt-1">
-                            <a href=<?=URL::to(["update","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
+                            <a href="<?=URL::to(["update","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
                             <a href="<?=URL::to(["view","id"=>$employee->id])?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-eye"></i></a>
                         </div>
                     </div>
