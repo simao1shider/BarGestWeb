@@ -9,11 +9,18 @@ $this->title = 'Pedidos';
 <div class="request-index container-fluid ml-5">
 
     <h1><?= Html::img('@web/img/Icons/Color/list.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../site/index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
+        </ol>
+    </nav>
     <h5>
         <span class="badge badge-success">Pedido Pronto</span>
         <span class="badge badge-warning">Pedido em Execução</span>
         <span class="badge badge-danger">Pedido em Espera</span>
     </h5>
+    
     <p>
         <?= Html::a('Criar Pedido <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success float-right','name'=>"CreateRequest"]) ?>
     </p>
