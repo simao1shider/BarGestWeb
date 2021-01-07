@@ -32,15 +32,28 @@ class SignupForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este email ja existe.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Este email já existe.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
             ['password_repeat', 'required'],
-            ['password_repeat', 'compare', 'compareAttribute'=>'password', 'message'=>"As passwords não coesideem" ],
+            ['password_repeat', 'compare', 'compareAttribute'=>'password', 'message'=>"As passwords não coincidem" ],
 
             ['role','string'],
             ['role','required'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Nome de Utilizador',
+            'password' => 'Password',
+            'password_repeat' => 'Repetir Password',
+            'role' => 'Cargo',
         ];
     }
 
