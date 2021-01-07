@@ -62,20 +62,25 @@ $this->title = $employee->name;
             </div>
         </div>
         <div class="tab-pane fade pt-4" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <?php $form = ActiveForm::begin([
-                    "action"=>\yii\helpers\Url::to(["resetpassword"]),
-            ]); ?>
-            <div class="form-group field-signupform-id">
-                <input type="hidden" id="signupform-id" class="form-control" name="SignupForm[id]" value="<?=$employee->id?>">
-                <div class="invalid-feedback"></div>
-            </div>
-            <?= $form->field($signup, 'password')->passwordInput() ?>
-            <?= $form->field($signup, 'password_repeat')->passwordInput() ?>
-            <div class="form-group">
-                <?= Html::submitButton('Guardar', ['class' => 'btn btn-success float-right']) ?>
-            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <?php $form = ActiveForm::begin([
+                            "action"=>\yii\helpers\Url::to(["resetpassword"]),
+                    ]); ?>
+                    <div class="form-group field-signupform-id">
+                        <input type="hidden" id="signupform-id" class="form-control" name="SignupForm[id]" value="<?=$employee->id?>">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <?= $form->field($signup, 'password')->passwordInput() ?>
+                    <?= $form->field($signup, 'password_repeat')->passwordInput() ?>
+                    <div class="form-group">
+                        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success float-right']) ?>
+                    </div>
 
-            <?php ActiveForm::end(); ?>
+                    <?php ActiveForm::end(); ?>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
     </div>
