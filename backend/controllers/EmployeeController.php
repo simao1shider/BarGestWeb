@@ -27,7 +27,7 @@ class EmployeeController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','view','create','update','delete','resetpassword'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'resetpassword'],
                         'roles' => ['admin']
                     ],
                 ],
@@ -36,7 +36,7 @@ class EmployeeController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'resetpassword'=>['POST']
+                    'resetpassword' => ['POST']
                 ],
             ],
         ];
@@ -48,9 +48,9 @@ class EmployeeController extends Controller
      */
     public function actionIndex()
     {
-        $employee=Employee::find()->innerJoin("user","user.id=user_id")->where(["user.status"=>User::STATUS_ACTIVE])->all();
+        $employee = Employee::find()->innerJoin("user", "user.id=user_id")->where(["user.status" => User::STATUS_ACTIVE])->all();
         return $this->render('index', [
-            'employees'=>$employee,
+            'employees' => $employee,
         ]);
     }
 
@@ -61,7 +61,7 @@ class EmployeeController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
-    {   
+    {
         return $this->render('view', [
             'employee' => $this->findModel($id),
         ]);
@@ -76,22 +76,22 @@ class EmployeeController extends Controller
     {
         $employee = new Employee();
         $signup = new SignupForm();
-        if(isset($_POST["Employee"]) && isset($_POST["SignupForm"])) {
+        if (isset($_POST["Employee"]) && isset($_POST["SignupForm"])) {
             $employeePost = Yii::$app->request->post("Employee");
-            $signupPost=Yii::$app->request->post("SignupForm");
-            $signup->username=$signupPost["username"];
-            $signup->password= $signupPost["password"];
-            $signup->password_repeat= $signupPost["password_repeat"];
+            $signupPost = Yii::$app->request->post("SignupForm");
+            $signup->username = $signupPost["username"];
+            $signup->password = $signupPost["password"];
+            $signup->password_repeat = $signupPost["password_repeat"];
             $signup->email = $employeePost["email"];
             $signup->role = $signupPost["role"];
-            if($signup->signup()){
-                $employee->user_id=User::find()
+            if ($signup->signup()) {
+                $employee->user_id = User::find()
                     ->where(['id' => User::find()->max('id')])
                     ->one()->id;
-                $employee->name=$employeePost["name"];
-                $employee->email=$employeePost["email"];
-                $employee->phone=$employeePost["phone"];
-                $employee->birthDate=$employeePost["birthDate"];
+                $employee->name = $employeePost["name"];
+                $employee->email = $employeePost["email"];
+                $employee->phone = $employeePost["phone"];
+                $employee->birthDate = $employeePost["birthDate"];
                 if ($employee->save()) {
                     return $this->redirect(['view', 'id' => $employee->id]);
                 }
@@ -99,7 +99,7 @@ class EmployeeController extends Controller
         }
         return $this->render('create', [
             'employee' => $employee,
-            'signup'=>$signup,
+            'signup' => $signup,
         ]);
     }
 
@@ -114,21 +114,21 @@ class EmployeeController extends Controller
     {
         $employee = $this->findModel($id);
         $signup = new SignupForm();
-        $role=null;
-        $userAssigned=Yii::$app->authManager->getAssignments($employee->user_id);
-        foreach($userAssigned as $userAssign){
-            $role=$userAssign->roleName;
+        $role = null;
+        $userAssigned = Yii::$app->authManager->getAssignments($employee->user_id);
+        foreach ($userAssigned as $userAssign) {
+            $role = $userAssign->roleName;
             break;
         }
-        if(isset($_POST["Employee"]) && isset($_POST["SignupForm"])) {
+        if (isset($_POST["Employee"]) && isset($_POST["SignupForm"])) {
             $employeePost = Yii::$app->request->post("Employee");
             $employee->name = $employeePost["name"];
             $employee->email = $employeePost["email"];
             $employee->phone = $employeePost["phone"];
             $employee->birthDate = $employeePost["birthDate"];
             if ($employee->save()) {
-                if(!$role==null){
-                    $assignedRole=Yii::$app->authManager->getRole($role);
+                if (!$role == null) {
+                    $assignedRole = Yii::$app->authManager->getRole($role);
                     Yii::$app->authManager->revoke($assignedRole, $employee->user_id);
                 }
                 Yii::$app->authManager->assign(Yii::$app->authManager->getRole(Yii::$app->request->post("SignupForm")["role"]), $employee->user_id);
@@ -137,27 +137,31 @@ class EmployeeController extends Controller
         }
 
 
-        $signup->role=$role;
+        $signup->role = $role;
 
         return $this->render('update', [
             'employee' => $employee,
-            'signup'=>$signup,
+            'signup' => $signup,
         ]);
     }
 
-    public function actionResetpassword(){
-        $post=Yii::$app->request->post("SignupForm");
-        $user=User::findOne(["id"=>Employee::findOne(["id"=>$post["id"]])->user_id]);
+    public function actionResetpassword()
+    {
+        $post = Yii::$app->request->post("SignupForm");
+        $user = User::findOne(["id" => Employee::findOne(["id" => $post["id"]])->user_id]);
         $user->setPassword($post["password"]);
         $user->save();
-        return $this->redirect(["view","id"=>$post["id"]]);
+        return $this->redirect(["view", "id" => $post["id"]]);
     }
 
     public function actionDelete($id)
     {
-        $employee=$this->findModel($id);
-        $user=User::findOne($employee->user_id);
-        $user->status=User::STATUS_DELETED;
+        $employee = $this->findModel($id);
+        $user = User::findOne($employee->user_id);
+        if($user->username == "admin"){
+            return $this->redirect(['index']);
+        }
+        $user->status = User::STATUS_DELETED;
         $user->save();
         return $this->redirect(['index']);
     }
