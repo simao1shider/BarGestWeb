@@ -20,7 +20,7 @@ $this->title = $products[0]->category->name;
         </ol>
     </nav>
 
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-9"></div>
         <div class="col-md-3">
             <div class="input-group mb-3 text-left">
@@ -31,7 +31,7 @@ $this->title = $products[0]->category->name;
             </div>
         </div>
     </div>
-    <hr>
+    <hr>-->
     <div class="mt-5 container">
         <div class="row">
             <?php
