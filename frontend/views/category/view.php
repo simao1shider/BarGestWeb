@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $products common\models\Product */
 
-$this->title = $products[0]->category->name;
+$this->title = $category->name;
 ?>
 <div class="category-view container-fluid ml-5">
 
@@ -35,6 +35,11 @@ $this->title = $products[0]->category->name;
     <div class="mt-5 container">
         <div class="row">
             <?php
+                if (empty($products)) {
+            ?>
+                    <h2>Esta categoria não tem produtos</h2>
+            <?php
+                }
             foreach ($products as $product) {
             ?>
                 <div class="col-4 mt-3">

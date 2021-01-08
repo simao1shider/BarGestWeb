@@ -53,9 +53,10 @@ class CategoryController extends Controller
     public function actionView($id)
     {
         $products = Product::find()->where(["status"=>Product::STATUS_ACTIVE,"category_id"=>$id])->all();
-
+        $category = Category::findOne($id);
         return $this->render('view', [
             'products' => $products,
+            'category' => $category,
         ]);
     }
 
