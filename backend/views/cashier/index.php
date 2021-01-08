@@ -30,6 +30,11 @@ $this->title = 'Caixas';
         </div>
         <div class="list-group">
             <?php
+            if (empty($cashiers)) {
+            ?>
+                <h2>Não existem caixas</h2>
+            <?php
+            }
             foreach ($cashiers as $cashier) {
             ?>
                 <span class="list-group-item list-group-item-action list-group-item-secondary">

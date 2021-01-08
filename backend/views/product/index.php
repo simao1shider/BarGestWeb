@@ -29,7 +29,13 @@ $this->title = 'Produtos';
 
     <div class="mt-5 container">
         <div class="row">
-            <?php foreach ($products as $product){
+            <?php
+            if (empty($products)) {
+            ?>
+                <h2>Não existem produtos</h2>
+            <?php
+            }
+             foreach ($products as $product){
                 ?>
                 <div class="col-4 mt-3">
                     <a href="<?=Url::to(["product/view",'id'=>$product->id])?>">
