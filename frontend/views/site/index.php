@@ -51,7 +51,7 @@ $this->title = 'My Yii Application';
                 </a>
             </div>
             <div class="card col-md-3 mr-3 mb-3">
-                <a href="https://www.google.pt">
+                <a href="../../../backend/web/site/login">
                     <div class="card-body">
                         <h5 class="card-title">
                             <?= Html::img('@web/img/Icons/Color/locked.png', ['class' => 'align-top', 'style' => 'width: 55px']) ?><br>
