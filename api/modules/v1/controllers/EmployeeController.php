@@ -14,7 +14,7 @@ use yii\filters\auth\QueryParamAuth;
 class EmployeeController extends ActiveController
 {
     public $modelClass = 'common\models\Employee';
-
+    private $username;
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -34,20 +34,23 @@ class EmployeeController extends ActiveController
                 [
                     'class' => HttpBasicAuth::className(),
                     'auth' => function ($username, $password){
+                        $this->username=$username;
                         $user = \common\models\User::findByUsername($username);
                         if ($user && $user->validatePassword($password)){
+                            Yii::$app->response->cookies->remove("_csrf-backend");
+                            Yii::$app->response->cookies->remove("PHPSESSID");
                             return $user;
                         }
                         return null;
                     }
                 ],
-                QueryParamAuth::className(),
             ],
         ];
         return $behaviors;
     }
     public function actionLoginuser(){
-        return Yii::$app->request->post('username');
+         $user=User::findByUsername($this->username);
+         return $user->auth_key;
 
     }
 
