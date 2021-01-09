@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Home';
 ?>
 <div class="site-index container-fluid ml-5">
 
@@ -34,20 +35,66 @@ $this->title = 'My Yii Application';
                     </h5>
                 </div>
             </div>
-            <div class="card col-md-3 mr-3 mb-3">
-                <a href="#">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
-                            <span class="mt-2 ml-2 h4">Caixa do Dia</span>
-                        </h5>
-                        <p class="card-text">Caixa aberta no dia: 25-23-2000</p>
-                        <!--<blockquote class="blockquote mb-0">
-                            <footer class="blockquote-footer">Caixa aberta no dia: <cite title="Source Title">25-23-2000</cite></footer>
-                        </blockquote>-->
+            <?php
+            if (\Yii::$app->user->can('counter')) {
+                if ($cashier->status == 1) {
+            ?>
+                    <div class="card col-md-3 mr-3 mb-3">
+                        <a href="<?= Url::to(["cashier/abrircaixa"])?>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
+                                    <span class="mt-2 ml-2 h4">Caixa do Dia</span>
+                                </h5>
+                                <p class="card-text">Caixa aberta no dia: <?= date("d-m-Y", strtotime($cashier->date)) ?></p>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
+                <?php
+                } else {
+                ?>
+                    <div class="card col-md-3 mr-3 mb-3">
+                        <a href="<?= Url::to(["cashier/fecharcaixa"])?>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
+                                    <span class="mt-2 ml-2 h4">Caixa do Dia</span>
+                                </h5>
+                                <p class="card-text">Caixa não está aberta, pretende abrir?</p>
+                            </div>
+                        </a>
+                    </div>
+                <?php
+                }
+            } else {
+                if ($cashier->status == 1) {
+                ?>
+                    <div class="card col-md-3 mr-3 mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
+                                <span class="mt-2 ml-2 h4">Caixa do Dia</span>
+                            </h5>
+                            <p class="card-text">Caixa aberta no dia: <?= date("d-m-Y", strtotime($cashier->date)) ?></p>
+                        </div>
+                    </div>
+                <?php
+                } else {
+                ?>
+                    <div class="card col-md-3 mr-3 mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
+                                <span class="mt-2 ml-2 h4">Caixa do Dia</span>
+                            </h5>
+                            <p class="card-text">Caixa não está aberta, e apenas pode ser aberta por quem tem permissão</p>
+                        </div>
+                    </div>
+            <?php
+                }
+            }
+            ?>
+
             <div class="card col-md-3 mr-3 mb-3">
                 <a href="../../../backend/web/site/login">
                     <div class="card-body">

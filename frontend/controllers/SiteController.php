@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
+use common\models\Cashier;
 use common\models\LoginForm;
 
 /**
@@ -59,7 +60,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $cashier = Cashier::find()->where(['status' => 1])->one();
+        return $this->render('index', [
+            'cashier' => $cashier,
+        ]);
     }
 
     /**
