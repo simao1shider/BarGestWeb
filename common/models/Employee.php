@@ -36,9 +36,10 @@ class Employee extends \yii\db\ActiveRecord
         return [
             [['name', 'email', 'user_id'], 'required'],
             [['phone', 'user_id'], 'integer'],
-            [['birthDate'], 'string'],
-            ['email', 'email'],
+            [['birthDate'], 'safe'],
+            [['birthDate'], 'date','format'=>'yyyy-M-d'],
             [['name'], 'string', 'max' => 100],
+            [['email'], 'email'],
             [['email', 'phone'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

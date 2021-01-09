@@ -19,22 +19,20 @@ $this->title = 'My Yii Application';
         <div class="row text-center">
             <div class="col-md-1"></div>
             <div class="card col-md-3 mr-3 mb-3">
-                <a href="#">
-                    <div class="card-body mt-3">
-                        <h5 class="card-title">
-                            <?= Html::img('@web/img/Icons/Color/calendar.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?>
-                            <span class="mt-3 ml-2">
-                                <h2 id="date"></h2>
-                            </span>
-                        </h5>
-                        <h5 class="card-title">
-                            <?= Html::img('@web/img/Icons/Color/clock.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?>
-                            <span class="mt-3 ml-2">
-                                <h2 id="clock"></h2>
-                            </span>
-                        </h5>
-                    </div>
-                </a>
+                <div class="card-body mt-3">
+                    <h5 class="card-title">
+                        <?= Html::img('@web/img/Icons/Color/calendar.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?>
+                        <span class="mt-3 ml-2">
+                            <h2 id="date"></h2>
+                        </span>
+                    </h5>
+                    <h5 class="card-title">
+                        <?= Html::img('@web/img/Icons/Color/clock.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?>
+                        <span class="mt-3 ml-2">
+                            <h2 id="clock"></h2>
+                        </span>
+                    </h5>
+                </div>
             </div>
             <div class="card col-md-3 mr-3 mb-3">
                 <a href="#">

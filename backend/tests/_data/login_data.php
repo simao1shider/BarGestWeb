@@ -1,16 +1,19 @@
 <?php
 return [
     [
+        'id' => '1',
         'username' => 'admin',
         'auth_key' => 'egiqMBKVSw1WFDgeZ62TbL1nbv4_0AOT',
         // password_0
         'password_hash' => '$2y$13$Imi/PBXKfdCknDcS4lvon.U69Pede.f21t1O9DQi6UJ/x.1968WEG',
         'password_reset_token' => 'RkD_Jw0_8HEedzLk7MM-ZKEFfYR7VbMr_1392559490',
+        'status' => '10',
         'created_at' => '1392559490',
         'updated_at' => '1392559490',
         'email' => 'admin@example.com',
     ],
     [
+        'id' => '2',
         'username' => 'simao',
         'auth_key' => '68VuFuCXFPggFD2fwD2Jue5JyzjopCoM',
         // Test1234
