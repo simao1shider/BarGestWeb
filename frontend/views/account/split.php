@@ -47,7 +47,7 @@ $this->title = "Pagamento Parcial";
                                     <span id="accountProductQuantity_<?= $product["product_id"] ?>" class="mt-2 mr-2 ml-2"><?= $product["quantity"] ?></span>
                                 </div>
                                 <div class="col-4 h3">
-                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] ?> €</span>
+                                    <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] * $product["quantity"] ?> €</span>
                                 </div>
                                 <div class="col-1 text-center">
                                     <?= Html::a('<i class="fa fa-2x fa-arrow-right mr-5"></i>', Url::to(['account/ltr?id='.$account->id]), ['data-method' => 'POST',
@@ -66,10 +66,13 @@ $this->title = "Pagamento Parcial";
             <div class="col-6">
                 <div class="list-group text-right">
                 <?php
+                    $total = 0;
+
                     if (empty($productstopay)) {
                         echo '<h4>Adicione produtos transferindo da lista do lado esquerdo!</h4>';
                     }else{
                     foreach ($productstopay as $product) {
+                        $total += $product["price"] * $product["quantity"];
                 ?>
                     <span class="list-group-item list-group-item-action list-group-item-secondary">
                         <div class="row">
@@ -86,7 +89,7 @@ $this->title = "Pagamento Parcial";
                                 <span class="mt-2"><?= $product["quantity"] ?></span>
                             </div>
                             <div class="col-3 h3">
-                                <span class="mt-2"><?= $product["price"] ?> €</span>
+                                <span class="mt-2"><?= $product["price"] * $product["quantity"] ?> €</span>
                             </div>
 
                         </div>
@@ -106,7 +109,7 @@ $this->title = "Pagamento Parcial";
                 <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                     <?= Html::img('@web/img/icons/color/receipt.png', ['class' => 'align-top', 'style' => 'width: 65px']) ?>
                 </button>
-                <span class="h4 text-dark">Total: <span class="h2"><?= $_SESSION['total'] ?>€</span></span>
+                <span class="h4 text-dark">Total: <span class="h2"><?= $total ?>€</span></span>
 
             </div>
         </div>

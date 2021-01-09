@@ -308,6 +308,11 @@ class RequestController extends Controller
             $request->status = 2;
             $request->save();
         }
+        if (isset($get["done"])) {
+            $request = $this->findModel($get["done"]);
+            $request->status = 3;
+            $request->save();
+        }
         $this->redirect(["index"]);
     }
 

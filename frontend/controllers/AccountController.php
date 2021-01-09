@@ -10,6 +10,7 @@ use common\models\ProductsToBePaid;
 use common\models\Request;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 class AccountController extends \yii\web\Controller
@@ -22,7 +23,7 @@ class AccountController extends \yii\web\Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['view','split','ltr','rtl','paysplitaccount'],
+                        'actions' => ['view', 'split', 'ltr', 'rtl', 'paysplitaccount'],
                         'roles' => ['employee'],
                     ],
                     [
@@ -107,7 +108,7 @@ class AccountController extends \yii\web\Controller
 
         $table = $account->table;
         $account->delete();
-        $quantAccounts= Account::find()->where(["table_id"=>$table->id, "status"=>Account::TOPAY])->count();
+        $quantAccounts = Account::find()->where(["table_id" => $table->id, "status" => Account::TOPAY])->count();
         if ($quantAccounts == 0) {
             $table->status = Table::STATUS_FREE;
             $table->save();
@@ -120,14 +121,13 @@ class AccountController extends \yii\web\Controller
         //unset($_SESSION['productstobepaid']);
         //unset($_SESSION['productstopay']);
 
-        if(isset($_SESSION['productstopay'])){
+        if (isset($_SESSION['productstopay'])) {
             return $this->render('split', [
                 'account' => $this->findModel($id),
                 'productstobepaid' => $_SESSION['productstobepaid'],
                 'productstopay' => $_SESSION['productstopay'],
             ]);
-        }
-        else {
+        } else {
             unset($_SESSION['productstobepaid']);
             unset($_SESSION['productstopay']);
             unset($_SESSION['total']);
@@ -139,15 +139,15 @@ class AccountController extends \yii\web\Controller
                 ->where(["account_id" => $id, "request.status" => 3])
                 ->groupBy("product_id")
                 ->createCommand()->queryAll();
-            
-            
-            foreach($productstobepaid as $product){
+
+
+            foreach ($productstobepaid as $product) {
                 $_SESSION['productstobepaid'][$product['product_id']] = $product;
             }
 
             $_SESSION['total'] = 0;
-            
-            foreach($_SESSION['productstobepaid'] as $product){
+
+            foreach ($_SESSION['productstobepaid'] as $product) {
                 $_SESSION['total'] += $product['price'] * $product['quantity'];
             }
 
@@ -158,106 +158,132 @@ class AccountController extends \yii\web\Controller
         }
     }
 
-    public function actionLtr($id){
+    public function actionLtr($id)
+    {
 
         $request = Yii::$app->request;
         $product_id = $request->post('productId');
 
         //* Caso o produto nao exista na lista
-        if(isset($_SESSION['productstopay'][$product_id])){
+        if (isset($_SESSION['productstopay'][$product_id])) {
             $_SESSION['productstopay'][$product_id]['quantity'] += 1;
-            if($_SESSION['productstobepaid'][$product_id]['quantity'] == 1){
+            if ($_SESSION['productstobepaid'][$product_id]['quantity'] == 1) {
                 unset($_SESSION['productstobepaid'][$product_id]);
-            }
-            else{
+            } else {
                 $_SESSION['productstobepaid'][$product_id]['quantity'] -= 1;
             }
-        }
-        else{
+        } else {
             $_SESSION['productstopay'][$product_id] = $_SESSION['productstobepaid'][$product_id];
             $_SESSION['productstopay'][$product_id]['quantity'] = 1;
-            if($_SESSION['productstobepaid'][$product_id]['quantity'] == 1){
+            if ($_SESSION['productstobepaid'][$product_id]['quantity'] == 1) {
                 unset($_SESSION['productstobepaid'][$product_id]);
-            }
-            else{
+            } else {
                 $_SESSION['productstobepaid'][$product_id]['quantity'] -= 1;
             }
         }
         return $this->redirect(["split", 'id' => $id]);
     }
 
-    public function actionRtl($id){
+    public function actionRtl($id)
+    {
         $request = Yii::$app->request;
         $product_id = $request->post('productId');
 
         //* Caso o produto nao exista na lista
-        if(isset($_SESSION['productstobepaid'][$product_id])){
+        if (isset($_SESSION['productstobepaid'][$product_id])) {
             $_SESSION['productstobepaid'][$product_id]['quantity'] += 1;
-            if($_SESSION['productstopay'][$product_id]['quantity'] == 1){
+            if ($_SESSION['productstopay'][$product_id]['quantity'] == 1) {
                 unset($_SESSION['productstopay'][$product_id]);
-            }
-            else{
+            } else {
                 $_SESSION['productstopay'][$product_id]['quantity'] -= 1;
             }
-        }
-        else{
+        } else {
             $_SESSION['productstobepaid'][$product_id] = $_SESSION['productstopay'][$product_id];
             $_SESSION['productstobepaid'][$product_id]['quantity'] = 1;
-            if($_SESSION['productstopay'][$product_id]['quantity'] == 1){
+            if ($_SESSION['productstopay'][$product_id]['quantity'] == 1) {
                 unset($_SESSION['productstopay'][$product_id]);
-            }
-            else{
+            } else {
                 $_SESSION['productstopay'][$product_id]['quantity'] -= 1;
             }
         }
         return $this->redirect(["split", 'id' => $id]);
-
     }
 
-    public function actionPaysplitaccount($id){
+    public function actionPaysplitaccount($id)
+    {
         $model = $this->findModel($id);
+        $newaccount = new Account();
+        $newrequest = new Request();
 
         if ($model->nif == 0) {
-            $model->nif = 999999990;
+            $newaccount->nif = 999999990;
         } else {
             //Valida se o nif está correto
             if (!$model->validateNIF($model->nif)) {
-                return $this->redirect(['error']);
+                throw new HttpException(403, "Nif errado");
+            }
+            $newaccount->nif = $model->nif;
+        }
+
+        $newaccount->id = Account::find()->max('id') + 1;
+        $newaccount->name = $model->name;
+        $newaccount->total = 0;
+        $newaccount->dateTime = $model->dateTime;
+        $newaccount->status = 1;
+        $newaccount->table_id = $model->table_id;
+        $newaccount->cashier_id = $model->cashier_id;
+        if (!$newaccount->save()) {
+            throw new HttpException(403, "Erro ao criar conta!");
+        }
+
+        $newrequest->id = Request::find()->max('id') + 1;
+        $newrequest->status = 3;
+        $newrequest->dateTime = $newaccount->dateTime;
+        $newrequest->account_id = $newaccount->id;
+        $newrequest->employee_id = $model->requests[0]->employee_id;
+        if (!$newrequest->save()) {
+            throw new HttpException(403, "Erro ao criar pedido!");
+        }
+
+        $productstobepaid = ProductsToBePaid::find()
+            ->innerJoin("request", 'request_id = id')
+            ->innerJoin("product", "product_id = product.id")
+            ->where(["account_id" => $id, "request.status" => 3])
+            ->All();
+        $total = 0;
+        foreach ($productstobepaid as $producttobepaid) {
+            if (isset($_SESSION['productstopay'][$producttobepaid->product_id])) {
+                if ($_SESSION['productstopay'][$producttobepaid->product_id]['quantity'] < $producttobepaid->quantity) {
+                    $newrequest->employee_id = $producttobepaid->request->employee_id;
+
+                    $producttopaydb = new ProductsPaid();
+                    $producttopaydb->request_id = $newrequest->id;
+                    $producttopaydb->product_id = $producttobepaid->product_id;
+                    $producttopaydb->quantity = $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
+                    $producttopaydb->save();
+                    $total += $producttopaydb->quantity * $producttopaydb->product->price;
+
+                    $producttobepaid->quantity -= $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
+                    $producttobepaid->save();
+                    unset($_SESSION['productstopay'][$_SESSION['productstopay'][$producttobepaid->product_id]['product_id']]);
+                } else {
+                    $newrequest->employee_id = $producttobepaid->request->employee_id;
+
+                    $producttopaydb = new ProductsPaid();
+                    $producttopaydb->request_id = $newrequest->id;
+                    $producttopaydb->product_id = $producttobepaid->product_id;
+                    $producttopaydb->quantity = $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
+                    $producttopaydb->save();
+                    $total += $producttopaydb->quantity * $producttopaydb->product->price;
+
+                    unset($_SESSION['productstopay'][$_SESSION['productstopay'][$producttobepaid->product_id]['product_id']]);
+                    $producttobepaid->delete();
+                }
             }
         }
 
-            $productstobepaid = ProductsToBePaid::find()
-                                    ->innerJoin("request", 'request_id = id')
-                                    ->innerJoin("product", "product_id = product.id")
-                                    ->where(["account_id" => $id, "request.status" => 3])
-                                    ->All();
-                                    
-            foreach($productstobepaid as $producttobepaid){
-                if(isset($_SESSION['productstopay'][$producttobepaid->product_id])){
-                    if($_SESSION['productstopay'][$producttobepaid->product_id]['quantity'] < $producttobepaid->quantity){
-                        
-                        $producttopaydb = new ProductsPaid();
-                        $producttopaydb->request_id = $producttobepaid->request_id;
-                        $producttopaydb->product_id = $producttobepaid->product_id;
-                        $producttopaydb->quantity = $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
-                        $producttopaydb->save();
-
-                        $producttobepaid->quantity -= $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
-                        $producttobepaid->save();
-                        unset($_SESSION['productstopay'][$_SESSION['productstopay'][$producttobepaid->product_id]['product_id']]);
-                    }
-                    else{
-                        $producttopaydb = new ProductsPaid();
-                        $producttopaydb->request_id = $producttobepaid->request_id;
-                        $producttopaydb->product_id = $producttobepaid->product_id;
-                        $producttopaydb->quantity = $_SESSION['productstopay'][$producttobepaid->product_id]['quantity'];
-                        $producttopaydb->save();
-
-                        unset($_SESSION['productstopay'][$_SESSION['productstopay'][$producttobepaid->product_id]['product_id']]);
-                        $producttobepaid->delete();
-                    }
-                }
-            }        
+        $newaccount->total = $total;
+        $newaccount->save();
 
         return $this->redirect(["split", 'id' => $id]);
     }

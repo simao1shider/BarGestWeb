@@ -30,6 +30,10 @@ $this->title = 'Mesas';
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
+    <h5>
+        <span class="badge badge-success">Mesa Livre</span>
+        <span class="badge badge-warning">Mesa Ocupada</span>
+    </h5>
 
     <div class="mt-5 container">
         <div class="list-group">

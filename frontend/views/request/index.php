@@ -9,10 +9,10 @@ $this->title = 'Pedidos';
 <div class="request-index container-fluid ml-5">
     <div class="row">
         <div class="col-4">
-        <h1><?= Html::img('@web/img/Icons/Color/list.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
+            <h1><?= Html::img('@web/img/Icons/Color/list.png', ['class' => 'align-top', 'style' => 'width: 66px']) ?><span class="h3 ml-3 mt-2" id="idMesa"><span class="mt-2"><?= Html::encode($this->title) ?></span></h1>
         </div>
         <div class="col-8 text-right">
-        <?= Html::a('Criar Pedido <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success mt-3','name'=>"CreateRequest"]) ?>
+            <?= Html::a('Criar Pedido <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success mt-3', 'name' => "CreateRequest"]) ?>
         </div>
     </div>
     <nav aria-label="breadcrumb">
@@ -36,52 +36,53 @@ $this->title = 'Pedidos';
         </div>
         <div class="list-group">
             <?php
-            if(empty($model)){
+            if (empty($model)) {
                 echo '<h3 class="text-center">Não tem pedidos neste momento</h3>';
             }
-            foreach ($model as $request){
-                switch ($request->status){
+            foreach ($model as $request) {
+                switch ($request->status) {
                     case 2:
-                        ?>
+            ?>
                         <span class="list-group-item list-group-item-action list-group-item-success">
-                                <div class="row">
-                                    <?=$this->render("components\ListRequests",['request'=>$request])?>
-                                    <div class="col-2 text-right">
-                                        <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
-                                    </div>
+                            <div class="row">
+                                <?= $this->render("components\ListRequests", ['request' => $request]) ?>
+                                <div class="col-2 text-right">
+                                    <a href="<?= Url::to(["request/change_status", "done" => $request->id]) ?>" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para entregue"></i></a>
+                                    <a href="<?= Url::to(["request/update", 'id' => $request->id]) ?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                 </div>
-                            </span>
-                        <?php
+                            </div>
+                        </span>
+                    <?php
                         break;
                     case 1:
-                        ?>
+                    ?>
                         <span class="list-group-item list-group-item-action list-group-item-warning">
-                                 <div class="row">
-                                    <?=$this->render("components\ListRequests",['request'=>$request])?>
-                                     <div class="col-2 text-right">
-                                         <a href="<?=Url::to(["request/change_status","prepare"=>$request->id])?>" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para concluido"></i></a>
-                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
-                                     </div>
+                            <div class="row">
+                                <?= $this->render("components\ListRequests", ['request' => $request]) ?>
+                                <div class="col-2 text-right">
+                                    <a href="<?= Url::to(["request/change_status", "prepare" => $request->id]) ?>" class="mr-5"><i class="fa fa-3x fa-check" title="Mudar estado para concluido"></i></a>
+                                    <a href="<?= Url::to(["request/update", 'id' => $request->id]) ?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                 </div>
-                            </span>
-                        <?php
+                            </div>
+                        </span>
+                    <?php
                         break;
                     case 0:
-                        ?>
+                    ?>
                         <span class="list-group-item list-group-item-action list-group-item-danger">
-                                <div class="row">
-                                     <?=$this->render("components\ListRequests",['request'=>$request])?>
-                                     <div class="col-2 text-right">
-                                         <a href="<?=Url::to(["request/change_status","block"=>$request->id])?>" class="mr-5"><i class="fa fa-3x fa-lock" title="Bloquear pedido"></i></a>
-                                         <a href="<?= Url::to(["request/update",'id'=>$request->id])?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
-                                     </div>
+                            <div class="row">
+                                <?= $this->render("components\ListRequests", ['request' => $request]) ?>
+                                <div class="col-2 text-right">
+                                    <a href="<?= Url::to(["request/change_status", "block" => $request->id]) ?>" class="mr-5"><i class="fa fa-3x fa-lock" title="Bloquear pedido"></i></a>
+                                    <a href="<?= Url::to(["request/update", 'id' => $request->id]) ?>"><i class="fa fa-3x fa-eye" title="Ver detalhes"></i></a>
                                 </div>
-                            </span>
-                        <?php
+                            </div>
+                        </span>
+                <?php
                         break;
                 }
                 ?>
-                <?php
+            <?php
             }
             ?>
         </div>

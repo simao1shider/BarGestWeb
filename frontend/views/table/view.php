@@ -39,6 +39,10 @@ $this->title = "Contas";
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($model->number) ?></li>
         </ol>
     </nav>
+    <h5>
+        <span class="badge badge-success">Conta Livre</span>
+        <span class="badge badge-warning">Conta Ocupada</span>
+    </h5>
 
 
     <div class="mt-5 container">
@@ -54,12 +58,12 @@ $this->title = "Contas";
                 if ($account->status == 0) {
                     if (isset($_GET['CR'])) {
                 ?>
-                        <a href="<?= Url::to(['request/create', 'CR' => 1, 'account' => $account->id]) ?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2"><?= $account->name ?></span></a>
+                        <a href="<?= Url::to(['request/create', 'CR' => 1, 'account' => $account->id]) ?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/billBlack.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?><span class="h3 ml-3 mt-2"><?= $account->name ?></span></a>
                     <?php
                     } else {
                     ?>
 
-                        <a href="<?= Url::to(['account/view', 'id' => $account->id]) ?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/tableBlack.png', ['class' => 'align-top', 'style' => 'width: 35px']) ?><span class="h3 ml-3 mt-2"><?= $account->name ?></span></a>
+                        <a href="<?= Url::to(['account/view', 'id' => $account->id]) ?>" class="list-group-item list-group-item-action list-group-item-warning"><?= Html::img('@web/img/Icons/billBlack.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?><span class="h3 ml-3 mt-2"><?= $account->name ?></span></a>
             <?php
                     }
                 }

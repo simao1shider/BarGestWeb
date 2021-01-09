@@ -8,7 +8,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * TableController implements the CRUD actions for Table model.
