@@ -1,7 +1,8 @@
 <?php namespace backend\tests;
 
+use common\fixtures\EmployeeFixture;
 use common\models\Employee;
-use common\fixtures\UserFixture as UserFixture;
+use common\fixtures\UserFixture;
 
 class EmployeeTest extends \Codeception\Test\Unit
 {
@@ -9,25 +10,26 @@ class EmployeeTest extends \Codeception\Test\Unit
      * @var \backend\tests\UnitTester
      */
     protected $tester;
-    
-    protected function _before()
-    {
-        $this->tester->haveFixtures([
-            'user' => [
-                'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ],
-        ]);
-    }
 
-    /*public function _fixture(){
-        return[
+    public function _fixtures()
+    {
+        return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'login_data.php'
+                'dataFile' => codecept_data_dir() . 'login_data.php',
+            ],
+            'employee' => [
+                'class' => EmployeeFixture::className(),
+                'dataFile' => codecept_data_dir() . 'employee_data.php',
             ],
         ];
-    }*/
+    }
+
+    protected function _before()
+    {
+    }
+
+
 
     // comment
     public function testEmployeeNameValidation()
@@ -52,15 +54,17 @@ class EmployeeTest extends \Codeception\Test\Unit
         $employee = new Employee();
 
         $employee->email = "orfkreofefoerpfkerpofwlkwefwefmwoijwoeroigrfffffffffffffffffffffffffffffffffffffeogreigwekjweijdosijgojgoerireorrrrrrrrrrrrrrrrringeroigeorigeorihgroehgeoriheroheoo@fifj.pt";
-        $this->assertFalse($employee->validate(['email']));
+        $this->assertFalse($employee->validate(['email']),"Tamanho de email invalido");
         $employee->email = "";
-        $this->assertFalse($employee->validate(['email']));
+        $this->assertFalse($employee->validate(['email']),"O email não pode ser vazio");
         $employee->email = "dwwqdwqd";
-        $this->assertFalse($employee->validate(['email']));
+        $this->assertFalse($employee->validate(['email']),"Tem de ter o formato de email");
         $employee->email = "1";
-        $this->assertFalse($employee->validate(['email']));
+        $this->assertFalse($employee->validate(['email']),"Não pode ser so numero");
         $employee->email = "simado@bargest.pt";
-        $this->assertTrue($employee->validate(['email']));
+        $this->assertFalse($employee->validate(['email']),"O email não pode ser duplicado");
+        $employee->email = "simado2@bargest.pt";
+        $this->assertTrue($employee->validate(['email']),"Email valido");
 
         return $employee->email;
     }
@@ -70,8 +74,12 @@ class EmployeeTest extends \Codeception\Test\Unit
         $employee = new Employee();
 
         $employee->phone = "oeeggfdgfdgfdgfdgregergfdgr";
-        $this->assertFalse($employee->validate(['phone']));
+        $this->assertFalse($employee->validate(['phone']),"Não pode conter numeros");
         $employee->phone = "918323453";
+        $this->assertFalse($employee->validate(['phone']),"Não pode ser duplicado");
+        $employee->phone = 918323452;
+        $this->assertTrue($employee->validate(['phone']));
+        $employee->phone = "918323452";
         $this->assertTrue($employee->validate(['phone']));
 
         return $employee->phone;
@@ -95,11 +103,12 @@ class EmployeeTest extends \Codeception\Test\Unit
     public function testEmployeeInputTrueValidation()
     {
         $this->tester->haveRecord('common\models\Employee',[
+            'id'=>3,
             'name' => $this->testEmployeeNameValidation(),
             'email' => $this->testEmployeeEmailValidation(),
             'phone' => $this->testEmployeePhoneValidation(),
             'birthDate' => $this->testEmployeeBirthDateValidation(),
-            'user_id' => 2,
+            'user_id' => '1',
         ]);
         $this->tester->seeRecord('common\models\Employee', array('name' => $this->testEmployeeNameValidation()));
     }
