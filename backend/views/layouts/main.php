@@ -38,37 +38,37 @@ AppAsset::register($this);
             </div>
 
             <ul class="components" style="height: 100%">
-                <li class="active">
+                <li <?php if(Yii::$app->controller->id == 'site'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["site/index"])?>" title="Home">
                         <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'employee'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["employee/index"])?>" title="Funcionários">
                         <?= Html::img('@web/img/Icons/Blue/people.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'cashier'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["cashier/index"])?>" title="Caixas">
                         <?= Html::img('@web/img/Icons/Blue/register.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'category'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["category/index"])?>" title="Categorias">
                         <?= Html::img('@web/img/Icons/Blue/tags.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'product'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["product/index"])?>" title="Produtos">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'sale'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["sale/index"])?>" title="Vendas">
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'iva'){echo('class="active"');} ?>>
                     <a href="<?=Url::to(["iva/index"])?>" title="Ivas">
                         <?= Html::img('@web/img/Icons/Blue/rate.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>

@@ -38,22 +38,22 @@ AppAsset::register($this);
             </div>
 
             <ul class="components">
-                <li class="active">
+                <li <?php if(Yii::$app->controller->id == 'site'){echo('class="active"');} ?>>
                     <a href="<?=Url::to('../site/index')?>">
                         <?= Html::img('@web/img/Icons/Blue/home.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'table'){echo('class="active"');} ?>>
                     <a href="<?=Url::to('../table/index')?>">
                         <?= Html::img('@web/img/Icons/Blue/table.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'request'){echo('class="active"');} ?>>
                     <a href="<?=Url::to('../request/index')?>">
                         <?= Html::img('@web/img/Icons/Blue/list.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
-                <li>
+                <li <?php if(Yii::$app->controller->id == 'category'){echo('class="active"');} ?>>
                     <a href="<?=Url::to('../category/index')?>">
                         <?= Html::img('@web/img/Icons/Blue/beer.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
