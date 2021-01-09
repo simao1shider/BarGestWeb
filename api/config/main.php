@@ -93,7 +93,15 @@ return [
                         'PUT pay/{id}' => 'pay',
                         'PUT splitpay/{id}' => 'splitpay',
                     ],
-                ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/employee',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET login' => 'loginuser',
+                    ],
+                ],
             ],        
         ]
     ],

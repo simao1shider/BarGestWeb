@@ -2,6 +2,9 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\LoginForm;
+use common\models\User;
+use Yii;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\filters\auth\CompositeAuth;
@@ -43,4 +46,9 @@ class EmployeeController extends ActiveController
         ];
         return $behaviors;
     }
+    public function actionLoginuser(){
+        return Yii::$app->request->post('username');
+
+    }
+
 }
