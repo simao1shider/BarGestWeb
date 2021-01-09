@@ -1,6 +1,7 @@
 <?php namespace frontend\tests\functional;
 use common\fixtures\AccountFixture;
 use common\fixtures\CategoryFixture;
+use common\fixtures\EmployeeFixture;
 use common\fixtures\ProductFixture;
 use common\fixtures\RequestFixture;
 use common\fixtures\TableFixture;
@@ -21,6 +22,10 @@ class RequestCest
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'login_data.php',
+            ],
+            'employee' => [
+                'class' => EmployeeFixture::className(),
+                'dataFile' => codecept_data_dir() . 'employee_data.php',
             ],
             'category' => [
                 'class' => CategoryFixture::className(),
@@ -51,11 +56,11 @@ class RequestCest
     }
 
     public function trySeeIndexWithRequest(FunctionalTester $I){
-        $this->login($I);
         $I->haveFixtures(["request" => [
-                'class' => RequestFixture::className(),
-                'dataFile' => codecept_data_dir() . 'request_data.php',
-            ]]);
+            'class' => RequestFixture::className(),
+            'dataFile' => codecept_data_dir() . 'request_data.php',
+        ]]);
+        $this->login($I);
         $I->amOnPage(["request/index"]);
         $I->seeInTitle("Pedidos");
         $I->see("admin");

@@ -56,16 +56,16 @@ class EmployeeCest
         $this->login($I , 'admin', 'admin');
         $I->amOnPage('employee/create');
         $I->see('Criar Funcionário');
-        $I->fillField("input[name='Employee[name]']","EmployeeAcceptanceTest");
-        $I->fillField("input[name='Employee[email]']","employee@acceptance.test");
+        $I->fillField("input[name='Employee[name]']","EmployeeFuncionalTest");
+        $I->fillField("input[name='Employee[email]']","employee@funcional.test");
         $I->fillField("input[name='Employee[phone]']","911111111");
-        $I->fillField("input[name='Employee[birthDate]']","1995/01/06");
-        $I->fillField("input[name='SignupForm[username]']","employeeacceptancetest");
+        $I->fillField("input[name='Employee[birthDate]']",date("1999-03-04"));
+        $I->fillField("input[name='SignupForm[username]']","employeefuncionaltest");
         $I->fillField("input[name='SignupForm[password]']","12345678");
         $I->fillField("input[name='SignupForm[password_repeat]']","12345678");
         $I->selectOption("select","employee");
         $I->click("button[type='submit']");
-        $I->see("EmployeeAcceptanceTest");
+        $I->see("EmployeeFuncionalTest");
     }
 
     protected function login(FunctionalTester $I, $nome, $password){
