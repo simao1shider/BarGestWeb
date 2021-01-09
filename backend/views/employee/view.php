@@ -22,8 +22,8 @@ $this->title = $employee->name;
         </ol>
     </nav>
     <p>
-        <?= Html::a('Delete', ['delete', 'id' => $employee->id], [
-            'class' => 'btn btn-danger float-right mb-3',
+        <?= Html::a('Apagar', ['delete', 'id' => $employee->id], [
+            'class' => 'btn btn-outline-danger float-right mb-3',
             'data' => [
                 'confirm' => 'Tem a certeza que pretende apagar?',
                 'method' => 'post',

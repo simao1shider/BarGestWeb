@@ -16,7 +16,7 @@ $this->title = 'Mesas';
             if (!isset($_GET['CR'])) {
             ?>
                 <p>
-                    <?= Html::a('Criar Mesa <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success']) ?>
+                    <?= Html::a('Criar Mesa <i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-outline-success mt-3']) ?>
                 </p>
             <?php
             }

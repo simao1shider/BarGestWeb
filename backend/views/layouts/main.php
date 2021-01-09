@@ -68,6 +68,11 @@ AppAsset::register($this);
                         <?= Html::img('@web/img/Icons/Blue/rent.png', ['class' => '', 'style' => 'width: 35px']) ?>
                     </a>
                 </li>
+                <li>
+                    <a href="<?=Url::to(["iva/index"])?>" title="Ivas">
+                        <?= Html::img('@web/img/Icons/Blue/rate.png', ['class' => '', 'style' => 'width: 35px']) ?>
+                    </a>
+                </li>
                 <li style="position: absolute;bottom: 10px; width: 100%">
                     <?= Html::a("<i class='fa fa-power-off fa-5x' style='color: red' ></i>",Url::to(["site/logout"]))?>
                 </li>

@@ -48,7 +48,6 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-
         return $this->render('index', [
             'products'=>Product::find()->where(["status"=>true])->all()
         ]);

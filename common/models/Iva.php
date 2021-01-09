@@ -40,7 +40,7 @@ class Iva extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'rate' => 'Rate',
+            'rate' => 'Percentagem',
         ];
     }
 
