@@ -4,9 +4,8 @@ modules:
     enabled:
         - Yii2:
             part: [orm, email, fixtures]
-            cleanup: true
         - Asserts
         - Db:
-              dsn: 'mysql:host=localhost;dbname=bargest_teste'
+              dsn: 'mysql:host=localhost;dbname=bargest_test'
               user: 'root'
               password: ''

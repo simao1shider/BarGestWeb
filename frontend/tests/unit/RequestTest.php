@@ -1,12 +1,9 @@
 <?php namespace frontend\tests;
 
 use common\fixtures\AccountFixture;
-use common\fixtures\CategoryFixture;
 use common\fixtures\EmployeeFixture;
-use common\fixtures\ProductFixture;
 use common\fixtures\TableFixture;
 use common\fixtures\UserFixture;
-use common\models\Employee;
 use common\models\Request;
 
 class RequestTest extends \Codeception\Test\Unit
