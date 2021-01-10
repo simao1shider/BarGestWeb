@@ -40,8 +40,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'profit_margin', 'category_id', 'iva_id','status'], 'required'],
-            [['price'], 'number'],
+            [['name', 'price', 'base_price', 'profit_margin', 'category_id', 'iva_id','status'], 'required'],
+            [['price', 'base_price'], 'number'],
             [['status'], 'boolean'],
             [['profit_margin', 'category_id', 'iva_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
@@ -59,6 +59,7 @@ class Product extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Nome',
             'price' => 'Preço',
+            'base_price' => 'Preço Base',
             'profit_margin' => 'Margem de Lucro',
             'category_id' => 'Categoria',
             'iva_id' => 'Iva',
@@ -123,5 +124,14 @@ class Product extends \yii\db\ActiveRecord
     public function getRequests0()
     {
         return $this->hasMany(Request::className(), ['id' => 'request_id'])->viaTable('products_to_be_paid', ['product_id' => 'id']);
+    }
+
+    public function calculateProductPrice($price, $profit_margin){
+        $iva = Iva::find($this->iva_id)->one();
+  
+        $price += $price * ($iva->rate * 0.01);
+        $price += $price * ($profit_margin * 0.01);
+
+        return $price;
     }
 }

@@ -28,7 +28,7 @@ class ProductController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -49,7 +49,7 @@ class ProductController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-            'products'=>Product::find()->where(["status"=>true])->all()
+            'products' => Product::find()->where(["status" => true])->all()
         ]);
     }
 
@@ -71,30 +71,32 @@ class ProductController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($categoryId=null)
+    public function actionCreate($categoryId = null)
     {
         $model = new Product();
 
-        if(isset($_POST["Product"])){
-            if($categoryId!=null)
-                $model->category_id=$categoryId;
-            $model->status=true;
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
+        if (isset($_POST["Product"])) {
+            if ($categoryId != null)
+                $model->category_id = $categoryId;
+
+            if ($model->load(Yii::$app->request->post())) {
+                $model->status = true;
+                $model->price = $model->calculateProductPrice(Yii::$app->request->post("Product")['base_price'], Yii::$app->request->post("Product")['profit_margin']);
+                if ($model->save()) {
+                    return $this->redirect(['index']);
+                }
             }
         }
 
-        if($categoryId==null)
-        {
+        if ($categoryId == null) {
             return $this->render('create', [
-                'ivas'=>Iva::find()->where(["status"=>true])->all(),
-                'categories'=>Category::find()->where(["status"=>true])->all(),
+                'ivas' => Iva::find()->where(["status" => true])->all(),
+                'categories' => Category::find()->where(["status" => true])->all(),
                 'product' => $model,
             ]);
-        }
-        else{
+        } else {
             return $this->render('create', [
-                'ivas'=>Iva::find()->where(["status"=>true])->all(),
+                'ivas' => Iva::find()->where(["status" => true])->all(),
                 'product' => $model,
             ]);
         }
@@ -111,14 +113,18 @@ class ProductController extends Controller
     {
         $product = $this->findModel($id);
 
-        if ($product->load(Yii::$app->request->post()) && $product->save()) {
-            return $this->redirect(['view', 'id' => $product->id]);
+        if ($product->load(Yii::$app->request->post())) {
+            $product->status = true;
+            $product->price = $product->calculateProductPrice(Yii::$app->request->post("Product")['base_price'], Yii::$app->request->post("Product")['profit_margin']);
+            if ($product->save()) {
+                return $this->redirect(['view', 'id' => $product->id]);
+            }
         }
 
         return $this->render('update', [
-            'product' => Product::find()->where(["status"=>true,"id"=>$id])->one(),
-            'ivas'=>Iva::find()->where(["status"=>true])->all(),
-            'categories'=>Category::find()->where(["status"=>true])->all(),
+            'product' => Product::find()->where(["status" => true, "id" => $id])->one(),
+            'ivas' => Iva::find()->where(["status" => true])->all(),
+            'categories' => Category::find()->where(["status" => true])->all(),
         ]);
     }
 
@@ -131,8 +137,8 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $product=$this->findModel($id);
-        $product->status=false;
+        $product = $this->findModel($id);
+        $product->status = false;
         $product->save();
         return $this->redirect(['index']);
     }

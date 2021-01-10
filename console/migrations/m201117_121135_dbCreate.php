@@ -76,6 +76,7 @@ class m201117_121135_dbCreate extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'price' => $this->decimal(6,2)->notNull(),
+            'base_price' => $this->decimal(6,2)->notNull(),
             'profit_margin' => $this->integer()->notNull(),
             'status' => $this->tinyInteger(),
             'category_id' => $this->integer()->notNull(),
