@@ -37,24 +37,10 @@ $this->title = 'Home';
             </div>
             <?php
             if (\Yii::$app->user->can('counter')) {
-                if ($cashier->status == 1) {
+                if (!$cashier) {
             ?>
                     <div class="card col-md-3 mr-3 mb-3">
-                        <a href="<?= Url::to(["cashier/abrircaixa"])?>">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
-                                    <span class="mt-2 ml-2 h4">Caixa do Dia</span>
-                                </h5>
-                                <p class="card-text">Caixa aberta no dia: <?= date("d-m-Y", strtotime($cashier->date)) ?></p>
-                            </div>
-                        </a>
-                    </div>
-                <?php
-                } else {
-                ?>
-                    <div class="card col-md-3 mr-3 mb-3">
-                        <a href="<?= Url::to(["cashier/fecharcaixa"])?>">
+                        <a href="<?= Url::to(["cashier/abrircaixa"]) ?>">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
@@ -65,9 +51,23 @@ $this->title = 'Home';
                         </a>
                     </div>
                 <?php
+                } else {
+                ?>
+                    <div class="card col-md-3 mr-3 mb-3">
+                        <a href="<?= Url::to(["cashier/fecharcaixa"]) ?>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
+                                    <span class="mt-2 ml-2 h4">Caixa do Dia</span>
+                                </h5>
+                                <p class="card-text">Caixa aberta no dia: <?= date("d-m-Y", strtotime($cashier->date)) ?></p>
+                            </div>
+                        </a>
+                    </div>
+                <?php
                 }
             } else {
-                if ($cashier->status == 1) {
+                if (!$cashier) {
                 ?>
                     <div class="card col-md-3 mr-3 mb-3">
                         <div class="card-body">
@@ -75,7 +75,7 @@ $this->title = 'Home';
                                 <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
                                 <span class="mt-2 ml-2 h4">Caixa do Dia</span>
                             </h5>
-                            <p class="card-text">Caixa aberta no dia: <?= date("d-m-Y", strtotime($cashier->date)) ?></p>
+                            <p class="card-text">Caixa não está aberta.</p>
                         </div>
                     </div>
                 <?php
@@ -87,7 +87,7 @@ $this->title = 'Home';
                                 <?= Html::img('@web/img/Icons/Color/receipt.png', ['class' => 'align-top mt-1', 'style' => 'width: 55px']) ?><br>
                                 <span class="mt-2 ml-2 h4">Caixa do Dia</span>
                             </h5>
-                            <p class="card-text">Caixa não está aberta, e apenas pode ser aberta por quem tem permissão</p>
+                            <p class="card-text">Caixa aberta no dia: <?= date("d-m-Y", strtotime($cashier->date)) ?></p>
                         </div>
                     </div>
             <?php
