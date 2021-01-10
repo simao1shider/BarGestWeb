@@ -8,6 +8,7 @@ use common\models\Account;
 use common\models\Category;
 use common\models\Product;
 use common\models\ProductsToBePaid;
+use common\models\Request;
 use Yii;
 use yii\web\Controller;
 
@@ -95,7 +96,7 @@ class AjaxController extends Controller
             ->select(["sum(quantity) as quantity"])
             ->innerJoin("request", 'request_id=id')
             ->innerJoin("product", "product_id=product.id")
-            ->where(["account_id" => $account->id, "status" => 3, "product_id" => $post["product_id"]])
+            ->where(["account_id" => $account->id, "request.status" => Request::STATUS_DELIVERED, "product_id" => $post["product_id"]])
             ->groupBy("product_id")
             ->createCommand()->queryOne();
         $account->total += $product->product->price;
@@ -109,7 +110,7 @@ class AjaxController extends Controller
         $product = ProductsToBePaid::find()
             ->innerJoin("request", "request.id=request_id")
             ->innerJoin("account", "account.id=account_id")
-            ->where(['account_id' => $post['account_id'], "request.status" => 3, 'product_id' => $post["product_id"]])->one();
+            ->where(['account_id' => $post['account_id'], "request.status" => Request::STATUS_DELIVERED, 'product_id' => $post["product_id"]])->one();
         $product->quantity -= 1;
         $product->save();
         $account = $product->request->account;
@@ -118,7 +119,7 @@ class AjaxController extends Controller
             ->select(["sum(quantity) as quantity"])
             ->innerJoin("request", 'request_id=id')
             ->innerJoin("product", "product_id=product.id")
-            ->where(["account_id" => $account->id, "status" => 3, "product_id" => $post["product_id"]])
+            ->where(["account_id" => $account->id, "request.status" => Request::STATUS_DELIVERED, "product_id" => $post["product_id"]])
             ->groupBy("product_id")
             ->createCommand()->queryOne();
         $account->total -= $product->product->price;

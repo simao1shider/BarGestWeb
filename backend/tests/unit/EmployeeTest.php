@@ -37,11 +37,11 @@ class EmployeeTest extends \Codeception\Test\Unit
         $employee = new Employee();
 
         $employee->name = "orfkreofefoerpfkerpofwlkwefwefmwoijwoeroigreogreigwekjweijdosijgojgoerireoingeroigeorigeorihgddddddroehgeoriheroheoo";
-        $this->assertFalse($employee->validate(['name']));
+        $this->assertFalse($employee->validate(['name']),"Nome muito grande");
         $employee->name = 32423432423423;
-        $this->assertFalse($employee->validate(['name']));
+        $this->assertFalse($employee->validate(['name']),"Não pode ser inteiro");
         $employee->name = "";
-        $this->assertFalse($employee->validate(['name']));
+        $this->assertFalse($employee->validate(['name']),"Não pode ser vazio");
         $employee->name = "Simão Marques";
         $this->assertTrue($employee->validate(['name']));
 
@@ -89,11 +89,11 @@ class EmployeeTest extends \Codeception\Test\Unit
         $employee = new Employee();
 
         $employee->birthDate = "ewfijwo+ifjwe+ifjweifjweifjweifjwepfjwepifj";
-        $this->assertFalse($employee->validate(['birthDate']));
+        $this->assertFalse($employee->validate(['birthDate']),"Não pode permitir texto");
         $employee->birthDate = date("01-07-2000");
-        $this->assertFalse($employee->validate(['birthDate']));
+        $this->assertFalse($employee->validate(['birthDate']),"Não esta de acordo com o foramto");
         $employee->birthDate = 9999999999999999999;
-        $this->assertFalse($employee->validate(['birthDate']));
+        $this->assertFalse($employee->validate(['birthDate']),"Não pode se inteiro");
         $employee->birthDate = date("2000-07-24");
         $this->assertTrue($employee->validate(['birthDate']));
 

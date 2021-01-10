@@ -56,9 +56,9 @@ $this->title = $account->name;
                             <span class="h3 mt-2" id="idMesa"><?= $product["name"] ?></span>
                         </div>
                         <div class="col-3 h3">
-                            <a href="#" onclick="accountAddQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                            <a onclick="accountAddQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/plus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
                             <span id="accountProductQuantity_<?= $product["product_id"] ?>" class="mt-2 mr-2 ml-2"><?= $product["quantity"] ?></span>
-                            <a href="#" onclick="accountRemoveQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
+                            <a onclick="accountRemoveQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
                         </div>
                         <div class="col-4 h3">
                             <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] * $product["quantity"] ?> €</span>
