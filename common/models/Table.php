@@ -44,8 +44,8 @@ class Table extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'number' => 'Number',
-            'status' => 'Status',
+            'number' => 'Número',
+            'status' => 'Estado',
         ];
     }
 

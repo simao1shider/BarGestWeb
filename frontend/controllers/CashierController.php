@@ -47,7 +47,9 @@ class CashierController extends Controller
             $caixa->save();
 
             $cashier = Cashier::find()->where(['status' => 1])->one();
-
+            if(!$cashier){
+                return $this->redirect(['site/index']);
+            }
             return $this->redirect(['site/index'], [
                 'cashier' => $cashier,
             ]);
