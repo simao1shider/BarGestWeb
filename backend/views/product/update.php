@@ -64,9 +64,9 @@ $this->title = $product->name;
     const source2 = document.getElementById('product-iva_id');
     const result = document.getElementById("product-price");
     var total = 0;
-    var base_price = 0;
-    var profit_margin = 0;
-    var iva = 0;
+    var base_price = Number(source.value);
+    var profit_margin = Number(source1.value * 0.01);
+    var iva = Number(source2.options[source2.selectedIndex].innerHTML * 0.01);
 
     const inputHandler = function(e) {
         base_price = Number(e.target.value);
