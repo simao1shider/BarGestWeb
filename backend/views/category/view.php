@@ -44,7 +44,7 @@ $this->title = $category->name;
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <a class="text-center">
+                                    <a class="text-center" href="<?=Url::to(["product/view",'id'=>$product->id])?>">
                                         <h5 class="card-title mt-5"><?= $product->name ?></h5>
                                         <span class="mb-4 text-secondary"><?= $product->price ?> €</span>
                                     </a>

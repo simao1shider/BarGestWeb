@@ -25,7 +25,7 @@ $this->title = 'Produtos';
             <li class="breadcrumb-item active" aria-current="page"><?= Html::encode($this->title) ?></li>
         </ol>
     </nav>
-    
+
 
     <div class="mt-5 container">
         <div class="row">
@@ -35,15 +35,14 @@ $this->title = 'Produtos';
                 <h2>Não existem produtos</h2>
             <?php
             }
-             foreach ($products as $product){
-                ?>
+            foreach ($products as $product) {
+            ?>
                 <div class="col-4 mt-3">
-                    <a href="<?=Url::to(["product/view",'id'=>$product->id])?>">
-                        <div class="card shadow-sm text-center pt-2 pb-2">
+                    <div class="card shadow-sm text-center pt-2 pb-2">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <a class="text-center">
+                                    <a class="text-center" href="<?= Url::to(["product/view", 'id' => $product->id]) ?>">
                                         <h5 class="card-title mt-5"><?= $product->name ?></h5>
                                         <span class="mb-4 text-secondary"><?= $product->price ?> €</span>
                                     </a>
@@ -62,11 +61,10 @@ $this->title = 'Produtos';
                                 </div>
                             </div>
                         </div>
-                        </div>
-                    </a>
+                    </div>
                 </div>
             <?php
-            }?>
+            } ?>
         </div>
     </div>
 
