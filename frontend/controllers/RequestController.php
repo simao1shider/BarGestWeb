@@ -85,6 +85,7 @@ class RequestController extends Controller
     {
         $model = Request::find()
             ->where("status!=".Request::STATUS_DELIVERED)
+            ->andWhere("status!=".Request::STATUS_PAYED)
             ->all();
 
         return $this->render('index', [

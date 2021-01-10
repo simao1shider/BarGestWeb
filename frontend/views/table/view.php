@@ -49,12 +49,12 @@ $this->title = "Contas";
         <div class="list-group">
 
             <?php
-            if (empty($model->accounts)) {
+            if (empty($accounts)) {
             ?>
                 <h3 class="text-center">Não exitem contas</h3>
                 <?php
             }
-            foreach ($model->accounts as $account) {
+            foreach ($accounts as $account) {
                 if ($account->status == 0) {
                     if (isset($_GET['CR'])) {
                 ?>

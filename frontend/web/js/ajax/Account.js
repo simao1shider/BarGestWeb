@@ -8,7 +8,7 @@ function accountAddQuantity(account_id, product_id) {
   }).done(function (msg) {
     msg = jQuery.parseJSON(msg);
     $("#accountProductQuantity_" + product_id).html(msg["quantity"]);
-    $("#accountTotal").html(msg.total);
+    $("#accountTotal").html(msg.total.toFixed(2));
   });
 }
 
@@ -21,10 +21,17 @@ function accountRemoveQuantity(account_id, product_id) {
     msg = jQuery.parseJSON(msg);
     if (msg["quantity"] == 0) {
       $("#product_" + product_id).remove();
+      var num = 0;
+      $('#listProductsAccount span').each(function(){
+        num++;
+      });
+      if(num==0){
+        window.history.back();
+      }
     } else {
       $("#accountProductQuantity_" + product_id).html(msg["quantity"]);
     }
-    $("#accountTotal").html(msg["total"]);
+    $("#accountTotal").html(msg.total.toFixed(2));
   });
 }
 

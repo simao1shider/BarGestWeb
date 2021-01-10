@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Account;
 use Yii;
 use common\models\Table;
 use yii\filters\AccessControl;
@@ -49,26 +50,29 @@ class TableController extends Controller
     public function actionView($id)
     {
         $model=Table::findOne($id);
+        $accounts=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$id]);
         if(isset($_GET['CR'])){
             if(Yii::$app->user->can("createRequest"))
             {
                 return $this->render('view', [
                     'model' => $model,
+                    'accounts'=>$accounts->all(),
                 ]);
             }else{
                 throw new HttpException(403,"Não tem premisões para aceder a este ficheiro");
             }
         }
         else{
-            $AccountQuantity=count($model->accounts);
+            $AccountQuantity=$accounts->count();
+            $modelAccounts=$accounts->all();
             if($AccountQuantity != 1){
-                $model = Table::findOne($id);
                 return $this->render('view', [
                     'model' => $model,
+                    'accounts'=>$modelAccounts,
                 ]);
             }
             else{
-                return $this->redirect(['account/view', 'id' => $model->accounts[0]->id]);
+                return $this->redirect(['account/view', 'id' => $modelAccounts[0]->id]);
 
             }
         }
