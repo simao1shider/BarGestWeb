@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Account;
 use Yii;
 use common\models\Table;
 use yii\filters\AccessControl;
@@ -60,11 +61,13 @@ class TableController extends Controller
             }
         }
         else{
-            $AccountQuantity=count($model->accounts);
+            $accounts=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$id]);
+            $AccountQuantity=$accounts->count();
             if($AccountQuantity != 1){
-                $model = Table::findOne($id);
+                $modelAccounts = $accounts->all();
                 return $this->render('view', [
                     'model' => $model,
+                    'accounts'=>$modelAccounts,
                 ]);
             }
             else{
