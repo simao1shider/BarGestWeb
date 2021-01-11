@@ -45,7 +45,7 @@ class RequestCest
         $I->see("Não tem produtos adicionados");
         $I->click(".card");
         $I->wait(3);
-        $I->see("Ice Tea");
+        $I->see("Gordons");
         $I->click(".card");
         $I->wait(3);
         $I->dontSee("Não tem produtos adicionados");
@@ -77,7 +77,7 @@ class RequestCest
         $I->see("Não tem produtos adicionados");
         $I->click(".card");
         $I->wait(3);
-        $I->see("Ice Tea");
+        $I->see("Gordons");
         $I->click(".card");
         $I->wait(3);
         $I->dontSee("Não tem produtos adicionados");
