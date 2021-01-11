@@ -132,7 +132,7 @@ class AjaxController extends Controller
             if (count($account->requests) == 0) {
                 $table = $account->table;
                 $account->delete();
-                if (count($table->accounts) == 0) {
+                if (Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$table->id])->count() == 0) {
                     $table->status = false;
                     $table->save();
                 }

@@ -24,7 +24,6 @@ class m201117_121135_dbCreate extends Migration
             'email' => $this->string()->notNull()->unique(),
             'phone' => $this->integer()->unique(),
             'birthDate' => $this->date(),
-            'phone' => $this->integer(),
             'user_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
@@ -78,7 +77,6 @@ class m201117_121135_dbCreate extends Migration
             'price' => $this->decimal(6,2)->notNull(),
             'base_price' => $this->decimal(6,2)->notNull(),
             'profit_margin' => $this->integer()->notNull(),
-            'status' => $this->tinyInteger(),
             'category_id' => $this->integer()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
             'iva_id' => $this->integer()->notNull(),
