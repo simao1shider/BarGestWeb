@@ -42,8 +42,10 @@ class EmployeeTest extends \Codeception\Test\Unit
         $this->assertFalse($employee->validate(['name']),"Não pode ser inteiro");
         $employee->name = "";
         $this->assertFalse($employee->validate(['name']),"Não pode ser vazio");
+        $employee->name = null;
+        $this->assertFalse($employee->validate(['name']),"Não pode ser nulo");
         $employee->name = "Simão Marques";
-        $this->assertTrue($employee->validate(['name']));
+        $this->assertTrue($employee->validate(['name']),"Nome valido");
 
         return $employee->name;
     }
@@ -57,10 +59,14 @@ class EmployeeTest extends \Codeception\Test\Unit
         $this->assertFalse($employee->validate(['email']),"Tamanho de email invalido");
         $employee->email = "";
         $this->assertFalse($employee->validate(['email']),"O email não pode ser vazio");
+        $employee->email = null;
+        $this->assertFalse($employee->validate(['email']),"O email não pode ser nulo");
         $employee->email = "dwwqdwqd";
         $this->assertFalse($employee->validate(['email']),"Tem de ter o formato de email");
-        $employee->email = "1";
-        $this->assertFalse($employee->validate(['email']),"Não pode ser so numero");
+        $employee->email = "dwwqdwqd@tttt";
+        $this->assertFalse($employee->validate(['email']),"Tem de ter o formato de email");
+        $employee->email = 1;
+        $this->assertFalse($employee->validate(['email']),"Não pode ser so numero, tem de ser o formato de email");
         $employee->email = "simado@bargest.pt";
         $this->assertFalse($employee->validate(['email']),"O email não pode ser duplicado");
         $employee->email = "simado2@bargest.pt";
@@ -74,13 +80,13 @@ class EmployeeTest extends \Codeception\Test\Unit
         $employee = new Employee();
 
         $employee->phone = "oeeggfdgfdgfdgfdgregergfdgr";
-        $this->assertFalse($employee->validate(['phone']),"Não pode conter numeros");
+        $this->assertFalse($employee->validate(['phone']),"Não pode conter letras");
         $employee->phone = "918323453";
         $this->assertFalse($employee->validate(['phone']),"Não pode ser duplicado");
         $employee->phone = 918323452;
-        $this->assertTrue($employee->validate(['phone']));
+        $this->assertTrue($employee->validate(['phone']),"Phone valido");
         $employee->phone = "918323452";
-        $this->assertTrue($employee->validate(['phone']));
+        $this->assertTrue($employee->validate(['phone']),"Phone valido");
 
         return $employee->phone;
     }
@@ -95,7 +101,7 @@ class EmployeeTest extends \Codeception\Test\Unit
         $employee->birthDate = 9999999999999999999;
         $this->assertFalse($employee->validate(['birthDate']),"Não pode se inteiro");
         $employee->birthDate = date("2000-07-24");
-        $this->assertTrue($employee->validate(['birthDate']));
+        $this->assertTrue($employee->validate(['birthDate']),"Data valida valido");
 
         return $employee->birthDate;
     }
