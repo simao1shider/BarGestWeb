@@ -1,5 +1,6 @@
 <?php namespace backend\tests\functional;
 use backend\tests\FunctionalTester;
+use common\fixtures\EmployeeFixture;
 use common\fixtures\UserFixture;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
@@ -32,6 +33,16 @@ class EmployeeCest
         $I->see('Autenticação');
     }
 
+    public function checkAccessToUpdateWithoutLogin(FunctionalTester $I)
+    {
+        $I->haveFixtures(["request" => [
+            'class' => EmployeeFixture::className(),
+            'dataFile' => codecept_data_dir() . 'employee_data.php',
+        ]]);
+        $I->amOnPage(["employee/update","id"=>1]);
+        $I->see('Autenticação');
+    }
+
     public function checkAccessToDeleteWithoutLogin(FunctionalTester $I)
     {
         $I->amOnPage(["employee/delete"]);
@@ -51,7 +62,7 @@ class EmployeeCest
         $I->see('Funcionários');
     }
 
-    public function checkAccessLoggedUserinCreateUser(FunctionalTester $I)
+    public function checkCreateUser(FunctionalTester $I)
     {
         $this->login($I , 'admin', 'admin');
         $I->amOnPage('employee/create');
