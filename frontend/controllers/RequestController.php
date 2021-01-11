@@ -122,8 +122,10 @@ class RequestController extends Controller
                     throw new HttpException(404,"Mesa não existe");
                 }
             }
+            $nconta = Account::find()->max('id') + 1;
             return $this->render('create', [
                 'model' => $model,
+                'nconta' => $nconta,
             ]);
             /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);

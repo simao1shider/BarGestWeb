@@ -1,4 +1,5 @@
 <?php
+
 namespace backend\controllers;
 
 use Yii;
@@ -89,6 +90,18 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    /**
+     * Error action.
+     *
+     * @return string
+     */
+    public function actionError($error)
+    {
+        return $this->render('error', [
+            'error' => $error,
+        ]);
     }
 
     /**
