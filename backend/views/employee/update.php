@@ -45,7 +45,7 @@ $this->title = $employee->name;
 
                         <div class="form-group field-employee-birthdate">
                             <label for="employee-birthdate">Data de Nascimento</label>
-                            <input type="date" id="employee-birthdate" class="form-control" name="Employee[birthDate]">
+                            <input type="date" id="employee-birthdate" class="form-control" name="Employee[birthDate]" value="<?=$employee->birthDate?>">
 
                             <div class="invalid-feedback"></div>
                         </div>
