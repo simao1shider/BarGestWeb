@@ -8,6 +8,7 @@ function accountAddQuantity(account_id, product_id) {
   }).done(function (msg) {
     msg = jQuery.parseJSON(msg);
     $("#accountProductQuantity_" + product_id).html(msg["quantity"]);
+    $("#accountProductPrice_" + product_id).html((msg.quantity * msg.price).toFixed(2) + "€");
     $("#accountTotal").html(msg.total.toFixed(2));
   });
 }
@@ -30,6 +31,7 @@ function accountRemoveQuantity(account_id, product_id) {
       }
     } else {
       $("#accountProductQuantity_" + product_id).html(msg["quantity"]);
+      $("#accountProductPrice_" + product_id).html((msg.quantity * msg.price).toFixed(2) + "€");
     }
     $("#accountTotal").html(msg.total.toFixed(2));
   });
