@@ -61,7 +61,7 @@ $this->title = $account->name;
                             <a onclick="accountRemoveQuantity(<?= $account->id ?>,<?= $product['product_id'] ?>)"><?= Html::img('@web/img/Icons/Color/minus.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>
                         </div>
                         <div class="col-4 h3">
-                            <span id="accountProductQuantity" class="mt-2 mr-2 ml-2"><?= $product["price"] * $product["quantity"] ?> €</span>
+                            <span id="accountProductPrice_<?= $product["product_id"] ?>" class="mt-2 mr-2 ml-2"><?= $product["price"] * $product["quantity"] ?> €</span>
                         </div>
                         <div class="col-1 text-center">
                             <a href="<?= \yii\helpers\Url::to(["account/delete_product", "request_id" => $product["request_id"], "product_id" => $product["product_id"]]) ?>" class="mr-5"><?= Html::img('@web/img/Icons/Color/delete.png', ['class' => 'align-top mt-1', 'style' => 'width: 40px']) ?></a>

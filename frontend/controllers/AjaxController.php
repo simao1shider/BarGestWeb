@@ -101,7 +101,7 @@ class AjaxController extends Controller
             ->createCommand()->queryOne();
         $account->total += $product->product->price;
         $account->save();
-        return json_encode(array("quantity" => $quantity["quantity"], "total" => $account->total));
+        return json_encode(array("quantity" => $quantity["quantity"], "total" => $account->total,"price"=>$product->product->price));
     }
 
     public function actionAccount_remove_quantity()
@@ -138,7 +138,7 @@ class AjaxController extends Controller
                 }
             }
         }
-        return json_encode(array("quantity" => $quantity["quantity"], "total" => $account->total));
+        return json_encode(array("quantity" => $quantity["quantity"], "total" => $account->total,"price"=>$product->product->price));
     }
 
     public function actionProductsToBePaid(){
