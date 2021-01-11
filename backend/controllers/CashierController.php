@@ -105,10 +105,16 @@ class CashierController extends Controller
     public function actionFecharcaixa(){
         
         $caixa = Cashier::find()->where(['status' => 1])->one();
-        $caixa->status = 0;
-        $caixa->save();
 
-        $cashiers = Cashier::find()->all();
+        foreach($caixa->accounts as $account){
+            if($account->status == 0){
+                return $this->render('error', ['exception' => "Não pode fechar a caixa porque existem contas abertas!"]);
+            }
+        }
+
+        $caixa->status = 0;
+        $caixa->save();      
+
         return $this->redirect(['cashier/index']);
     }
 
@@ -117,9 +123,7 @@ class CashierController extends Controller
         $caixad = Cashier::find()->where(['date' => date("Y/m/d")])->count();
 
         if($caixad > 0){
-            return $this->render('error',[
-                'message' => 'Já foi aberta uma caixa hoje!'
-            ]);
+            return $this->render('error', ['exception' => "Já foi aberta uma caixa hoje!"]);
         }
         if($caixan == 0){
             $caixa = new Cashier();
@@ -129,9 +133,7 @@ class CashierController extends Controller
             $caixa->save();
         }
         else{
-            return $this->render('error',[
-                'message' => 'Uma caixa já está aberta, apenas pode ter uma caixa aberta!'
-            ]);
+            return $this->render('error', ['exception' => "Uma caixa já está aberta, apenas pode ter uma caixa aberta!"]);
         }
 
         $cashiers = Cashier::find()->all();

@@ -28,7 +28,7 @@ class SaleController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['admin'],
                     ],
                 ],

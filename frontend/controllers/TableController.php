@@ -26,7 +26,7 @@ class TableController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','view','create'],
+                        'actions' => ['index', 'view', 'create'],
                         'roles' => ['employee'],
                     ],
                 ],
@@ -49,31 +49,27 @@ class TableController extends Controller
 
     public function actionView($id)
     {
-        $model=Table::findOne($id);
-        $accounts=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$id]);
-        if(isset($_GET['CR'])){
-            if(Yii::$app->user->can("createRequest"))
-            {
+        $model = Table::findOne($id);
+        $accounts = Account::find()->where(["status" => Account::TOPAY, "table_id" => $id]);
+        if (isset($_GET['CR'])) {
+            if (Yii::$app->user->can("createRequest")) {
                 return $this->render('view', [
                     'model' => $model,
-                    'accounts'=>$accounts->all(),
+                    'accounts' => $accounts->all(),
                 ]);
-            }else{
-                throw new HttpException(403,"Não tem premisões para aceder a este ficheiro");
+            } else {
+                throw new HttpException(403, "Não tem premisões para aceder a este ficheiro");
             }
-        }
-        else{
-            $AccountQuantity=$accounts->count();
-            $modelAccounts=$accounts->all();
-            if($AccountQuantity != 1){
+        } else {
+            $AccountQuantity = $accounts->count();
+            $modelAccounts = $accounts->all();
+            if ($AccountQuantity != 1) {
                 return $this->render('view', [
                     'model' => $model,
-                    'accounts'=>$modelAccounts,
+                    'accounts' => $modelAccounts,
                 ]);
-            }
-            else{
+            } else {
                 return $this->redirect(['account/view', 'id' => $modelAccounts[0]->id]);
-
             }
         }
     }
@@ -83,8 +79,8 @@ class TableController extends Controller
     {
         $model = new Table();
 
-        if(isset($_POST["Table"])){
-            $model->status=false;
+        if (isset($_POST["Table"])) {
+            $model->status = false;
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['index']);
             }

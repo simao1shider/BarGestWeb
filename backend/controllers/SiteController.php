@@ -93,18 +93,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Error action.
-     *
-     * @return string
-     */
-    public function actionError($error)
-    {
-        return $this->render('error', [
-            'error' => $error,
-        ]);
-    }
-
-    /**
      * Logout action.
      *
      * @return string

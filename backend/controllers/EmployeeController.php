@@ -95,6 +95,9 @@ class EmployeeController extends Controller
                 if ($employee->save()) {
                     return $this->redirect(['view', 'id' => $employee->id]);
                 }
+                else{
+                    return $this->render('error', ['exception' => "Erro ao inserir o funcionário!"]);
+                }
             }
         }
         return $this->render('create', [
@@ -150,16 +153,20 @@ class EmployeeController extends Controller
         $post = Yii::$app->request->post("SignupForm");
         $user = User::findOne(["id" => Employee::findOne(["id" => $post["id"]])->user_id]);
         $user->setPassword($post["password"]);
-        $user->save();
-        return $this->redirect(["view", "id" => $post["id"]]);
+        if($user->save()){
+            return $this->redirect(["view", "id" => $post["id"]]);
+        }else{
+            return $this->render('error', ['exception' => "Erro ao alterar password!"]);
+        }
+        
     }
 
     public function actionDelete($id)
     {
         $employee = $this->findModel($id);
         $user = User::findOne($employee->user_id);
-        if($user->username == "admin"){
-            return $this->redirect(['index']);
+        if ($user->username == "admin") {
+            return $this->render('error', ['exception' => "Não pode eliminar o Admin!"]);
         }
         $user->status = User::STATUS_DELETED;
         $user->save();

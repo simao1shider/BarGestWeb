@@ -5,7 +5,6 @@ namespace backend\controllers;
 use common\models\Product;
 use Yii;
 use common\models\Category;
-use common\models\CategorySearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -27,7 +26,7 @@ class CategoryController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','view','create','update','delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -49,7 +48,7 @@ class CategoryController extends Controller
     {
 
         return $this->render('index', [
-            "categories" => Category::find()->where(['status'=>true])->all()
+            "categories" => Category::find()->where(['status' => true])->all()
         ]);
     }
 
@@ -63,7 +62,7 @@ class CategoryController extends Controller
     {
         return $this->render('view', [
             'category' => $this->findModel($id),
-            'products' => Product::find()->where(['status'=>true,'category_id'=>$id])->all(),
+            'products' => Product::find()->where(['status' => true, 'category_id' => $id])->all(),
         ]);
     }
 
@@ -75,7 +74,7 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $model = new Category();
-        $model->status=true;
+        $model->status = true;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             return $this->redirect(['index']);
@@ -115,10 +114,10 @@ class CategoryController extends Controller
      */
     public function actionDelete()
     {
-        $category=$this->findModel(Yii::$app->request->post("id"));
-        $category->status=false;
-        foreach ($category->products as $product){
-            $product->status=false;
+        $category = $this->findModel(Yii::$app->request->post("id"));
+        $category->status = false;
+        foreach ($category->products as $product) {
+            $product->status = false;
             $product->save();
         }
         $category->save();
