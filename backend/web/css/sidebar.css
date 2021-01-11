@@ -275,7 +275,7 @@ a.article:hover {
     position: fixed;
     width: 50%;
     min-width: 200px;
-    max-width: 400px;
+    max-width: 600px;
     z-index: 1100;
     bottom: 25px;
     right: 25px;

@@ -37,7 +37,7 @@ $this->title = 'Criar Pedido';
         <div class="col-9">
             <?php
             if(isset($_GET["tableId"])) {
-                echo $form->field($model, 'name')->textInput(['placeholder' => $model->getAttributeLabel('name')])->label(false);
+                echo $form->field($model, 'name')->textInput(['placeholder' => $model->getAttributeLabel('name'), 'value' => "#".$nconta])->label(false);
                 echo $form->field($model, 'table_id')->hiddenInput()->label(false);
             }
             if(isset($_GET["account"])){

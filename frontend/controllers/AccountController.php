@@ -212,37 +212,75 @@ class AccountController extends \yii\web\Controller
     public function actionPaysplitaccount($id)
     {
         $model = $this->findModel($id);
-        $newaccount = new Account();
-        $newrequest = new Request();
 
-        if ($model->nif == 0) {
-            $newaccount->nif = 999999990;
-        } else {
-            //Valida se o nif está correto
-            if (!$model->validateNIF($model->nif)) {
-                throw new HttpException(403, "Nif errado");
+
+        $productsTBP = Account::findOne($id);
+
+        $dbnumProductsToBePaid = 0;
+        $sessionnumProductsToBePaid = 0;
+
+        foreach ($productsTBP->requests as $request) {
+            if ($request->status == 3) {
+                foreach ($request->productsToBePas as $productToBePaid) {
+                    $dbnumProductsToBePaid += $productToBePaid->quantity;
+                }
             }
-            $newaccount->nif = $model->nif;
         }
 
-        $newaccount->id = Account::find()->max('id') + 1;
-        $newaccount->name = $model->name;
-        $newaccount->total = 0;
-        $newaccount->dateTime = $model->dateTime;
-        $newaccount->status = 1;
-        $newaccount->table_id = $model->table_id;
-        $newaccount->cashier_id = $model->cashier_id;
-        if (!$newaccount->save()) {
-            throw new HttpException(403, "Erro ao criar conta!");
+        foreach ($_SESSION['productstopay'] as $product) {
+            $sessionnumProductsToBePaid += $product['quantity'];
         }
 
-        $newrequest->id = Request::find()->max('id') + 1;
-        $newrequest->status = 3;
-        $newrequest->dateTime = $newaccount->dateTime;
-        $newrequest->account_id = $newaccount->id;
-        $newrequest->employee_id = $model->requests[0]->employee_id;
-        if (!$newrequest->save()) {
-            throw new HttpException(403, "Erro ao criar pedido!");
+        if ($dbnumProductsToBePaid > $sessionnumProductsToBePaid) {
+
+            $newaccount = new Account();
+            $newrequest = new Request();
+
+            if ($model->nif == 0) {
+                $newaccount->nif = 999999990;
+            } else {
+                //Valida se o nif está correto
+                if (!$model->validateNIF($model->nif)) {
+                    throw new HttpException(403, "Nif errado");
+                }
+                $newaccount->nif = $model->nif;
+            }
+
+            $newaccount->id = Account::find()->max('id') + 1;
+            $newaccount->name = $model->name;
+            $newaccount->total = 0;
+            $newaccount->dateTime = $model->dateTime;
+            $newaccount->status = 1;
+            $newaccount->table_id = $model->table_id;
+            $newaccount->cashier_id = $model->cashier_id;
+            if (!$newaccount->save()) {
+                throw new HttpException(403, "Erro ao criar conta!");
+            }
+
+            $newrequest->id = Request::find()->max('id') + 1;
+            $newrequest->status = 3;
+            $newrequest->dateTime = $newaccount->dateTime;
+            $newrequest->account_id = $newaccount->id;
+            $newrequest->employee_id = $model->requests[0]->employee_id;
+            if (!$newrequest->save()) {
+                throw new HttpException(403, "Erro ao criar pedido!");
+            }
+        } else {
+            $newaccount = $model;
+            $newrequest = $model->requests[0];
+            if ($model->nif == 0) {
+                $newaccount->nif = 999999990;
+            } else {
+                //Valida se o nif está correto
+                if (!$model->validateNIF($model->nif)) {
+                    throw new HttpException(403, "Nif errado");
+                }
+                $newaccount->nif = $model->nif;
+            }
+
+            $newaccount->status = 1;
+            $newaccount->table->status = 0;
+            $newaccount->table->save();
         }
 
         $productstobepaid = ProductsToBePaid::find()
@@ -250,6 +288,7 @@ class AccountController extends \yii\web\Controller
             ->innerJoin("product", "product_id = product.id")
             ->where(["account_id" => $id, "request.status" => 3])
             ->All();
+
         $total = 0;
         foreach ($productstobepaid as $producttobepaid) {
             if (isset($_SESSION['productstopay'][$producttobepaid->product_id])) {
