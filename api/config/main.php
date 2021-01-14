@@ -49,8 +49,8 @@ return [
                     'controller' => 'v1/table',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET accounts/{id}' => 'table_accounts',
-                        'GET tables' => 'table',
+                        'GET {id}' => 'table_accounts',
+                        'GET all' => 'table',
                     ],
 
                 ],
@@ -59,7 +59,7 @@ return [
                     'controller' => 'v1/request',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET current' => 'current_requests',
+                        'GET currentactive' => 'current_requests',
                         'GET info/{id}' => 'info',
                         'DELETE delete/{id}' => 'delete_request',
                         'POST create/account/{id}' => 'create_requestinaccount',

@@ -2,14 +2,12 @@
 
 namespace api\modules\v1\controllers;
 
-use common\models\LoginForm;
 use common\models\User;
 use Yii;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
-use yii\filters\auth\QueryParamAuth;
 
 class EmployeeController extends ActiveController
 {
@@ -33,10 +31,10 @@ class EmployeeController extends ActiveController
             'authMethods' => [
                 [
                     'class' => HttpBasicAuth::className(),
-                    'auth' => function ($username, $password){
-                        $this->username=$username;
+                    'auth' => function ($username, $password) {
+                        $this->username = $username;
                         $user = \common\models\User::findByUsername($username);
-                        if ($user && $user->validatePassword($password)){
+                        if ($user && $user->validatePassword($password)) {
                             Yii::$app->response->cookies->remove("_csrf-backend");
                             Yii::$app->response->cookies->remove("PHPSESSID");
                             return $user;
@@ -48,10 +46,9 @@ class EmployeeController extends ActiveController
         ];
         return $behaviors;
     }
-    public function actionLoginuser(){
-         $user=User::findByUsername($this->username);
-         return $user->auth_key;
-
+    public function actionLoginuser()
+    {
+        $user = User::findByUsername($this->username);
+        return $user->auth_key;
     }
-
 }
