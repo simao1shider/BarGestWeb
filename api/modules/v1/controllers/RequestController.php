@@ -3,9 +3,12 @@
 namespace api\modules\v1\controllers;
 
 use common\models\Account;
+use common\models\Cashier;
+use common\models\Employee;
 use common\models\ProductsToBePaid;
 use common\models\Request;
 use common\models\Table;
+use common\models\User;
 use Yii;
 use yii\rest\ActiveController;
 use yii\web\HttpException;
@@ -52,12 +55,15 @@ class RequestController extends ActiveController
 
     public function actionCurrent_requests()
     {
+        $user=User::findIdentityByAccessToken(Yii::$app->request->get("access-token"));
+
         return Request::find()
             ->select("number as table_number, request.status, request.id,request.dateTime")
             ->innerJoin("account", "account_id=account.id")
             ->innerJoin("table", "table_id=table.id")
             ->where(["!=", "request.status", Request::STATUS_DELIVERED])
             ->andWhere(["account.status" => Account::TOPAY])
+            ->andWhere(["request.employee_id"=>Employee::findOne(["user_id"=>$user->id])->id])
             ->orderBy("dateTime desc")
             ->asArray()
             ->all();
@@ -65,8 +71,9 @@ class RequestController extends ActiveController
 
     public function actionInfo($id)
     {
+
         return ProductsToBePaid::find()
-            ->select("product.id,name,price,quantity")
+            ->select("product.id,name,price,quantity,category_id")
             ->innerJoin("product", "product_id=product.id")
             ->where(["request_id" => $id])
             ->asArray()
@@ -109,7 +116,8 @@ class RequestController extends ActiveController
         $request->dateTime = date("Y-m-d H:i:s");
         $request->status = Request::STATUS_REQUEST;
         $request->account_id = $id;
-        $request->employee_id = 1;
+        $user=User::findIdentityByAccessToken(Yii::$app->request->get("access-token"));
+        $request->employee_id = Employee::findOne(["user_id"=>$user->id])->id;
         if ($request->save()) {
             $producsjson = Yii::$app->request->post("products");
             $products = json_decode($producsjson);
@@ -145,7 +153,11 @@ class RequestController extends ActiveController
             $account->status = Account::TOPAY;
             $account->total = $total;
             $account->table_id = $id;
-            $account->cashier_id = 1;
+            $cashier=Cashier::findOne(["status"=>Cashier::OPEN]);
+            if($cashier==null){
+                throw new HttpException(500,"Não tem caixas abertas");
+            }
+            $account->cashier_id = Cashier::findOne(["status"=>Cashier::OPEN])->id;
             if ($account->save()) {
                 if (empty(Yii::$app->request->post("account_name"))) {
                     $account->name = "#" . $account->id;
@@ -155,7 +167,8 @@ class RequestController extends ActiveController
                 $request->dateTime = date("Y-m-d H:i:s");
                 $request->status = Request::STATUS_REQUEST;
                 $request->account_id = $account->id;
-                $request->employee_id = 1;
+                $user=User::findIdentityByAccessToken(Yii::$app->request->get("access-token"));
+                $request->employee_id = Employee::findOne(["user_id"=>$user->id])->id;
                 if ($request->save()) {
 
                     foreach ($products as $product) {
