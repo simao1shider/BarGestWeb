@@ -198,4 +198,13 @@ class RequestController extends ActiveController
 
         return "Edit successfully";
     }
+
+    public function actionUpdate_status($id){
+        $request= Request::findOne($id);
+        $request->status = $request->status+1;
+        if($request->save()){
+            return "Status changes";
+        }
+        throw new HttpException("500","Status not updated");
+    }
 }

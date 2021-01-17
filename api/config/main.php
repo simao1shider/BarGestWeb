@@ -65,6 +65,7 @@ return [
                         'POST create/account/{id}' => 'create_requestinaccount',
                         'POST create/table/{id}' => 'create_requestintable',
                         'PUT edit/{id}' => 'request_edit',
+                        'PUT {id}/updatestatus' => 'update_status'
                     ],
                 ],
                 [
