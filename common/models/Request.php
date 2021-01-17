@@ -156,7 +156,7 @@ class Request extends \yii\db\ActiveRecord
         
         $requestInJSON = Json::encode($this);
         if ($insert) {
-            $this->FazPublish("INSERT_Request_".Yii::$app->user->id, $requestInJSON);
+            $this->FazPublish("INSERT_Request", $requestInJSON);
         }else{
             $this->FazPublish("UPDATE_Request_".Yii::$app->user->id, $requestInJSON);
         }

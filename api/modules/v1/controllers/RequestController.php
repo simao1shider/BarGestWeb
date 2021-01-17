@@ -73,7 +73,7 @@ class RequestController extends ActiveController
     {
 
         return ProductsToBePaid::find()
-            ->select("product.id,name,price,quantity,category_id")
+            ->select("product.id,name,price,quantity, product.category_id")
             ->innerJoin("product", "product_id=product.id")
             ->where(["request_id" => $id])
             ->asArray()
@@ -192,10 +192,11 @@ class RequestController extends ActiveController
 
     public function actionRequest_edit($id)
     {
-        ProductsToBePaid::deleteAll(["request_id" => $id]);
         $producsjson = Yii::$app->request->post("products");
         $products = json_decode($producsjson);
         if (!empty($products)) {
+            ProductsToBePaid::deleteAll(["request_id" => $id]);
+
             foreach ($products as $product) {
                 $addProduct = new ProductsToBePaid();
                 $addProduct->request_id = $id;
@@ -204,7 +205,8 @@ class RequestController extends ActiveController
                 $addProduct->save();
             }
         } else {
-            Request::findOne($id)->delete();
+            ///Request::findOne($id)->delete();
+            return "Fail";
         }
 
         return "Edit successfully";

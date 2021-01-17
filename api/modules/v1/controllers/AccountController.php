@@ -54,7 +54,7 @@ class AccountController extends ActiveController
     public function actionAccountinfo($id)
     {
         return ProductsToBePaid::find()
-            ->select("product.id as id, SUM(quantity) as quantity, price,product.name")
+            ->select("product.id as id, SUM(quantity) as quantity, price, product.name, product.category_id")
             ->innerJoin("request", "request_id=request.id")
             ->innerJoin("account", "account_id=account.id")
             ->innerJoin("product", "product_id=product.id")
