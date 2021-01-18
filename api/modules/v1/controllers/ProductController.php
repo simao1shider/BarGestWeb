@@ -56,4 +56,6 @@ class ProductController extends ActiveController
             ->where(["category_id"=>$id, "status"=>Product::STATUS_ACTIVE])
             ->all();
     }
+
+
 }
