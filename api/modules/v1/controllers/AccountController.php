@@ -2,7 +2,6 @@
 
 namespace api\modules\v1\controllers;
 
-use common\models\Product;
 use common\models\ProductsToBePaid;
 use yii\rest\ActiveController;
 use yii\web\Response;
@@ -49,6 +48,14 @@ class AccountController extends ActiveController
             ],
         ];
         return $behaviors;
+    }
+
+    public function actionAll()
+    {
+        return Account::find()
+            ->where(["account.status" => 0])
+            ->asArray()
+            ->all();
     }
 
     public function actionAccountinfo($id)

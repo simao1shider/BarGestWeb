@@ -90,6 +90,7 @@ return [
                     'controller' => 'v1/account',
                     'pluralize' => false,
                     'extraPatterns' => [
+                        'GET all' => 'all',
                         'GET info/{id}' => 'accountinfo',
                         'PUT pay/{id}' => 'pay',
                         'PUT splitpay/{id}' => 'splitpay',
@@ -101,6 +102,14 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET login' => 'loginuser',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/productstobepaid',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET all' => 'all',
                     ],
                 ],
             ],        

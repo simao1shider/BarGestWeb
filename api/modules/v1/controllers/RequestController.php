@@ -53,7 +53,7 @@ class RequestController extends ActiveController
     public function actionCurrent_requests()
     {
         return Request::find()
-            ->select("number as table_number, request.status, request.id,request.dateTime")
+            ->select("number as table_number, request.status, request.id, request.dateTime")
             ->innerJoin("account", "account_id=account.id")
             ->innerJoin("table", "table_id=table.id")
             ->where(["!=", "request.status", Request::STATUS_DELIVERED])
@@ -200,7 +200,7 @@ class RequestController extends ActiveController
     }
 
     public function actionUpdate_status($id){
-        $request= Request::findOne($id);
+        $request = Request::findOne($id);
         $request->status = $request->status+1;
         if($request->save()){
             return "Status changes";

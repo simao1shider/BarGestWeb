@@ -2,6 +2,7 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\ProductsToBePaid;
 use yii\rest\ActiveController;
 use yii\web\Response;
 use yii\filters\auth\CompositeAuth;
@@ -42,5 +43,14 @@ class ProductstobepaidController extends ActiveController
             ],
         ];
         return $behaviors;
+    }
+
+    public function actionAll(){
+        return ProductsToBePaid::find()
+        ->select("quantity, request_id, product_id, request.account_id as account_id, product.name as product_name, product.price as product_price")
+        ->innerJoin("request", "request_id = request.id")
+        ->innerJoin("product", "product_id = product.id")
+        ->asArray()
+        ->all();
     }
 }

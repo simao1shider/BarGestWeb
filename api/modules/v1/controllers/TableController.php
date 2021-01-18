@@ -32,9 +32,9 @@ class TableController extends ActiveController
             'authMethods' => [
                 [
                     'class' => HttpBasicAuth::className(),
-                    'auth' => function ($username, $password){
+                    'auth' => function ($username, $password) {
                         $user = \common\models\User::findByUsername($username);
-                        if ($user && $user->validatePassword($password)){
+                        if ($user && $user->validatePassword($password)) {
                             return $user;
                         }
                         return null;
@@ -46,16 +46,18 @@ class TableController extends ActiveController
         return $behaviors;
     }
 
-    public function actionTable_accounts($id){
-        return Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$id])->all();
+    public function actionTable_accounts($id)
+    {
+        return Account::find()->where(["status" => Account::TOPAY, "table_id" => $id])->all();
     }
 
-    public function actionTable(){
+    public function actionTable()
+    {
         $tables = Table::find()->asArray()->all();
-        $newTable=array();
-        foreach ($tables as $table){
-            $table["total"]=Table::findOne($table["id"])->getTotal($table["id"]);
-            array_push($newTable,$table);
+        $newTable = array();
+        foreach ($tables as $table) {
+            $table["total"] = Table::findOne($table["id"])->getTotal($table["id"]);
+            array_push($newTable, $table);
         }
         return $newTable;
     }
