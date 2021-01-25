@@ -5,6 +5,6 @@ modules:
         - Filesystem
         - Yii2
         - Db:
-              dsn: 'mysql:host=localhost;dbname=bargest_test'
+              dsn: 'mysql:host=localhost;dbname=bargest_teste'
               user: 'root'
               password: ''
