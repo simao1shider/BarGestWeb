@@ -3,7 +3,7 @@ return [
     [
         'id'=> 1,
         'name'=>'teste',
-        'dateTime'=>date("yyyy-MM-dd hh:mm:ii"),
+        'dateTime'=>date("y-m-d h:m:i"),
         'nif'=>0,
         'status'=>\common\models\Account::TOPAY,
         'total'=>0,

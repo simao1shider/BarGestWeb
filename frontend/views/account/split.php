@@ -13,6 +13,11 @@ $this->title = "Pagamento Parcial";
     <div class="mt-5 container">
         <div class="row mb-3">
             <div class="col-6">
+                <div class="row mb-3">
+                    <div class="col-12">
+                    <h2>Produtos por pagar:</h2>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-6"><?= Html::img('@web/img/icons/color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
                     <div class="col-2"><?= Html::img('@web/img/icons/color/sorting.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
@@ -21,6 +26,11 @@ $this->title = "Pagamento Parcial";
                 </div>
             </div>
             <div class="col-6">
+                <div class="row mb-3">
+                    <div class="col-12">
+                    <h2>Produtos a pagar:</h2>
+                    </div>
+                </div>
                 <div class="row ml-2 text-right">
                     <div class="col-1"></div>
                     <div class="col-5"><?= Html::img('@web/img/icons/color/drink.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
