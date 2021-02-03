@@ -82,8 +82,8 @@ $this->title = 'My Yii Application';
                     borderColor: window.chartColors.blue,
                     data: [
                         <?php
-                        foreach ($profitthisYear as $productPaid) {
-                            echo ("'" . $productPaid->quantity . "',");
+                        for ($month = 1; $month  < date('m'); $month++) {
+                            echo ("'" . $profitthisYear[$month-1]->quantity . "',");
                         }
                         ?>
                     ],
@@ -154,8 +154,8 @@ $this->title = 'My Yii Application';
                     borderColor: window.chartColors.blue,
                     data: [
                         <?php
-                        foreach ($sellsthisYear as $productPaid) {
-                            echo ("'" . $productPaid->quantity . "',");
+                        for ($month = 1; $month  < date('m'); $month++) {
+                            echo ("'" . $sellsthisYear[$month-1]->quantity . "',");
                         }
                         ?>
                     ],
