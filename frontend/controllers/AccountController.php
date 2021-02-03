@@ -74,6 +74,7 @@ class AccountController extends \yii\web\Controller
                 $request->status = Request::STATUS_PAYED;
                 $request->save();
             }
+            $model->table->status = 0;
             $model->status = Account::PAID;
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
