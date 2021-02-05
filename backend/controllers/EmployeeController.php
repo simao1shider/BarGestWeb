@@ -27,7 +27,7 @@ class EmployeeController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'resetpassword'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'resetpassword','active_employee'],
                         'roles' => ['admin']
                     ],
                 ],
@@ -56,6 +56,13 @@ class EmployeeController extends Controller
         ]);
     }
 
+    public function actionActive_employee($id){
+        $employee = Employee::findOne($id);
+        $user=$employee->user;
+        $user->status=User::STATUS_ACTIVE;
+        $user->save();
+        $this->redirect(["employee/index"]);
+    }
     /**
      * Displays a single Employee model.
      * @param integer $id
