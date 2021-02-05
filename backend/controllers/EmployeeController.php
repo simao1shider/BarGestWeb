@@ -48,9 +48,11 @@ class EmployeeController extends Controller
      */
     public function actionIndex()
     {
-        $employee = Employee::find()->innerJoin("user", "user.id=user_id")->where(["user.status" => User::STATUS_ACTIVE])->all();
+        $employees = Employee::find()->innerJoin("user", "user.id=user_id");
         return $this->render('index', [
-            'employees' => $employee,
+            'activeEmployees' => $employees->where(["user.status"=>User::STATUS_ACTIVE])->all(),
+            'inactiveEmployees' => $employees->where(["user.status"=>User::STATUS_DELETED])->all(),
+            'allEmployees' => $employees->where(["user.status"=>User::STATUS_ACTIVE])->orWhere(["user.status"=>User::STATUS_DELETED])->all(),
         ]);
     }
 
