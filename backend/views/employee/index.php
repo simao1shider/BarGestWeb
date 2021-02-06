@@ -29,13 +29,13 @@ $this->title = 'Funcionários';
                 <a class="nav-link active" id="pills-employees-active-tab" data-toggle="pill" href="#pills-employees-active" role="tab" aria-controls="pills-employees-active" aria-selected="true">Ativo</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="pills-employees-inactive-tab" data-toggle="pill" href="#pills-employees-inactive" role="tab" aria-controls="ppills-employees-inactive" aria-selected="false">Inativo</a>
+                <a class="nav-link" id="pills-employees-inactive-tab" data-toggle="pill" href="#pills-employees-inactive" role="tab" aria-controls="pills-employees-inactive" aria-selected="false">Inativo</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="pills-employees-all-tab" data-toggle="pill" href="#pills-employees-all" role="tab" aria-controls="pills-employees-all" aria-selected="false">Todos</a>
             </li>
         </ul>
-        <div class="tab-content" id="pills-tabContent">
+        <div class="tab-content" id="pills-tabContentEmployee">
             <div class="tab-pane fade show active " id="pills-employees-active" role="tabpanel" aria-labelledby="pills-employees-active-tab">
                 <div class="row">
                 <?php
@@ -140,6 +140,4 @@ $this->title = 'Funcionários';
             </div>
         </div>
     </div>
-
-
 </div>

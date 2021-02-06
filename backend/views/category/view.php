@@ -6,6 +6,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $products common\models\Product */
 
 $this->title = $category->name;
 ?>
@@ -51,14 +52,31 @@ $this->title = $category->name;
                                 </div>
                                 <div class="col-12">
                                     <div class="btn-group float-right mt-1">
-                                        <a href="<?= Url::to(["product/update", "id" => $product->id]) ?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
-                                        <?= Html::a(' <i class="fa fa-trash"></i>', ['product/delete', 'id' => $product->id,], [
-                                            'class' => 'btn btn-sm btn-outline-danger',
-                                            'data-method' => 'POST',
-                                            'data-params' => [
-                                                'id' => $product->id,
-                                            ],
-                                        ]) ?>
+                                        <?php
+                                        if($product->status==\common\models\Product::STATUS_ACTIVE){
+                                            ?>
+                                            <a href="<?= Url::to(["product/update", "id" => $product->id]) ?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
+                                            <?= Html::a(' <i class="fa fa-trash"></i>', ['product/delete', 'id' => $product->id,], [
+                                                'class' => 'btn btn-sm btn-outline-danger',
+                                                'data-method' => 'POST',
+                                                'data-params' => [
+                                                    'id' => $product->id,
+                                                ],
+                                            ]) ?>
+                                        <?php
+                                        }else{
+                                            ?>
+                                            <a href="<?= Url::to(["product/update", "id" => $product->id]) ?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
+                                            <?= Html::a(' <i class="fa fa-check"></i>', ['category/active_product', 'id' => $product->id,], [
+                                                'class' => 'btn btn-sm btn-outline-success',
+                                                'data-method' => 'POST',
+                                                'data-params' => [
+                                                    'id' => $product->id,
+                                                ],
+                                            ]) ?>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -71,6 +89,4 @@ $this->title = $category->name;
         </div>
 
     </div>
-
-
 </div>
