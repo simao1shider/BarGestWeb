@@ -134,4 +134,13 @@ class Product extends \yii\db\ActiveRecord
 
         return $price;
     }
+
+    public function recover(){
+        $category = $this->category;
+        $category->status=Category::STATUS_ACTIVE;
+        if($category->save()){
+            $this->status=Product::STATUS_ACTIVE;
+            $this->save();
+        }
+    }
 }

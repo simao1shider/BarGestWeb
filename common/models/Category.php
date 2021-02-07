@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Exception;
+use yii\web\HttpException;
 
 /**
  * This is the model class for table "category".
@@ -58,5 +60,22 @@ class Category extends \yii\db\ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
+    }
+
+
+    public function recover(){
+        try {
+            foreach ($this->products as $product) {
+                $product->status = Product::STATUS_ACTIVE;
+                $product->save();
+            }
+        }
+        catch (Exception $exception){
+            throw new HttpException(500,"Não foi possivel ativar um produto\n Exp:".$exception);
+        }
+        finally {
+            $this->status=Category::STATUS_ACTIVE;
+            $this->save();
+        }
     }
 }

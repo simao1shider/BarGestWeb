@@ -56,20 +56,8 @@ class CategoryController extends Controller
 
     public function actionActive_category($id){
         $category=Category::findOne($id);
-        try {
-            foreach ($category->products as $product) {
-                $product->status = Product::STATUS_ACTIVE;
-                $product->save();
-            }
-        }
-        catch (Exception $exception){
-            throw new HttpException(500,"Não foi possivel ativar um produto\n Exp:".$exception);
-        }
-        finally {
-            $category->status=Category::STATUS_ACTIVE;
-            $category->save();
-        }
-       $this->redirect(["index"]);
+        $category->recover();
+        $this->redirect(["index"]);
     }
 
     /**
@@ -88,13 +76,8 @@ class CategoryController extends Controller
 
     public function actionActive_product($id){
         $product = Product::findOne($id);
-        $category = $product->category;
-        $category->status=Category::STATUS_ACTIVE;
-        if($category->save()){
-            $product->status=Product::STATUS_ACTIVE;
-            $product->save();
-        }
-        return $this->redirect(["view","id"=>$category->id]);
+        $product->recover();
+        return $this->redirect(["view","id"=>$product->category->id]);
     }
 
     /**
