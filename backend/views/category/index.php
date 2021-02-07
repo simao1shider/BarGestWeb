@@ -92,7 +92,7 @@ $this->title = 'Categorias';
                                     </a>
                                     <div class="btn-group float-right mt-1">
                                         <a href="<?= Url::to(["category/update", "id" => $category->id]) ?>" class="btn btn-sm btn-outline-secondary"><i class="fa fa-pencil"></i></a>
-                                        <?= Html::a('<i class="fa fa-check"></i>', ['activeCategory'], [
+                                        <?= Html::a('<i class="fa fa-check"></i>', ['active_category','id'=>$category->id], [
                                             'class' => 'btn btn-sm btn-outline-success',
                                             'data-method' => 'POST',
                                             'data-params' => [
@@ -111,9 +111,5 @@ $this->title = 'Categorias';
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
 </div>
