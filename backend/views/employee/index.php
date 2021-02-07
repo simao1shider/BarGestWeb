@@ -35,7 +35,7 @@ $this->title = 'Funcionários';
                 <a class="nav-link" id="pills-employees-all-tab" data-toggle="pill" href="#pills-employees-all" role="tab" aria-controls="pills-employees-all" aria-selected="false">Todos</a>
             </li>
         </ul>
-        <div class="tab-content" id="pills-tabContentEmployee">
+        <div class="tab-content scrollbar-gradient" id="pills-tabContentEmployee">
             <div class="tab-pane fade show active " id="pills-employees-active" role="tabpanel" aria-labelledby="pills-employees-active-tab">
                 <div class="row">
                 <?php

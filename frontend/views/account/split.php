@@ -41,7 +41,7 @@ $this->title = "Pagamento Parcial";
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="list-group">
+                <div class="list-group scrollbar-gradient">
                     <?php
                     if (empty($productstobepaid)) {
                         echo '<h4>Não há produtos prontos para pagamento!</h4>';
@@ -74,7 +74,7 @@ $this->title = "Pagamento Parcial";
                 </div>
             </div>
             <div class="col-6">
-                <div class="list-group text-right">
+                <div class="list-group text-right scrollbar-gradient">
                 <?php
                     $total = 0;
 

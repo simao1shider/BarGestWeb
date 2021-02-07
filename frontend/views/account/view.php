@@ -41,7 +41,7 @@ $this->title = $account->name;
             <div class="col-4"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-1"></div>
         </div>
-        <div class="list-group" id="listProductsAccount">
+        <div class="list-group scrollbar-gradient" id="listProductsAccount">
             <?php
             if (empty($products)) {
                 echo '<h3>Não há produtos prontos para pagamento!</h3>';

@@ -35,7 +35,7 @@ $this->title = 'Categorias';
                 <a class="nav-link" id="pills-categories-deleted-tab" data-toggle="pill" href="#pills-categories-deleted" role="tab" aria-controls="pills-categories-deleted" aria-selected="false">Eliminados</a>
             </li>
         </ul>
-        <div class="tab-content" id="pills-tabContentCategory">
+        <div class="tab-content scrollbar-gradient" id="pills-tabContentCategory">
             <div class="tab-pane fade show active " id="pills-categories-active" role="tabpanel" aria-labelledby="pills-categories-active-tab">
                 <div class="row">
                     <?php

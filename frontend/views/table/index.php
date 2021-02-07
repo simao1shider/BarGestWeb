@@ -36,7 +36,7 @@ $this->title = 'Mesas';
     </h5>
 
     <div class="mt-5 container">
-        <div class="list-group">
+        <div class="list-group scrollbar-gradient">
             <?php
             if (empty($model)) {
             ?>

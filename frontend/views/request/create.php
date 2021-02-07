@@ -57,7 +57,7 @@ $this->title = 'Criar Pedido';
     <div class="row mt-5">
         <div class="col-md-6 text-center border-right border-dark">
             <h2>Procurar Produto</h2>
-            <div class="row" id="contentSelectProduct">
+            <div class="row scrollbar-gradient" id="contentSelectProduct">
 
             </div>
         </div>
@@ -70,7 +70,7 @@ $this->title = 'Criar Pedido';
                     <div class="col-2"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
                     <div class="col-2"></div>
                 </div>
-                <div class="list-group" id="listProducts" style="overflow-y: scroll; height: 600px;">
+                <div class="list-group scrollbar-gradient" id="listProducts" style="overflow-y: scroll; height: 600px;">
 
 
                 </div>

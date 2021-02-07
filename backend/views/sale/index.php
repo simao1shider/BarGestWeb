@@ -46,7 +46,7 @@ $this->title = 'Vendas';
             <div class="col-4"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-1"></div>
         </div>
-        <div class="list-group">
+        <div class="list-group scrollbar-gradient">
             <?php
             if(empty($accounts)){
                 echo "<h3>Não existem faturas</h3>";

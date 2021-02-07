@@ -36,9 +36,9 @@ $this->title = 'Produtos';
                 <a class="nav-link" id="pills-products-deleted-tab" data-toggle="pill" href="#pills-products-deleted" role="tab" aria-controls="pills-products-deleted-deleted" aria-selected="false">Eliminados</a>
             </li>
         </ul>
-        <div class="tab-content" id="pills-tabContentCategory">
-            <div class="tab-pane fade show active " id="pills-products-active" role="tabpanel" aria-labelledby="pills-products-active-tab">
-                <div class="row">
+        <div class="tab-content scrollbar-gradient" id="pills-tabContentCategory">
+            <div class="tab-pane fade show active" id="pills-products-active" role="tabpanel" aria-labelledby="pills-products-active-tab">
+                <div class="row ">
                     <?php
                     if (empty($activeProducts)) {
                     ?>

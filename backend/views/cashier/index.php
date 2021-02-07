@@ -32,7 +32,7 @@ $this->title = 'Caixas';
             <div class="col-2"><?= Html::img('@web/img/Icons/Color/pricing.png', ['class' => 'align-top', 'style' => 'width: 45px']) ?></div>
             <div class="col-2"></div>
         </div>
-        <div class="list-group">
+        <div class="list-group scrollbar-gradient">
             <?php
             if (empty($cashiers)) {
             ?>
