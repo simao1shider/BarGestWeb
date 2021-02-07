@@ -206,14 +206,14 @@ a.article:hover {
 ----------------------------------------------------- */
 .wrapper{
     width: 100%;
-    min-height: 100vh;
+    max-height: 100%;
     transition: all 0.3s;
 }
 
 #content {
     width: 100%;
     padding: 20px;
-    min-height: 100vh;
+    max-height: 100%;
     transition: all 0.3s;
 }
 
