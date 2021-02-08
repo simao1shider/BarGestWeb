@@ -6,6 +6,6 @@ modules:
             part: [orm, email, fixtures]
         - Asserts
         - Db:
-              dsn: 'mysql:host=localhost;dbname=bargest_teste'
+              dsn: 'mysql:host=localhost;dbname=bargest_test'
               user: 'root'
               password: ''
