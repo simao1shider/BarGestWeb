@@ -63,6 +63,7 @@ class CategoryTest extends \Codeception\Test\Unit
 
     public function testRecover(){
         $category = Category::findOne(2);
+        $this->tester->seeRecord('common\models\Category', array('name' => 'Sumos','status'=>Category::STATUS_DELETED));
         $category->recover();
         $this->tester->seeRecord('common\models\Category', array('name' => 'Sumos','status'=>Category::STATUS_ACTIVE));
     }
@@ -73,6 +74,6 @@ class CategoryTest extends \Codeception\Test\Unit
             'name' => "Aguas",
             'status' => Category::STATUS_ACTIVE,
         ]);
-        $this->tester->seeRecord('common\models\Category', array('id' => '2'));
+        $this->tester->seeRecord('common\models\Category', array('id' => 3));
     }
 }

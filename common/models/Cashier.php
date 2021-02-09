@@ -32,8 +32,10 @@ class Cashier extends \yii\db\ActiveRecord
         return [
             [['date', 'status', 'total'], 'required'],
             [['date'], 'safe'],
+            [['date'], 'date','format'=>'yyyy-M-d'],
+            [['date'], 'unique'],
             [['status'], 'boolean'],
-            [['total'], 'number'],
+            [['total'], 'number', 'min'=>0],
         ];
     }
 
