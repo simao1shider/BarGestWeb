@@ -40,9 +40,10 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['name', 'dateTime', 'nif', 'status', 'total'], 'required'],
             [['dateTime'], 'safe'],
+            [['dateTime'], 'date','format'=>'yyyy-M-d H:m:s'],
             [['nif', 'table_id', 'cashier_id'], 'integer'],
             ['status','boolean'],
-            ['total','number'],
+            ['total','number', 'min'=>0],
             [['name'], 'string', 'max' => 255],
             [['table_id'], 'exist', 'skipOnError' => true, 'targetClass' => Table::className(), 'targetAttribute' => ['table_id' => 'id']],
             [['cashier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cashier::className(), 'targetAttribute' => ['cashier_id' => 'id']],

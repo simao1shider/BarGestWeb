@@ -33,7 +33,8 @@ class TablesTest extends \Codeception\Test\Unit
     public function testNumber()
     {
         $table = new Table();
-
+        $table->number = null;
+        $this->assertFalse($table->validate(["number"]),"Não poder ser nullo");
         $table->number = "asdfsdf";
         $this->assertFalse($table->validate(["number"]),"Não poder conter letras");
         $table->number = date("Y-m-d h:i:s");
@@ -43,13 +44,15 @@ class TablesTest extends \Codeception\Test\Unit
         $table->number = 1;
         $this->assertFalse($table->validate(["number"]),"Não pode existir");
         $table->number = 2;
-        $this->assertTrue($table->validate(["number"]));
+        $this->assertTrue($table->validate(["number"]),"Numero 2 valido");
     }
 
     public function testStatus()
     {
         $table = new Table();
 
+        $table->status = null;
+        $this->assertFalse($table->validate(["status"]),"Não poder ser nullo");
         $table->status = "asdasfsadf";
         $this->assertFalse($table->validate(["status"]),"Não poder conter letras");
         $table->status = date("Y-m-d h:i:s");
