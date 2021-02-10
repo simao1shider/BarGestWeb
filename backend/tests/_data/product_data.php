@@ -1,0 +1,13 @@
+<?php
+return[
+    [
+        'id'=>1,
+        'name'=>'rose',
+        'price'=>2,
+        'base_price'=>1,
+        'profit_margin'=>2,
+        'category_id'=>1,
+        'status'=>\common\models\Product::STATUS_DELETED,
+        'iva_id'=>1
+    ],
+];
