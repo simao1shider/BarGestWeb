@@ -35,7 +35,7 @@ $this->title = $category->name;
             <?php
             if (empty($products)) {
             ?>
-                <h2>Esta categoria não tem produtos</h2>
+                <h2 class="text-center w-100">Esta categoria não tem produtos</h2>
             <?php
             }
             foreach ($products as $product) {

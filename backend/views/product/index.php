@@ -42,7 +42,7 @@ $this->title = 'Produtos';
                     <?php
                     if (empty($activeProducts)) {
                     ?>
-                        <h2>Não existem produtos</h2>
+                        <h2 class="text-center w-100">Não existem produtos</h2>
                     <?php
                     }
                     foreach ($activeProducts as $product) {
@@ -82,7 +82,7 @@ $this->title = 'Produtos';
                     <?php
                     if (empty($deletedProducts)) {
                     ?>
-                        <h2>Não existem produtos</h2>
+                        <h2 class="text-center w-100">Não existem produtos</h2>
                     <?php
                     }
                     foreach ($deletedProducts as $product) {
