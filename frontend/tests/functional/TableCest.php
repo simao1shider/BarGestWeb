@@ -31,7 +31,7 @@ class TableCest
 
     public function tryWithTables(FunctionalTester $I)
     {
-        $I->haveFixtures(["request" => [
+        $I->haveFixtures(["table" => [
             'class' => TableFixture::className(),
             'dataFile' => codecept_data_dir() . 'table_data.php',
         ]]);
