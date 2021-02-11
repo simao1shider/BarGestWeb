@@ -41,7 +41,7 @@ $this->title = 'Categorias';
                     <?php
                     if (empty($activeCategories)) {
                         ?>
-                        <h2>Não existem categorias</h2>
+                        <h2 class="text-center w-100">Não existem categorias</h2>
                         <?php
                     }
                     foreach ($activeCategories as $category) {
@@ -78,7 +78,7 @@ $this->title = 'Categorias';
                     <?php
                     if (empty($deletedCategories)) {
                         ?>
-                        <h2>Não existem categorias</h2>
+                        <h2 class="text-center w-100">Não existem categorias</h2>
                         <?php
                     }
                     foreach ($deletedCategories as $category) {
