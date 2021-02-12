@@ -78,7 +78,7 @@ class CashierController extends Controller
                 $caixa = new Cashier();
                 $caixa->status = 1;
                 $caixa->total = 0;
-                $caixa->date = date("Y/m/d");
+                $caixa->date = date("Y-m-d");
                 $caixa->save();
             } else {
                 return $this->render('error', ['exception' => "Uma caixa já está aberta, apenas pode ter uma caixa aberta!"]);
