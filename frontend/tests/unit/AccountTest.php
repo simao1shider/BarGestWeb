@@ -126,6 +126,7 @@ class AccountTest extends \Codeception\Test\Unit
             'id' => '1',
             'name' => 'unit',
             'dateTime' => date("Y-m-d h:i:s"),
+            'nif'=>0,
             'status' => false,
             'total' => 20,
             'table_id' => 1,
