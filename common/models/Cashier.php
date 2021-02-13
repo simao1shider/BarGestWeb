@@ -61,4 +61,9 @@ class Cashier extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Account::className(), ['cashier_id' => 'id']);
     }
+
+    public function calculateTotal(){
+        $total=Account::find()->where(["cashier_id"=>$this->id])->sum("total");
+        $this->total=$total;
+    }
 }
