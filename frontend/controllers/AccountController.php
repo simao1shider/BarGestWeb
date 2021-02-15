@@ -279,9 +279,12 @@ class AccountController extends \yii\web\Controller
                 $newaccount->nif = $model->nif;
             }
 
-            $newaccount->status = 1;
-            $newaccount->table->status = 0;
-            $newaccount->table->save();
+            $newaccount->status = Account::PAID;
+            $accountToBePaied=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$newaccount->table->id])->count();
+            if($accountToBePaied == 0){
+                $newaccount->table->status = Table::STATUS_FREE;
+                $newaccount->table->save();
+            }
         }
 
         $productstobepaid = ProductsToBePaid::find()
@@ -333,9 +336,15 @@ class AccountController extends \yii\web\Controller
             ->count();
         if($numProductsTobePaid == 0){
             $model->status=Account::PAID;
-            $model->table->status= Table::STATUS_FREE;
             $model->save();
-            return $this->redirect(["table/index"]);
+            $table=$model->table;
+            $accountToBePaied=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$table->id])->count();
+            if($accountToBePaied == 0){
+                $table->status=Table::STATUS_FREE;
+                $table->save();
+                return $this->redirect(["table/index"]);
+            }
+            return $this->redirect(["table/view","id"=>$table->id]);
         }
         return $this->redirect(["split", 'id' => $id]);
     }
