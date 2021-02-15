@@ -194,8 +194,9 @@ class AccountController extends ActiveController
                                     ->innerJoin("product", "product_id = product.id")
                                     ->where(["account_id" => $id, "request.status" => 3])
                                     ->all();
-                                    //return print_r($productstobepaid);
-                                    
+        //return print_r($productstobepaid);
+
+        $total = 0;
         foreach($products as $product){
             foreach($productstobepaid as $producttobepaid){
                 if($producttobepaid->product_id == $product->id){
@@ -203,10 +204,10 @@ class AccountController extends ActiveController
                         $newrequest->employee_id = $producttobepaid->request->employee_id;
 
                         $producttopaydb = new ProductsPaid();
-                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->request_id = $newrequest->id;
                         $producttopaydb->product_id = $producttobepaid->product_id;
                         $producttopaydb->quantity = $product->quantity;
-                        
+                        $total += $producttopaydb->quantity * $producttopaydb->product->price;
 
                         $producttobepaid->quantity -= $product->quantity;
                         if($producttopaydb->save() && $producttobepaid->save()){
@@ -221,9 +222,10 @@ class AccountController extends ActiveController
                         $newrequest->employee_id = $producttobepaid->request->employee_id;
 
                         $producttopaydb = new ProductsPaid();
-                        $producttopaydb->request_id = $producttobepaid->request_id;
+                        $producttopaydb->request_id = $newrequest->id;
                         $producttopaydb->product_id = $producttobepaid->product_id;
                         $producttopaydb->quantity = $product->quantity;
+                        $total += $producttopaydb->quantity * $producttopaydb->product->price;
 
                         if($producttopaydb->save() && $producttobepaid->delete()){
                             //nice
@@ -235,6 +237,10 @@ class AccountController extends ActiveController
                 }
             }
         }
+
+        $newaccount->total = $total;
+        $newaccount->save();
+
         $numproductstobepaid = ProductsToBePaid::find()
             ->innerJoin("request", 'request_id = request.id')
             ->innerJoin("product", "product_id = product.id")
