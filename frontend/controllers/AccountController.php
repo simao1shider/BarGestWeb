@@ -215,12 +215,12 @@ class AccountController extends \yii\web\Controller
         $model = $this->findModel($id);
 
 
-        $productsTBP = Account::findOne($id);
+        $account = Account::findOne($id);
 
         $dbnumProductsToBePaid = 0;
         $sessionnumProductsToBePaid = 0;
 
-        foreach ($productsTBP->requests as $request) {
+        foreach ($account->requests as $request) {
             if ($request->status == 3) {
                 foreach ($request->productsToBePas as $productToBePaid) {
                     $dbnumProductsToBePaid += $productToBePaid->quantity;
