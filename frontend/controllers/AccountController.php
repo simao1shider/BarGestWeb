@@ -331,6 +331,7 @@ class AccountController extends \yii\web\Controller
             ->where(["account_id"=>$id])
             ->andWhere("request.status!=".Request::STATUS_PAYED)
             ->count();
+            
         if($numProductsTobePaid == 0){
             $model->status=Account::PAID;
             $model->table->status= Table::STATUS_FREE;
