@@ -16,18 +16,6 @@ $this->title = "Contas";
         <div class="col-md-6 text-right">
             <div class="btn-group btn-group-toggle float-right">
                 <a href="<?= Url::to(['request/create', 'tableId' => $model->id]) ?>" class="btn btn-outline-success btn-lg">Criar Conta</a>
-                <?php
-                if (!isset($_GET['CR'])) {
-                ?>
-                    <?= Html::a('Apagar Mesa', ['delete', 'id' => $model->id], [
-                        'class' => 'btn btn-outline-danger btn-lg',
-                        'data' => [
-                            'confirm' => 'Tem a certeza que pretende apagar?',
-                            'method' => 'post',
-                        ],
-                    ]) ?> <?php
-                }
-                    ?>
             </div>
         </div>
     </div>
