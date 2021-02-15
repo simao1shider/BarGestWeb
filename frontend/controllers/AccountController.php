@@ -325,6 +325,18 @@ class AccountController extends \yii\web\Controller
         $newaccount->total = $total;
         $newaccount->save();
 
+        $numProductsTobePaid = ProductsToBePaid::find()
+            ->innerJoin("request","request_id=request.id")
+            ->innerJoin("product","product_id = product.id")
+            ->where(["account_id"=>$id])
+            ->andWhere("request.status!=".Request::STATUS_PAYED)
+            ->count();
+        if($numProductsTobePaid == 0){
+            $model->status=Account::PAID;
+            $model->table->status= Table::STATUS_FREE;
+            $model->save();
+            return $this->redirect(["table/index"]);
+        }
         return $this->redirect(["split", 'id' => $id]);
     }
 

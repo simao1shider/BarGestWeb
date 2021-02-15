@@ -46,6 +46,27 @@ $this->title = $employee->name;
 
     <hr>
 
-    dados relacionados
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+            <h4 class="text-center w-100">Historico de vendas</h4>
+        </div>
+        <div class="card-body scrollbar-gradient">
+            <?php
+            foreach ($salesHistory as $sale){
+                $date=date_create($sale["dateTime"])
+                ?>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body row w-100">
+                        <span class="text-dark m-0 col-6"><b><?=  date_format($date,"Y-m") ?></b></span>
+                        <span class="text-dark m-0 col-6"><?= $sale["total"]?>€</span>
+                    </div>
+                </div>
+            <?php
+            }
+           ?>
+        </div>
+    </div>
+
+</div>
 
 </div>
