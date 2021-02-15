@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Account;
 use common\models\User;
 use frontend\models\SignupForm;
 use Yii;
@@ -71,8 +72,17 @@ class EmployeeController extends Controller
      */
     public function actionView($id)
     {
+        $salesHistory = Account::find()
+            ->select("account.dateTime, sum(account.total) as total")
+            ->innerJoin("request","request.account_id=account.id")
+            ->where(["request.employee_id"=>$id,"account.status"=>Account::PAID])
+            ->groupBy("MONTH(account.dateTime)- YEAR(account.dateTime)")
+            ->orderBy("account.dateTime desc")
+            ->asArray()
+            ->all();
         return $this->render('view', [
             'employee' => $this->findModel($id),
+            'salesHistory'=>$salesHistory,
         ]);
     }
 
