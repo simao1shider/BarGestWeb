@@ -32,8 +32,10 @@ class Cashier extends \yii\db\ActiveRecord
         return [
             [['date', 'status', 'total'], 'required'],
             [['date'], 'safe'],
+            [['date'], 'date','format'=>'yyyy-M-d'],
+            [['date'], 'unique'],
             [['status'], 'boolean'],
-            [['total'], 'number'],
+            [['total'], 'number', 'min'=>0],
         ];
     }
 
@@ -58,5 +60,10 @@ class Cashier extends \yii\db\ActiveRecord
     public function getAccounts()
     {
         return $this->hasMany(Account::className(), ['cashier_id' => 'id']);
+    }
+
+    public function calculateTotal(){
+        $total=Account::find()->where(["cashier_id"=>$this->id])->sum("total");
+        $this->total=$total;
     }
 }

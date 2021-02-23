@@ -14,7 +14,7 @@ modules:
               entryScript: index-test.php
               transaction: false
         - Db:
-            dsn: 'mysql:host=localhost;dbname=bargest_teste'
+            dsn: 'mysql:host=localhost;dbname=bargest_test'
             user: 'root'
             password: ''
             cleanup: true

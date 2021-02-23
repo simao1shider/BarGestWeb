@@ -5,8 +5,10 @@ namespace backend\controllers;
 use common\models\Product;
 use Yii;
 use common\models\Category;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -26,7 +28,7 @@ class CategoryController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete','active_category','active_product'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -46,10 +48,16 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
-
         return $this->render('index', [
-            "categories" => Category::find()->where(['status' => true])->all()
+            "activeCategories" => Category::find()->where(['status' => Category::STATUS_ACTIVE])->all(),
+            "deletedCategories" => Category::find()->where(['status' => Category::STATUS_DELETED])->all(),
         ]);
+    }
+
+    public function actionActive_category($id){
+        $category=Category::findOne($id);
+        $category->recover();
+        $this->redirect(["index"]);
     }
 
     /**
@@ -62,8 +70,14 @@ class CategoryController extends Controller
     {
         return $this->render('view', [
             'category' => $this->findModel($id),
-            'products' => Product::find()->where(['status' => true, 'category_id' => $id])->all(),
+            'products' => Product::find()->where(['category_id' => $id])->all(),
         ]);
+    }
+
+    public function actionActive_product($id){
+        $product = Product::findOne($id);
+        $product->recover();
+        return $this->redirect(["view","id"=>$product->category->id]);
     }
 
     /**

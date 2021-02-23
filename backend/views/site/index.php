@@ -23,19 +23,12 @@ $this->title = 'My Yii Application';
                 <!--<p><a class="btn btn-default" href="#">Vai ter aqui um gráfico</a></p>-->
             </div>
             <div class="col-md-4 pr-2">
-                <h2>Valor de Vendas por Mês</h2>
+                <h2>Volume de vendas por Mês</h2>
                 <canvas id="canvas2"></canvas>
                 <!--<p><a class="btn btn-default" href="#">Vai ter aqui um gráfico</a></p>-->
             </div>
             <div class="col-md-4 pr-2">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="#">Vai ter aqui um gráfico</a></p>
+                
             </div>
         </div>
 
@@ -160,7 +153,7 @@ $this->title = 'My Yii Application';
                         ?>
                     ],
                 }, {
-                    label: 'Lucro de <?= date("Y") - 1 ?>',
+                    label: 'Volume de Vendas de <?= date("Y") - 1 ?>',
                     backgroundColor: window.chartColors.grey,
                     borderColor: window.chartColors.grey,
                     data: [

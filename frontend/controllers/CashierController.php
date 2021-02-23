@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Account;
 use common\models\Cashier;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -45,12 +46,12 @@ class CashierController extends Controller
             $caixa = Cashier::find()->where(['status' => 1])->one();
 
             foreach($caixa->accounts as $account){
-                if($account->status == 0){
+                if($account->status == Account::TOPAY){
                     return $this->render('error', ['exception' => "Não pode fechar a caixa porque existem contas abertas!"]);
                 }
             }
-
-            $caixa->status = 0;
+            $caixa->calculateTotal();
+            $caixa->status = Cashier::CLOSE;
             $caixa->save();   
 
             $cashier = Cashier::find()->where(['status' => 1])->one();
@@ -78,7 +79,7 @@ class CashierController extends Controller
                 $caixa = new Cashier();
                 $caixa->status = 1;
                 $caixa->total = 0;
-                $caixa->date = date("Y/m/d");
+                $caixa->date = date("Y-m-d");
                 $caixa->save();
             } else {
                 return $this->render('error', ['exception' => "Uma caixa já está aberta, apenas pode ter uma caixa aberta!"]);

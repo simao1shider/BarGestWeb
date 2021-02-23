@@ -215,12 +215,12 @@ class AccountController extends \yii\web\Controller
         $model = $this->findModel($id);
 
 
-        $productsTBP = Account::findOne($id);
+        $account = Account::findOne($id);
 
         $dbnumProductsToBePaid = 0;
         $sessionnumProductsToBePaid = 0;
 
-        foreach ($productsTBP->requests as $request) {
+        foreach ($account->requests as $request) {
             if ($request->status == 3) {
                 foreach ($request->productsToBePas as $productToBePaid) {
                     $dbnumProductsToBePaid += $productToBePaid->quantity;
@@ -279,9 +279,12 @@ class AccountController extends \yii\web\Controller
                 $newaccount->nif = $model->nif;
             }
 
-            $newaccount->status = 1;
-            $newaccount->table->status = 0;
-            $newaccount->table->save();
+            $newaccount->status = Account::PAID;
+            $accountToBePaied=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$newaccount->table->id])->count();
+            if($accountToBePaied == 0){
+                $newaccount->table->status = Table::STATUS_FREE;
+                $newaccount->table->save();
+            }
         }
 
         $productstobepaid = ProductsToBePaid::find()
@@ -325,6 +328,25 @@ class AccountController extends \yii\web\Controller
         $newaccount->total = $total;
         $newaccount->save();
 
+        $numProductsTobePaid = ProductsToBePaid::find()
+            ->innerJoin("request","request_id=request.id")
+            ->innerJoin("product","product_id = product.id")
+            ->where(["account_id"=>$id])
+            ->andWhere("request.status!=".Request::STATUS_PAYED)
+            ->count();
+            
+        if($numProductsTobePaid == 0){
+            $model->status=Account::PAID;
+            $model->save();
+            $table=$model->table;
+            $accountToBePaied=Account::find()->where(["status"=>Account::TOPAY,"table_id"=>$table->id])->count();
+            if($accountToBePaied == 0){
+                $table->status=Table::STATUS_FREE;
+                $table->save();
+                return $this->redirect(["table/index"]);
+            }
+            return $this->redirect(["table/view","id"=>$table->id]);
+        }
         return $this->redirect(["split", 'id' => $id]);
     }
 

@@ -40,8 +40,8 @@ class IvaController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-            'ivas_act' => Iva::find()->where(["status" => true])->all(),
-            'ivas_inact' => Iva::find()->where(["status" => false])->all(),
+            'ivas_act' => Iva::find()->where(["status" => Iva::ACTIVE])->all(),
+            'ivas_inact' => Iva::find()->where(["status" => Iva::INACTIVE])->all(),
         ]);
     }
 

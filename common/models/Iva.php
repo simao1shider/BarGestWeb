@@ -8,15 +8,16 @@ use Yii;
  * This is the model class for table "iva".
  *
  * @property int $id
- * @property int|null $rate
+ * @property int $rate
+ * @property boolean $status
  *
  * @property Product[] $products
  */
 class Iva extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    const ACTIVE = true;
+    const INACTIVE = false;
+
     public static function tableName()
     {
         return 'iva';
@@ -28,8 +29,10 @@ class Iva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['rate'], 'integer'],
-            [['rate'], 'unique'],
+            [['rate','status'],'required'],
+            ['rate', 'unique'],
+            ['rate', 'integer'],
+            ['status','boolean'],
         ];
     }
 

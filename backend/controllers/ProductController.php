@@ -28,7 +28,7 @@ class ProductController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete','active_product'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -48,11 +48,17 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
+        $products=Product::find();
         return $this->render('index', [
-            'products' => Product::find()->where(["status" => true])->all()
+            'activeProducts' => $products->where(["status" => Product::STATUS_ACTIVE])->all(),
+            'deletedProducts' => $products->where(["status" => Product::STATUS_DELETED])->all(),
         ]);
     }
-
+    public function actionActive_product($id){
+        $product = Product::findOne($id);
+        $product->recover();
+        return $this->redirect(["index"]);
+    }
     /**
      * Displays a single Product model.
      * @param integer $id

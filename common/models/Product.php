@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property float $price
+ * @property float $base_price
  * @property int $profit_margin
  * @property boolean $status
  * @property int $category_id
@@ -41,9 +42,10 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'price', 'base_price', 'profit_margin', 'category_id', 'iva_id','status'], 'required'],
-            [['price', 'base_price'], 'number'],
+            [['price', 'base_price'], 'number','min'=>0],
             [['status'], 'boolean'],
-            [['profit_margin', 'category_id', 'iva_id'], 'integer'],
+            ['profit_margin', 'integer', 'min'=>0],
+            [['category_id', 'iva_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['iva_id' => 'id']],
@@ -127,11 +129,18 @@ class Product extends \yii\db\ActiveRecord
     }
 
     public function calculateProductPrice($price, $profit_margin){
-        $iva = Iva::find($this->iva_id)->one();
-  
-        $price += $price * ($iva->rate * 0.01);
+        $price += $price * ($this->iva->rate * 0.01);
         $price += $price * ($profit_margin * 0.01);
 
         return $price;
+    }
+
+    public function recover(){
+        $category = $this->category;
+        $category->status=Category::STATUS_ACTIVE;
+        if($category->save()){
+            $this->status=Product::STATUS_ACTIVE;
+            $this->save();
+        }
     }
 }

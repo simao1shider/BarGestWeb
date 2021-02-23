@@ -1,0 +1,13 @@
+<?php
+return[
+    [
+        'id'=>1,
+        'name'=>'Vinhos',
+        'status'=>\common\models\Category::STATUS_ACTIVE
+    ],
+    [
+        'id'=>2,
+        'name'=>'Sumos',
+        'status'=>\common\models\Category::STATUS_DELETED
+    ],
+];
